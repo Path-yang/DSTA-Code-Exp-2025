@@ -1,75 +1,198 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import React, { useState } from 'react';
+import { 
+  View, 
+  Text, 
+  TextInput, 
+  TouchableOpacity, 
+  StyleSheet,
+  StatusBar,
+  SafeAreaView 
+} from 'react-native';
 
 export default function HomeScreen() {
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = () => {
+    console.log('Login pressed:', { username, password });
+    // We'll add actual login logic later
+  };
+
+  const handleSignUp = () => {
+    console.log('Sign Up pressed');
+    // We'll add sign up navigation later
+  };
+  const handleGuestMode = () => {
+    console.log('Continue as Guest pressed');
+    // We'll add guest mode navigation later
+  };
+
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
+      
+      {/* Logo Section */}
+      <View style={styles.logoContainer}>
+        <View style={styles.logoCircle}>
+          <View style={styles.lockIcon}>
+            <Text style={styles.lockText}>🔒</Text>
+          </View>
+        </View>
+        <Text style={styles.logoText}>SIGMASHIELD</Text>
+        <Text style={styles.logoSubtext}>SCAN BEFORE YOU GET SCAMMED</Text>
+      </View>
+
+      {/* Login Form */}
+      <View style={styles.formContainer}>
+        <Text style={styles.label}>Username:</Text>
+        <TextInput
+          style={styles.input}
+          value={username}
+          onChangeText={setUsername}
+          placeholder=""
+          placeholderTextColor="#666"
+          autoCapitalize="none"
         />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+
+        <Text style={styles.label}>Password:</Text>
+        <TextInput
+          style={styles.input}
+          value={password}
+          onChangeText={setPassword}
+          placeholder=""
+          placeholderTextColor="#666"
+          secureTextEntry
+        />
+
+        <TouchableOpacity style={styles.forgotPassword}>
+          <Text style={styles.forgotPasswordText}>Forget Password?</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
+          <Text style={styles.loginButtonText}>LOGIN</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity style={styles.guestButton} onPress={handleGuestMode}>
+          <Text style={styles.guestButtonText}>Continue as Guest</Text>
+        </TouchableOpacity>
+
+        <View style={styles.signupContainer}>
+          <Text style={styles.newUserText}>New User? </Text>
+          <TouchableOpacity onPress={handleSignUp}>
+            <Text style={styles.signupText}>Sign Up</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+  container: {
+    flex: 1,
+    backgroundColor: '#1a1a1a',
+    paddingHorizontal: 30,
+  },
+  logoContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-    gap: 8,
+    paddingTop: 20,
   },
-  stepContainer: {
-    gap: 8,
+  logoCircle: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#333',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  lockIcon: {
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  lockText: {
+    fontSize: 30,
+  },
+  logoText: {
+    color: '#fff',
+    fontSize: 24,
+    fontWeight: 'bold',
+    letterSpacing: 2,
+    marginBottom: 5,
+  },
+  logoSubtext: {
+    color: '#888',
+    fontSize: 10,
+    letterSpacing: 1,
+    textAlign: 'center',
+  },
+  formContainer: {
+    flex: 1.5,
+    paddingTop: 20,
+  },
+  label: {
+    color: '#fff',
+    fontSize: 16,
     marginBottom: 8,
+    marginTop: 15,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  input: {
+    backgroundColor: '#333',
+    borderRadius: 25,
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    color: '#fff',
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  forgotPassword: {
+    alignSelf: 'flex-end',
+    marginTop: 10,
+    marginBottom: 30,
+  },
+  forgotPasswordText: {
+    color: '#888',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+  },
+  loginButton: {
+    backgroundColor: '#fff',
+    borderRadius: 25,
+    paddingVertical: 15,
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  loginButtonText: {
+    color: '#000',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  guestButton: {
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  guestButtonText: {
+    color: '#888',
+    fontSize: 14,
+    textDecorationLine: 'underline',
+  },
+  signupContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 20,
+  },
+  newUserText: {
+    color: '#888',
+    fontSize: 14,
+  },
+  signupText: {
+    color: '#fff',
+    fontSize: 14,
+    textDecorationLine: 'underline',
   },
 });

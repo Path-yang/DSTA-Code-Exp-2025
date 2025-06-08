@@ -9,6 +9,7 @@ import {
   SafeAreaView,
   Image 
 } from 'react-native';
+import { router } from 'expo-router';
 
 export default function HomeScreen() {
   const [username, setUsername] = useState('');
@@ -16,7 +17,7 @@ export default function HomeScreen() {
 
   const handleLogin = () => {
     console.log('Login pressed:', { username, password });
-    // We'll add actual login logic later
+    router.push('/scam-detection');  // Add this line
   };
 
   const handleSignUp = () => {
@@ -25,9 +26,8 @@ export default function HomeScreen() {
   };
   const handleGuestMode = () => {
     console.log('Continue as Guest pressed');
-    // We'll add guest mode navigation later
+    router.push('/scam-detection');  // Add this line
   };
-
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />

@@ -9,13 +9,17 @@ import {
   SafeAreaView,
   Image
 } from 'react-native';
+import { useRouter } from 'expo-router';
 
 export default function HomeScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
+  const router = useRouter();
+
   const handleLogin = () => {
     console.log('Login pressed:', { username, password });
+    router.push('/scam-detection');
     // We'll add actual login logic later
   };
 

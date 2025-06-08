@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Alert, Linking } from 'react-native';
 import axios from 'axios';
 import {
   View,
@@ -45,8 +46,17 @@ export default function ScamDetectionScreen() {
   };
 
   const handleReadMore = () => {
-    console.log('Read more pressed');
-    // We'll add read more navigation later
+  Alert.alert(
+      "Open IMDA Website",
+      "You'll be redirected to the official IMDA site to learn more about scam prevention.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Proceed",
+          onPress: () => Linking.openURL('https://www.imda.gov.sg/how-we-can-help/anti-scam-measures#:~:text=Learn%20about%20the%20different%20scam,6pm%2C%20excluding%20Public%20Holidays)')
+        }
+      ]
+    );
   };
 
   const handleChatForum = () => {

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import {
   View,
   Text,
@@ -11,11 +12,32 @@ import {
 
 export default function ScamDetectionScreen() {
   const [urlInput, setUrlInput] = useState('');
+  const [result, setResult] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
 
-  const handleDetect = () => {
-    console.log('Detect pressed with URL:', urlInput);
-    // We'll add actual detection logic later
-  };
+
+  const handleDetect = async () => {
+  if (!urlInput.trim()) return;
+
+  setLoading(true);
+  setError('');
+  setResult(null);
+
+  try {
+    const response = await axios.post('https://phishing-backend-beh4.onrender.com/predict', {
+      url: urlInput.trim(),
+    });
+
+    setResult(response.data);
+    console.log('Detection result:', response.data);
+  } catch (err) {
+    setError('❌ Unable to analyze URL. Please try again later.');
+    console.error(err);
+  } finally {
+    setLoading(false);
+  }
+};
 
   const handleReport = () => {
     console.log('Report pressed');
@@ -80,8 +102,36 @@ export default function ScamDetectionScreen() {
         <View style={styles.resultsContainer}>
           <View style={styles.resultCard}>
             <Text style={styles.resultTitle}>Your results...</Text>
-            <Text style={styles.resultSubtitle}>Pending user input</Text>
+            {loading ? (
+              <Text style={styles.resultSubtitle}>Loading...</Text>
+            ) : error ? (
+              <Text style={[styles.resultSubtitle, { color: 'red' }]}>{error}</Text>
+            ) : result ? (
+              <>
+                <Text style={styles.resultSubtitle}>
+                  {result.is_phishing ? 'Phishing Detected!' : 'This link appears safe.'}
+                </Text>
+                {result.confidence && (
+                  <Text style={styles.resultSubtitle}>
+                    Confidence: {(result.confidence).toFixed(1)}%
+                  </Text>
+                )}
+                {result.keywords_found?.length > 0 && (
+                  <Text style={styles.resultSubtitle}>
+                    Keywords: {result.keywords_found.join(', ')}
+                  </Text>
+                )}
+                {result.explanation && (
+                  <Text style={styles.resultSubtitle}>
+                    Explanation: {result.explanation}
+                  </Text>
+                )}
+              </>
+            ) : (
+              <Text style={styles.resultSubtitle}>Pending user input</Text>
+            )}
           </View>
+
 
           <TouchableOpacity style={styles.forumCard} onPress={handleChatForum}>
             <View style={styles.forumIcon}>

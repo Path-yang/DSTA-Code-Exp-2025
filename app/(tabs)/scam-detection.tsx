@@ -67,7 +67,7 @@ export default function ScamDetectionScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Scam Detection</Text>
@@ -164,7 +164,7 @@ export default function ScamDetectionScreen() {
         </Text>
 
         <TouchableOpacity style={styles.reportButton} onPress={handleReport}>
-          <Text style={styles.reportButtonIcon}>⚠️</Text>
+          <Text style={styles.reportButtonIcon}>🚩</Text>
           <Text style={styles.reportButtonText}>Report</Text>
         </TouchableOpacity>
       </View>
@@ -195,7 +195,7 @@ export default function ScamDetectionScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#000',
   },
   header: {
     padding: 20,
@@ -246,6 +246,9 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   detectorSection: {
+    backgroundColor: '#333',
+    borderRadius: 12,
+    padding: 15,
     marginBottom: 20,
   },
   detectorHeader: {
@@ -275,7 +278,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   urlInput: {
-    backgroundColor: '#333',
+    backgroundColor: '#000',
     borderRadius: 12,
     padding: 15,
     color: '#fff',

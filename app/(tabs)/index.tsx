@@ -4,9 +4,10 @@ import {
   Text, 
   TextInput, 
   TouchableOpacity, 
-  StyleSheet,
+  StyleSheet, 
   StatusBar,
-  SafeAreaView 
+  SafeAreaView,
+  Image 
 } from 'react-native';
 
 export default function HomeScreen() {
@@ -33,11 +34,13 @@ export default function HomeScreen() {
       
       {/* Logo Section */}
       <View style={styles.logoContainer}>
-        <View style={styles.logoCircle}>
-          <View style={styles.lockIcon}>
-            <Text style={styles.lockText}>🔒</Text>
-          </View>
-        </View>
+      <View style={styles.logoCircle}>
+        <Image 
+    source={require('@/assets/images/sigmashield-logo.jpeg')}
+    style={styles.logoImage}
+    resizeMode="contain"
+  />
+</View>
         <Text style={styles.logoText}>SIGMASHIELD</Text>
         <Text style={styles.logoSubtext}>SCAN BEFORE YOU GET SCAMMED</Text>
       </View>
@@ -194,5 +197,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     textDecorationLine: 'underline',
+  },
+  logoImage: {
+    width: 80,
+    height: 80,
   },
 });

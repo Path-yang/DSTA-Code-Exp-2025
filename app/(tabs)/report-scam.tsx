@@ -19,7 +19,7 @@ export default function ReportScamScreen() {
       Alert.alert(
         'Thank you!',
         'Your report has been submitted and will help protect the community.',
-        [{ text: 'OK', onPress: () => router.back() }]
+        [{ text: 'OK', onPress: () => setUrlInput('') }]
       );
     } else {
       Alert.alert('Error', 'Please enter a URL or upload a picture to report.');

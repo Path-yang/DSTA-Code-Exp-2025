@@ -1,15 +1,14 @@
 import React, { useState } from 'react';
-import { 
-  View, 
-  Text, 
-  TextInput, 
-  TouchableOpacity, 
-  StyleSheet, 
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  StyleSheet,
   StatusBar,
   SafeAreaView,
-  Image 
+  Image
 } from 'react-native';
-import { router } from 'expo-router';
 
 export default function HomeScreen() {
   const [username, setUsername] = useState('');
@@ -17,7 +16,7 @@ export default function HomeScreen() {
 
   const handleLogin = () => {
     console.log('Login pressed:', { username, password });
-    router.push('/scam-detection');  // Add this line
+    // We'll add actual login logic later
   };
 
   const handleSignUp = () => {
@@ -26,21 +25,22 @@ export default function HomeScreen() {
   };
   const handleGuestMode = () => {
     console.log('Continue as Guest pressed');
-    router.push('/scam-detection');  // Add this line
+    // We'll add guest mode navigation later
   };
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
-      
+
       {/* Logo Section */}
       <View style={styles.logoContainer}>
-      <View style={styles.logoCircle}>
-        <Image 
-    source={require('@/assets/images/sigmashield-logo.jpeg')}
-    style={styles.logoImage}
-    resizeMode="contain"
-  />
-</View>
+        <View style={styles.logoCircle}>
+          <Image
+            source={require('@/assets/images/sigmashield-logo.jpeg')}
+            style={styles.logoImage}
+            resizeMode="contain"
+          />
+        </View>
         <Text style={styles.logoText}>SIGMASHIELD</Text>
         <Text style={styles.logoSubtext}>SCAN BEFORE YOU GET SCAMMED</Text>
       </View>
@@ -93,7 +93,7 @@ export default function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#000',
     paddingHorizontal: 30,
   },
   logoContainer: {
@@ -103,12 +103,6 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   logoCircle: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    backgroundColor: '#333',
-    justifyContent: 'center',
-    alignItems: 'center',
     marginBottom: 20,
   },
   lockIcon: {
@@ -136,6 +130,7 @@ const styles = StyleSheet.create({
   formContainer: {
     flex: 1.5,
     paddingTop: 20,
+    marginHorizontal: 35,
   },
   label: {
     color: '#fff',
@@ -199,7 +194,7 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   logoImage: {
-    width: 80,
-    height: 80,
+    width: 300,
+    height: 200,
   },
 });

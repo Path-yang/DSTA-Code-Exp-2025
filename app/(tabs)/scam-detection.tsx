@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   StatusBar,
 } from 'react-native';
+import { router } from 'expo-router';
 
 export default function ScamDetectionScreen() {
   const [urlInput, setUrlInput] = useState('');
@@ -17,36 +18,35 @@ export default function ScamDetectionScreen() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-
   const handleDetect = async () => {
-  if (!urlInput.trim()) return;
+    if (!urlInput.trim()) return;
 
-  setLoading(true);
-  setError('');
-  setResult(null);
+    setLoading(true);
+    setError('');
+    setResult(null);
 
-  try {
-    const response = await axios.post('https://phishing-backend-beh4.onrender.com/predict', {
-      url: urlInput.trim(),
-    });
+    try {
+      const response = await axios.post('https://phishing-backend-beh4.onrender.com/predict', {
+        url: urlInput.trim(),
+      });
 
-    setResult(response.data);
-    console.log('Detection result:', response.data);
-  } catch (err) {
-    setError('❌ Unable to analyze URL. Please try again later.');
-    console.error(err);
-  } finally {
-    setLoading(false);
-  }
-};
+      setResult(response.data);
+      console.log('Detection result:', response.data);
+    } catch (err) {
+      setError('❌ Unable to analyze URL. Please try again later.');
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleReport = () => {
     console.log('Report pressed');
-    // We'll add report navigation later
+    router.push('/(tabs)/report-scam');
   };
 
   const handleReadMore = () => {
-  Alert.alert(
+    Alert.alert(
       "Open IMDA Website",
       "You'll be redirected to the official IMDA site to learn more about scam prevention.",
       [
@@ -141,7 +141,6 @@ export default function ScamDetectionScreen() {
               <Text style={styles.resultSubtitle}>Pending user input</Text>
             )}
           </View>
-
 
           <TouchableOpacity style={styles.forumCard} onPress={handleChatForum}>
             <View style={styles.forumIcon}>

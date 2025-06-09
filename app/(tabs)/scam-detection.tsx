@@ -196,7 +196,7 @@ export default function ScamDetectionScreen() {
           <Text style={styles.navIcon}>🏠</Text>
           <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/explore')}>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/learn')}>
           <Text style={styles.navIcon}>📚</Text>
           <Text style={styles.navText}>Learn</Text>
         </TouchableOpacity>

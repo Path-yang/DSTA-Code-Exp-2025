@@ -70,7 +70,7 @@ export default function ForumScreen() {
 
   const handleLearn = () => {
     console.log('Learn pressed');
-    router.push('/explore');
+    router.push('/learn');
   };
 
   const handleStats = () => {

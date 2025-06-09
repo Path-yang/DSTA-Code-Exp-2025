@@ -34,8 +34,8 @@ export default function ScamDetectionScreen() {
     setError('');
     setResult(null);
 
-    try {
-      const response = await axios.post('https://phishing-backend-beh4.onrender.com/predict', {
+    try { 
+      const response = await axios.post("http://127.0.0.1:5000/predict", {
         url: urlInput.trim(),
       });
 

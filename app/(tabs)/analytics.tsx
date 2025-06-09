@@ -7,6 +7,8 @@ import { IconSymbol } from '@/components/ui/IconSymbol';
 interface ScamStats {
   totalScamsDetected: number;
   totalScamsReported: number;
+  totalBlocked: number;
+  accuracy: number;
   regionStats: {
     region: string;
     count: number;
@@ -24,6 +26,21 @@ interface ScamStats {
   recentTrends: {
     direction: 'up' | 'down' | 'stable';
     percentage: number;
+  };
+  hourlyActivity: {
+    hour: string;
+    count: number;
+  }[];
+  topTargets: {
+    demographic: string;
+    count: number;
+    percentage: number;
+  }[];
+  preventionStats: {
+    warningsSent: number;
+    linksBlocked: number;
+    reportsProcessed: number;
+    falsePositives: number;
   };
 }
 
@@ -53,35 +70,59 @@ export default function AnalyticsScreen() {
   };
 
   const getMockStats = (): ScamStats => ({
-    totalScamsDetected: 1247,
-    totalScamsReported: 89,
+    totalScamsDetected: 287,
+    totalScamsReported: 23,
+    totalBlocked: 195,
+    accuracy: 91.2,
     regionStats: [
-      { region: 'Central', count: 456, percentage: 36.6 },
-      { region: 'East', count: 298, percentage: 23.9 },
-      { region: 'West', count: 267, percentage: 21.4 },
-      { region: 'North', count: 156, percentage: 12.5 },
-      { region: 'Northeast', count: 70, percentage: 5.6 }
+      { region: 'Central', count: 89, percentage: 31.0 },
+      { region: 'West', count: 67, percentage: 23.3 },
+      { region: 'East', count: 58, percentage: 20.2 },
+      { region: 'North', count: 44, percentage: 15.3 },
+      { region: 'Northeast', count: 29, percentage: 10.1 }
     ],
     timeStats: [
-      { period: 'Mon', count: 178 },
-      { period: 'Tue', count: 165 },
-      { period: 'Wed', count: 201 },
-      { period: 'Thu', count: 189 },
-      { period: 'Fri', count: 234 },
-      { period: 'Sat', count: 156 },
-      { period: 'Sun', count: 124 }
+      { period: 'Mon', count: 34 },
+      { period: 'Tue', count: 42 },
+      { period: 'Wed', count: 56 },
+      { period: 'Thu', count: 38 },
+      { period: 'Fri', count: 61 },
+      { period: 'Sat', count: 31 },
+      { period: 'Sun', count: 25 }
     ],
     scamTypes: [
-      { type: 'Phishing', count: 498, percentage: 39.9 },
-      { type: 'Investment', count: 312, percentage: 25.0 },
-      { type: 'Job Scam', count: 187, percentage: 15.0 },
-      { type: 'Romance', count: 125, percentage: 10.0 },
-      { type: 'Parcel', count: 87, percentage: 7.0 },
-      { type: 'Others', count: 38, percentage: 3.1 }
+      { type: 'Phishing', count: 115, percentage: 40.1 },
+      { type: 'Investment', count: 63, percentage: 22.0 },
+      { type: 'Job Scam', count: 46, percentage: 16.0 },
+      { type: 'Romance', count: 29, percentage: 10.1 },
+      { type: 'Parcel', count: 20, percentage: 7.0 },
+      { type: 'Others', count: 14, percentage: 4.9 }
     ],
     recentTrends: {
       direction: 'up',
-      percentage: 12.5
+      percentage: 15.3
+    },
+    hourlyActivity: [
+      { hour: '6AM', count: 8 },
+      { hour: '9AM', count: 23 },
+      { hour: '12PM', count: 41 },
+      { hour: '3PM', count: 38 },
+      { hour: '6PM', count: 52 },
+      { hour: '9PM', count: 67 },
+      { hour: '12AM', count: 34 }
+    ],
+    topTargets: [
+      { demographic: 'Ages 25-34', count: 78, percentage: 27.2 },
+      { demographic: 'Ages 35-44', count: 65, percentage: 22.6 },
+      { demographic: 'Ages 45-54', count: 54, percentage: 18.8 },
+      { demographic: 'Ages 55+', count: 47, percentage: 16.4 },
+      { demographic: 'Ages 18-24', count: 43, percentage: 15.0 }
+    ],
+    preventionStats: {
+      warningsSent: 156,
+      linksBlocked: 195,
+      reportsProcessed: 23,
+      falsePositives: 12
     }
   });
 
@@ -157,6 +198,19 @@ export default function AnalyticsScreen() {
             stats?.recentTrends
           )}
           {renderStatCard(
+            "Blocked Threats", 
+            stats?.totalBlocked.toString() || "0", 
+            "Automatically blocked"
+          )}
+        </View>
+
+        <View style={styles.statsGrid}>
+          {renderStatCard(
+            "Detection Accuracy", 
+            (stats?.accuracy.toString() || "0") + "%", 
+            "Model performance"
+          )}
+          {renderStatCard(
             "User Reports", 
             stats?.totalScamsReported.toString() || "0", 
             "Community contributed"
@@ -191,7 +245,7 @@ export default function AnalyticsScreen() {
           ))}
         </View>
 
-        {/* Weekly Trend */}
+        {/* Detection Trend */}
         <Text style={styles.sectionTitle}>Detection Trend</Text>
         <View style={styles.trendContainer}>
           {stats?.timeStats.map((day, index) => (
@@ -199,6 +253,59 @@ export default function AnalyticsScreen() {
               <View style={[styles.trendBar, { height: `${(day.count / Math.max(...(stats?.timeStats.map(d => d.count) || [1]))) * 100}%` }]} />
               <Text style={styles.trendLabel}>{day.period}</Text>
               <Text style={styles.trendValue}>{day.count}</Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Hourly Activity */}
+        <Text style={styles.sectionTitle}>Peak Activity Hours</Text>
+        <View style={styles.trendContainer}>
+          {stats?.hourlyActivity.map((hour, index) => (
+            <View key={hour.hour} style={styles.trendDay}>
+              <View style={[styles.trendBar, { 
+                height: `${(hour.count / Math.max(...(stats?.hourlyActivity.map(h => h.count) || [1]))) * 100}%`,
+                backgroundColor: '#f39c12'
+              }]} />
+              <Text style={styles.trendLabel}>{hour.hour}</Text>
+              <Text style={styles.trendValue}>{hour.count}</Text>
+            </View>
+          ))}
+        </View>
+
+        {/* Prevention Statistics */}
+        <Text style={styles.sectionTitle}>Prevention Impact</Text>
+        <View style={styles.preventionGrid}>
+          <View style={styles.preventionCard}>
+            <Text style={styles.preventionNumber}>{stats?.preventionStats.warningsSent}</Text>
+            <Text style={styles.preventionLabel}>Warnings Sent</Text>
+          </View>
+          <View style={styles.preventionCard}>
+            <Text style={styles.preventionNumber}>{stats?.preventionStats.linksBlocked}</Text>
+            <Text style={styles.preventionLabel}>Links Blocked</Text>
+          </View>
+          <View style={styles.preventionCard}>
+            <Text style={styles.preventionNumber}>{stats?.preventionStats.reportsProcessed}</Text>
+            <Text style={styles.preventionLabel}>Reports Processed</Text>
+          </View>
+          <View style={styles.preventionCard}>
+            <Text style={[styles.preventionNumber, { color: '#e74c3c' }]}>{stats?.preventionStats.falsePositives}</Text>
+            <Text style={styles.preventionLabel}>False Positives</Text>
+          </View>
+        </View>
+
+        {/* Target Demographics */}
+        <Text style={styles.sectionTitle}>Most Targeted Demographics</Text>
+        <View style={styles.chartContainer}>
+          {stats?.topTargets.map((target, index) => (
+            <View key={target.demographic} style={styles.barContainer}>
+              <Text style={styles.barLabel}>{target.demographic}</Text>
+              <View style={styles.barTrack}>
+                <View style={[styles.barFill, { 
+                  width: `${target.percentage}%`,
+                  backgroundColor: '#9b59b6'
+                }]} />
+              </View>
+              <Text style={styles.barValue}>{target.count}</Text>
             </View>
           ))}
         </View>
@@ -455,5 +562,30 @@ const styles = StyleSheet.create({
   },
   activeNavText: {
     color: '#007AFF',
+  },
+  preventionGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 10,
+    marginBottom: 30,
+  },
+  preventionCard: {
+    backgroundColor: '#1a1a1a',
+    borderRadius: 12,
+    padding: 16,
+    flex: 1,
+    minWidth: '45%',
+    alignItems: 'center',
+  },
+  preventionNumber: {
+    color: '#27ae60',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  preventionLabel: {
+    color: '#aaa',
+    fontSize: 12,
+    textAlign: 'center',
   },
 });

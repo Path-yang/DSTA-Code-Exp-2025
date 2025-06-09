@@ -34,8 +34,8 @@ export default function ScamDetectionScreen() {
     setError('');
     setResult(null);
 
-    try { 
-      const response = await axios.post("http://127.0.0.1:5000/predict", {
+    try {
+      const response = await axios.post("https://dsta-code-exp-2025.onrender.com/predict", {
         url: urlInput.trim(),
       });
 

@@ -10,9 +10,11 @@ import {
   Alert,
 } from 'react-native';
 import { router } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 
 export default function ReportScamScreen() {
   const [urlInput, setUrlInput] = useState('');
+  const navigation = useNavigation();
 
   const handleReport = () => {
     if (urlInput.trim()) {
@@ -48,7 +50,7 @@ export default function ReportScamScreen() {
 
   const handleForum = () => {
     console.log('Forum pressed');
-    // We'll add forum navigation later
+    navigation.navigate('forum' as never);
   };
 
   return (
@@ -137,7 +139,7 @@ export default function ReportScamScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#000',
   },
   header: {
     padding: 20,
@@ -145,14 +147,14 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
     marginBottom: 15,
   },
   headerDescription: {
     color: '#aaa',
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 18,
+    lineHeight: 24,
   },
   content: {
     flex: 1,

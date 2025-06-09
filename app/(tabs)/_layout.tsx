@@ -43,6 +43,13 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="analytics"
+        options={{
+          title: 'Analytics',
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="chart.bar.fill" color={color} />,
+        }}
+      />
+      <Tabs.Screen
         name="scam-detection"
         options={{
           tabBarStyle: { display: 'none' },
@@ -54,6 +61,15 @@ export default function TabLayout() {
         options={{
           tabBarStyle: { display: 'none' },
           tabBarButton: () => null,
+        }}
+      />
+      <Tabs.Screen
+        name="forum"
+        options={{
+          title: 'Forum',
+          tabBarStyle: { display: 'none' },
+          tabBarButton: () => null,
+          tabBarIcon: ({ color }) => <IconSymbol size={28} name="bubble.left.and.bubble.right.fill" color={color} />,
         }}
       />
     </Tabs>

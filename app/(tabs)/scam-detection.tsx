@@ -11,12 +11,21 @@ import {
   StatusBar,
 } from 'react-native';
 import { router } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
+
+interface DetectionResult {
+  is_phishing: boolean;
+  confidence: number;
+  keywords_found?: string[];
+  explanation?: string;
+}
 
 export default function ScamDetectionScreen() {
   const [urlInput, setUrlInput] = useState('');
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState<DetectionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const navigation = useNavigation();
 
   const handleDetect = async () => {
     if (!urlInput.trim()) return;
@@ -61,7 +70,11 @@ export default function ScamDetectionScreen() {
 
   const handleChatForum = () => {
     console.log('Chat forum pressed');
-    // We'll add forum navigation later
+    navigation.navigate('forum' as never);
+  };
+
+  const handleLogout = () => {
+    router.replace('/');
   };
 
   return (
@@ -70,7 +83,12 @@ export default function ScamDetectionScreen() {
 
       {/* Header */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Scam Detection</Text>
+        <View style={styles.headerTop}>
+          <Text style={styles.headerTitle}>Scam Detection</Text>
+          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
+            <Text style={styles.logoutText}>Logout</Text>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.headerSubtitle}>
           Need help deciphering if somebody is trying to scam you? Paste suspicious messages or links and let our AI and community flag the risks — fast, free, and secure.
         </Text>
@@ -126,7 +144,7 @@ export default function ScamDetectionScreen() {
                     Confidence: {(result.confidence).toFixed(1)}%
                   </Text>
                 )}
-                {result.keywords_found?.length > 0 && (
+                {result.keywords_found && result.keywords_found.length > 0 && (
                   <Text style={styles.resultSubtitle}>
                     Keywords: {result.keywords_found.join(', ')}
                   </Text>
@@ -183,7 +201,7 @@ export default function ScamDetectionScreen() {
           <Text style={styles.navIcon}>📊</Text>
           <Text style={styles.navText}>Stats</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={handleChatForum}>
           <Text style={styles.navIcon}>💬</Text>
           <Text style={styles.navText}>Forum</Text>
         </TouchableOpacity>
@@ -201,16 +219,21 @@ const styles = StyleSheet.create({
     padding: 20,
     paddingTop: 10,
   },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
   headerTitle: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 10,
   },
   headerSubtitle: {
     color: '#aaa',
-    fontSize: 14,
-    lineHeight: 20,
+    fontSize: 18,
+    lineHeight: 24,
   },
   content: {
     flex: 1,
@@ -393,5 +416,13 @@ const styles = StyleSheet.create({
   navText: {
     color: '#fff',
     fontSize: 12,
+  },
+  logoutButton: {
+    padding: 4,
+  },
+  logoutText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
 });

@@ -10,10 +10,10 @@ export default function LearnScreen() {
   const handleForum = () => router.push('/forum');
 
   const topics = [
-    { label: 'What is a scam' },
-    { label: 'Common Types of Scam' },
-    { label: 'How To Identify Scam' },
-    { label: 'Avoiding Scams' },
+    { label: 'Webinars', route: '/webinars' },
+    { label: 'Common Types of Scam', route: '/common-types-of-scam' },
+    { label: 'How To Identify Scam', route: '/how-to-identify-scams' },
+    { label: 'Avoiding Scams', route: '/avoiding-scams' },
   ];
 
   return (
@@ -28,17 +28,7 @@ export default function LearnScreen() {
           <TouchableOpacity
             key={index}
             style={styles.listItem}
-            onPress={() => {
-              if (topic.label === 'What is a scam') {
-                router.push('/what-is-scam' as any);
-              } else if (topic.label === 'Common Types of Scam') {
-                router.push('/common-types-of-scam' as any);
-              } else if (topic.label === 'How To Identify Scam') {
-                router.push('/how-to-identify-scams' as any);
-              } else if (topic.label === 'Avoiding Scams') {
-                router.push('/avoiding-scams' as any);
-              }
-            }}
+            onPress={() => router.push(topic.route as any)}
           >
             <Text style={styles.listText}>{topic.label}</Text>
             <Text style={styles.arrow}>{'>'}</Text>

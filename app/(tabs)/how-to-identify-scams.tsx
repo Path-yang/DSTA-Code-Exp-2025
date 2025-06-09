@@ -15,7 +15,7 @@ export default function HowToIdentifyScamsScreen() {
         { icon: 'clock.fill', iconBg: '#e67e22', title: 'Act Of Urgency', description: 'Act Now or Lose your Account Access' },
         { icon: 'person.fill', iconBg: '#f1c40f', title: 'Request for Personal Info', description: 'What is your NRIC number and Bank Pin?' },
         { icon: 'link', iconBg: '#3498db', title: 'Strange Links OR Domains', description: 'www.bak-login-sg.net' },
-    ];
+    ] as const;
 
     return (
         <SafeAreaView style={styles.container}>

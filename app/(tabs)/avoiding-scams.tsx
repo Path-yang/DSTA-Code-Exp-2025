@@ -14,7 +14,7 @@ export default function AvoidingScamsScreen() {
         { icon: 'hand.raised.fill', iconBg: '#e74c3c', title: 'Be Skeptical', description: 'Doubt unsolicited Offers or Requests' },
         { icon: 'phone.fill', iconBg: '#e67e22', title: 'Verify Contact', description: 'Confirm Identity of the Contact before answering' },
         { icon: 'lock.fill', iconBg: '#e74c3c', title: "Don't Share Sensitive Info", description: 'Keep your Personal or Financial info private' },
-    ];
+    ] as const;
 
     return (
         <SafeAreaView style={styles.container}>

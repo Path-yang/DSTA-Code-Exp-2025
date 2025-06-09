@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
@@ -127,7 +126,7 @@ export default function AnalyticsScreen() {
   });
 
   const handleGoHome = () => navigation.navigate('scam-detection' as never);
-  const handleLearn = () => navigation.navigate('explore' as never);
+  const handleLearn = () => navigation.navigate('learn' as never);
   const handleAnalytics = () => {
     // Already on Analytics
   };

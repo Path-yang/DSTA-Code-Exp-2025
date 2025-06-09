@@ -9,6 +9,7 @@ import {
   StyleSheet,
   SafeAreaView,
   StatusBar,
+  ActivityIndicator,
 } from 'react-native';
 import { router } from 'expo-router';
 
@@ -27,18 +28,18 @@ export default function ScamDetectionScreen() {
 
   const handleDetect = async () => {
     if (!urlInput.trim()) return;
-
     setLoading(true);
     setError('');
-    setResult(null);
-
     try {
-      const response = await axios.post("https://dsta-code-exp-2025.onrender.com/predict", {
-        url: urlInput.trim(),
-      });
-
-      setResult(response.data);
-      console.log('Detection result:', response.data);
+      const response = await axios.post("https://dsta-code-exp-2025.onrender.com/predict", { url: urlInput.trim() });
+      const { confidence } = response.data;
+      if (confidence > 80) {
+        router.push(`/good-news?confidence=${confidence}` as any);
+      } else if (confidence < 50) {
+        router.push(`/scam-alert?confidence=${confidence}` as any);
+      } else {
+        router.push(`/unknown?confidence=${confidence}` as any);
+      }
     } catch (err) {
       setError('❌ Unable to analyze URL. Please try again later.');
       console.error(err);
@@ -129,56 +130,19 @@ export default function ScamDetectionScreen() {
           />
         </View>
 
-        {/* Results Section */}
-        <View style={styles.resultsContainer}>
-          <View style={styles.resultCard}>
-            <Text style={styles.resultTitle}>Your results...</Text>
-            {loading ? (
-              <Text style={styles.resultSubtitle}>Loading...</Text>
-            ) : error ? (
-              <Text style={[styles.resultSubtitle, { color: 'red' }]}>{error}</Text>
-            ) : result ? (
-              <>
-                <Text style={styles.resultSubtitle}>
-                  {result.is_phishing ? 'Phishing Detected!' : 'This link appears safe.'}
-                </Text>
-                {result.confidence && (
-                  <Text style={styles.resultSubtitle}>
-                    Confidence: {(result.confidence).toFixed(1)}%
-                  </Text>
-                )}
-                {result.keywords_found && result.keywords_found.length > 0 && (
-                  <Text style={styles.resultSubtitle}>
-                    Keywords: {result.keywords_found.join(', ')}
-                  </Text>
-                )}
-                {result.explanation && (
-                  <Text style={styles.resultSubtitle}>
-                    Explanation: {result.explanation}
-                  </Text>
-                )}
-              </>
-            ) : (
-              <Text style={styles.resultSubtitle}>Pending user input</Text>
-            )}
-          </View>
-
-          <TouchableOpacity style={styles.forumCard} onPress={handleChatForum}>
-            <View style={styles.forumIcon}>
-              <Text style={styles.forumIconText}>💬</Text>
-            </View>
-            <View>
-              <Text style={styles.forumTitle}>Chat forum</Text>
-              <Text style={styles.forumSubtitle}>Seen similar links?</Text>
-            </View>
-          </TouchableOpacity>
-        </View>
+        {/* Results Section removed - handled via separate pages */}
 
         {/* Action Buttons */}
-        <TouchableOpacity style={styles.detectButton} onPress={handleDetect}>
-          <Text style={styles.detectButtonIcon}>⚠️</Text>
-          <Text style={styles.detectButtonText}>Detect</Text>
-        </TouchableOpacity>
+        {loading ? (
+          <View style={styles.loadingContainer}>
+            <ActivityIndicator size="large" color="#007AFF" />
+          </View>
+        ) : (
+          <TouchableOpacity style={styles.detectButton} onPress={handleDetect}>
+            <Text style={styles.detectButtonIcon}>⚠️</Text>
+            <Text style={styles.detectButtonText}>Detect</Text>
+          </TouchableOpacity>
+        )}
 
         <Text style={styles.warningText}>
           Please remain vigilant... Do not be the next victim
@@ -241,6 +205,7 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
+    justifyContent: 'space-around',
   },
   readMoreCard: {
     backgroundColor: '#333',
@@ -309,56 +274,6 @@ const styles = StyleSheet.create({
     padding: 15,
     color: '#fff',
     fontSize: 16,
-  },
-  resultsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 30,
-  },
-  resultCard: {
-    backgroundColor: '#333',
-    borderRadius: 12,
-    padding: 15,
-    flex: 0.48,
-  },
-  resultTitle: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  resultSubtitle: {
-    color: '#aaa',
-    fontSize: 12,
-  },
-  forumCard: {
-    backgroundColor: '#333',
-    borderRadius: 12,
-    padding: 15,
-    flex: 0.48,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  forumIcon: {
-    width: 30,
-    height: 30,
-    backgroundColor: '#e74c3c',
-    borderRadius: 15,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 10,
-  },
-  forumIconText: {
-    fontSize: 16,
-  },
-  forumTitle: {
-    color: '#fff',
-    fontSize: 14,
-    fontWeight: 'bold',
-  },
-  forumSubtitle: {
-    color: '#aaa',
-    fontSize: 12,
   },
   detectButton: {
     backgroundColor: '#e74c3c',
@@ -434,5 +349,10 @@ const styles = StyleSheet.create({
   },
   activeNavText: {
     color: '#007AFF',
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });

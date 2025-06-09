@@ -14,17 +14,8 @@ export default function TabLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: Colors[colorScheme ?? 'light'].tint,
         headerShown: false,
-        tabBarButton: HapticTab,
-        tabBarBackground: TabBarBackground,
-        tabBarStyle: Platform.select({
-          ios: {
-            // Use a transparent background on iOS to show the blur effect
-            position: 'absolute',
-          },
-          default: {},
-        }),
+        tabBarStyle: { display: 'none' },
       }}>
       <Tabs.Screen
         name="index"
@@ -39,6 +30,8 @@ export default function TabLayout() {
         name="explore"
         options={{
           title: 'Explore',
+          tabBarStyle: { display: 'none' },
+          tabBarButton: () => null,
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="paperplane.fill" color={color} />,
         }}
       />
@@ -46,6 +39,8 @@ export default function TabLayout() {
         name="analytics"
         options={{
           title: 'Analytics',
+          tabBarStyle: { display: 'none' },
+          tabBarButton: () => null,
           tabBarIcon: ({ color }) => <IconSymbol size={28} name="chart.bar.fill" color={color} />,
         }}
       />

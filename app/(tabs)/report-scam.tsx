@@ -10,11 +10,9 @@ import {
   Alert,
 } from 'react-native';
 import { router } from 'expo-router';
-import { useNavigation } from '@react-navigation/native';
 
 export default function ReportScamScreen() {
   const [urlInput, setUrlInput] = useState('');
-  const navigation = useNavigation();
 
   const handleReport = () => {
     if (urlInput.trim()) {
@@ -40,17 +38,17 @@ export default function ReportScamScreen() {
 
   const handleLearn = () => {
     console.log('Learn pressed');
-    // We'll add learn navigation later
+    router.push('/explore');
   };
 
   const handleStats = () => {
-    console.log('Stats pressed');
-    // We'll add stats navigation later
+    console.log('Analytics pressed');
+    router.push('/analytics');
   };
 
   const handleForum = () => {
     console.log('Forum pressed');
-    navigation.navigate('forum' as never);
+    router.push('/forum');
   };
 
   return (
@@ -115,9 +113,9 @@ export default function ReportScamScreen() {
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={handleGoHome}>
+        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleGoHome}>
           <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navText}>Home</Text>
+          <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
           <Text style={styles.navIcon}>📚</Text>
@@ -125,7 +123,7 @@ export default function ReportScamScreen() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleStats}>
           <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Stats</Text>
+          <Text style={styles.navText}>Analytics</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleForum}>
           <Text style={styles.navIcon}>💬</Text>
@@ -260,12 +258,19 @@ const styles = StyleSheet.create({
   navItem: {
     alignItems: 'center',
   },
-  navIcon: {
-    fontSize: 20,
-    marginBottom: 5,
-  },
   navText: {
     color: '#fff',
     fontSize: 12,
+  },
+  activeNavItem: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#007AFF',
+  },
+  activeNavText: {
+    color: '#007AFF',
+  },
+  navIcon: {
+    fontSize: 20,
+    marginBottom: 5,
   },
 });

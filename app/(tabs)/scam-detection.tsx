@@ -11,7 +11,6 @@ import {
   StatusBar,
 } from 'react-native';
 import { router } from 'expo-router';
-import { useNavigation } from '@react-navigation/native';
 
 interface DetectionResult {
   is_phishing: boolean;
@@ -25,7 +24,6 @@ export default function ScamDetectionScreen() {
   const [result, setResult] = useState<DetectionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const navigation = useNavigation();
 
   const handleDetect = async () => {
     if (!urlInput.trim()) return;
@@ -70,7 +68,12 @@ export default function ScamDetectionScreen() {
 
   const handleChatForum = () => {
     console.log('Chat forum pressed');
-    navigation.navigate('forum' as never);
+    router.push('/forum');
+  };
+
+  const handleStats = () => {
+    console.log('Analytics pressed');
+    router.push('/analytics');
   };
 
   const handleLogout = () => {
@@ -189,17 +192,17 @@ export default function ScamDetectionScreen() {
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={() => router.push('/scam-detection')}>
           <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navText}>Home</Text>
+          <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/explore')}>
           <Text style={styles.navIcon}>📚</Text>
           <Text style={styles.navText}>Learn</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem}>
+        <TouchableOpacity style={styles.navItem} onPress={handleStats}>
           <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Stats</Text>
+          <Text style={styles.navText}>Analytics</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleChatForum}>
           <Text style={styles.navIcon}>💬</Text>
@@ -424,5 +427,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     fontWeight: 'bold',
+  },
+  activeNavItem: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#007AFF',
+  },
+  activeNavText: {
+    color: '#007AFF',
   },
 });

@@ -70,16 +70,17 @@ export default function ForumScreen() {
 
   const handleLearn = () => {
     console.log('Learn pressed');
-    // Navigate to learn section
+    router.push('/explore');
   };
 
   const handleStats = () => {
-    console.log('Stats pressed');
-    // Navigate to stats section
+    console.log('Analytics pressed');
+    router.push('/analytics');
   };
 
   const handleForum = () => {
-    // Already on forum page
+    console.log('Forum pressed');
+    router.push('/forum');
   };
 
   return (
@@ -188,11 +189,11 @@ export default function ForumScreen() {
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleStats}>
           <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Stats</Text>
+          <Text style={styles.navText}>Analytics</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleForum}>
+        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleForum}>
           <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navText}>Forum</Text>
+          <Text style={[styles.navText, styles.activeNavText]}>Forum</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -442,5 +443,12 @@ const styles = StyleSheet.create({
   navText: {
     color: '#fff',
     fontSize: 12,
+  },
+  activeNavItem: {
+    borderBottomWidth: 2,
+    borderBottomColor: '#007AFF',
+  },
+  activeNavText: {
+    color: '#007AFF',
   },
 }); 

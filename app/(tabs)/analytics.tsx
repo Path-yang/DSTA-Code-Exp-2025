@@ -1,5 +1,5 @@
 import React from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 
@@ -42,12 +42,16 @@ export default function AnalyticsScreen() {
         </View>
 
         {/* Total Scams */}
-        <Text style={styles.sectionTitle}>Total Scams</Text>
-        <View style={styles.chartCard} />
+        <Text style={[styles.sectionTitle, {marginBottom: 20}]}>Total Scams</Text>
+        <View style={styles.chartWrapper}>
+          <Image source={require('@/assets/images/total-scams.png')} style={styles.chartImage1} />
+        </View>
 
         {/* Scam Type Breakdown */}
-        <Text style={styles.sectionTitle}>Scam Type Breakdown</Text>
-        <View style={styles.chartCard} />
+        <Text style={[styles.sectionTitle, {marginBottom: 0}]}>Scam Type Breakdown</Text>
+        <View style={[styles.chartWrapper, {marginTop: -10}]}>
+          <Image source={require('@/assets/images/types-of-scams.png')} style={styles.chartImage2} />
+        </View>
       </ScrollView>
 
       {/* Bottom Navigation */}
@@ -121,6 +125,7 @@ const styles = StyleSheet.create({
   toggleContainer: {
     flexDirection: 'row',
     gap: 10,
+    marginLeft: 10,
   },
   toggleActive: {
     borderWidth: 1,
@@ -146,15 +151,23 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 26,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 0,
   },
-  chartCard: {
-    backgroundColor: '#1a1a1a',
-    borderRadius: 12,
-    height: 200,
-    marginBottom: 20,
+  chartWrapper: {
+    alignItems: 'center',
+    marginBottom: 30,
+  },
+  chartImage1: {
+    width: 350,
+    height: 180,
+    resizeMode: 'contain',
+  },
+  chartImage2: {
+    width: 350,
+    height: 280,
+    resizeMode: 'contain',
   },
   bottomNav: {
     flexDirection: 'row',

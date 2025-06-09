@@ -10,7 +10,7 @@ export default function LearnScreen() {
   const handleForum = () => router.push('/forum');
 
   const topics = [
-    { label: 'What is Scam?' },
+    { label: 'What is a scam' },
     { label: 'Common Types of Scam' },
     { label: 'How To Identify Scam' },
     { label: 'Avoiding Scams' },
@@ -25,12 +25,29 @@ export default function LearnScreen() {
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {topics.map((topic, index) => (
-          <TouchableOpacity key={index} style={styles.listItem}>
+          <TouchableOpacity
+            key={index}
+            style={styles.listItem}
+            onPress={() => {
+              if (topic.label === 'What is a scam') {
+                router.push('/what-is-scam' as any);
+              } else if (topic.label === 'Common Types of Scam') {
+                router.push('/common-types-of-scam' as any);
+              } else if (topic.label === 'How To Identify Scam') {
+                router.push('/how-to-identify-scams' as any);
+              } else if (topic.label === 'Avoiding Scams') {
+                router.push('/avoiding-scams' as any);
+              }
+            }}
+          >
             <Text style={styles.listText}>{topic.label}</Text>
             <Text style={styles.arrow}>{'>'}</Text>
           </TouchableOpacity>
         ))}
-        <TouchableOpacity style={styles.helpButton}>
+        <TouchableOpacity
+          style={styles.helpButton}
+          onPress={() => router.push('/help-and-hotline' as any)}
+        >
           <Text style={styles.helpButtonText}>Click Here If you need HELP</Text>
         </TouchableOpacity>
       </ScrollView>

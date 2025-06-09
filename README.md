@@ -1,50 +1,78 @@
-# Welcome to your Expo app 👋
+# SigmaShield
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+SigmaShield is a mobile application that helps users detect and learn about online scams. Powered by AI and community insights, SigmaShield offers real-time URL analysis, educational modules, analytics dashboards, and a community forum.
 
-## Get started
+## Features
 
-1. Install dependencies
+- **Scam Detection**: Paste suspicious URLs to detect phishing or scam links with AI-powered confidence scores.
+- **Learn**: Explore in-depth information about scams including definitions, common types, identification tips, and avoidance strategies.
+- **Analytics**: Visualize total scam detections over time and get a breakdown of scam types.
+- **Forum**: Join the community to discuss suspicious links, share experiences, and ask questions.
 
+## Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/yourusername/SigmaShield.git
+   cd SigmaShield
+   ```
+2. Install dependencies:
    ```bash
    npm install
    ```
-
-2. Start the app
-
+3. Start the Expo development server:
    ```bash
    npx expo start
    ```
+4. Launch the app on:
+   - Android emulator
+   - iOS simulator
+   - Expo Go (Android/iOS)
 
-In the output, you'll find options to open the app in a
+## Usage
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+- **Home**: Login or continue as a guest to access the app.
+- **Scam Detection**: Enter a URL and tap **Detect**. View results including phishing status, confidence, and keywords.
+- **Learn**: Browse educational topics about scams. Tap a topic to read more.
+- **Analytics**: View interactive charts of scam detection trends.
+- **Forum**: Search, read, and create posts to discuss scam-related topics.
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Project Structure
 
-## Get a fresh project
-
-When you're ready, run:
-
-```bash
-npm run reset-project
+```
+/app
+  /_layout.tsx       # App-wide layout and routing
+  /(tabs)
+    index.tsx        # Home (login) screen
+    scam-detection.tsx
+    learn.tsx
+    analytics.tsx
+    forum.tsx
+    report-scam.tsx
+/components         # Reusable UI components
+/constants          # App constants (colors, etc.)
+/assets             # Images and fonts
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+## API
 
-## Learn more
+The app uses an external endpoint for scam detection:
 
-To learn more about developing your project with Expo, look at the following resources:
+```
+POST https://dsta-code-exp-2025.onrender.com/predict
+Body: { "url": "<URL_TO_ANALYZE>" }
+Response: {
+  "is_phishing": boolean,
+  "confidence": number,
+  "keywords_found": string[],
+  "explanation": string
+}
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Contributing
 
-## Join the community
+Contributions and feedback are welcome! Please open issues or submit pull requests on GitHub.
 
-Join our community of developers creating universal apps.
+## License
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+This project is licensed under the MIT License.

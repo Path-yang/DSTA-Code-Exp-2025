@@ -15,6 +15,8 @@ export default function LearnScreen() {
     { label: 'Common Types of Scam', route: '/common-types-of-scam' },
     { label: 'How To Identify Scam', route: '/how-to-identify-scams' },
     { label: 'Avoiding Scams', route: '/avoiding-scams' },
+    { label: 'Victim Recovery Toolkit', route: '/victim-recovery-toolkit' },
+    {label: 'Augmented Reality', route: '/augmented-reality' },
   ];
 
   return (

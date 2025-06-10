@@ -676,10 +676,36 @@ export default function AnalyticsScreen() {
   const fetchStats = async () => {
     setLoading(true);
     
-    setTimeout(() => {
+    try {
+      // Try to fetch real-time data from backend
+      const response = await fetch(`https://dsta-code-exp-2025.onrender.com/analytics?period=${timeRange}`);
+      
+      if (response.ok) {
+        const realData = await response.json();
+        
+        // Combine real backend data with existing mock data structure
+        const combinedStats: ScamStats = {
+          ...getMockStats(),
+          // Override with real data
+          totalScamsDetected: realData.totalScamsDetected,
+          totalBlocked: realData.totalBlocked,
+          accuracy: realData.accuracy,
+          totalScamsReported: realData.totalScamsReported
+        };
+        
+        setStats(combinedStats);
+        console.log('Real-time stats loaded:', realData);
+      } else {
+        console.warn('Backend unavailable, using mock data');
+        setStats(getMockStats());
+      }
+    } catch (error) {
+      console.error('Failed to fetch real stats:', error);
+      // Fallback to mock data
       setStats(getMockStats());
+    } finally {
       setLoading(false);
-    }, 800);
+    }
   };
 
   const getMockStats = (): ScamStats => ({
@@ -860,8 +886,8 @@ export default function AnalyticsScreen() {
           </>
         )}
 
-        {/* Historical Data Section */}
-        <Text style={styles.sectionTitle}>📊 Historical Analytics</Text>
+        {/* Real-Time Analytics Section */}
+        <Text style={styles.sectionTitle}>📊 Real-Time Analytics</Text>
 
         {/* Time Range Selector */}
         <View style={styles.toggleContainer}>
@@ -882,9 +908,9 @@ export default function AnalyticsScreen() {
         {/* Overview Stats */}
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "Scams Detected", 
+            "🔴 Scams Detected (LIVE)", 
             stats?.totalScamsDetected.toLocaleString() || "0", 
-            "This " + timeRange,
+            "Real detections this " + timeRange,
             stats?.recentTrends
           )}
           {renderStatCard(

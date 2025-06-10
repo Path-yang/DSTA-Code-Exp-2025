@@ -10,26 +10,30 @@ import {
   Image
 } from 'react-native';
 import { useRouter } from 'expo-router';
+import { useUser } from '../context/UserContext';
 
 export default function HomeScreen() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
   const router = useRouter();
+  const { login, loginAsGuest } = useUser();
 
   const handleLogin = () => {
     console.log('Login pressed:', { username, password });
+    login();
     router.push('/scam-detection');
-    // We'll add actual login logic later
   };
 
   const handleSignUp = () => {
     console.log('Sign Up pressed');
     // We'll add sign up navigation later
   };
+  
   const handleGuestMode = () => {
     console.log('Continue as Guest pressed');
-    // We'll add guest mode navigation later
+    loginAsGuest();
+    router.push('/scam-detection');
   };
 
   return (
@@ -138,7 +142,7 @@ const styles = StyleSheet.create({
   },
   label: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 18,
     marginBottom: 8,
     marginTop: 15,
   },
@@ -158,7 +162,7 @@ const styles = StyleSheet.create({
   },
   forgotPasswordText: {
     color: '#888',
-    fontSize: 14,
+    fontSize: 18,
     textDecorationLine: 'underline',
   },
   loginButton: {
@@ -179,7 +183,7 @@ const styles = StyleSheet.create({
   },
   guestButtonText: {
     color: '#888',
-    fontSize: 14,
+    fontSize: 18,
     textDecorationLine: 'underline',
   },
   signupContainer: {
@@ -190,11 +194,11 @@ const styles = StyleSheet.create({
   },
   newUserText: {
     color: '#888',
-    fontSize: 14,
+    fontSize: 18,
   },
   signupText: {
     color: '#fff',
-    fontSize: 14,
+    fontSize: 18,
     textDecorationLine: 'underline',
   },
   logoImage: {

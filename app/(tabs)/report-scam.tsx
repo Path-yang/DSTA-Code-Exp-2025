@@ -10,16 +10,24 @@ import {
   Alert,
 } from 'react-native';
 import { router } from 'expo-router';
+import { useUser } from '../context/UserContext';
 
 export default function ReportScamScreen() {
   const [urlInput, setUrlInput] = useState('');
+  const { isGuestMode } = useUser();
 
   const handleReport = () => {
     if (urlInput.trim()) {
       Alert.alert(
         'Thank you!',
         'Your report has been submitted and will help protect the community.',
-        [{ text: 'OK', onPress: () => setUrlInput('') }]
+        [{ 
+          text: 'OK', 
+          onPress: () => {
+            setUrlInput('');
+            router.push('/scam-detection');
+          }
+        }]
       );
     } else {
       Alert.alert('Error', 'Please enter a URL or upload a picture to report.');
@@ -37,16 +45,28 @@ export default function ReportScamScreen() {
   };
 
   const handleLearn = () => {
+    if (isGuestMode) {
+      Alert.alert('Login Required', 'Please log in to access these features.');
+      return;
+    }
     console.log('Learn pressed');
     router.push('/learn');
   };
 
   const handleStats = () => {
+    if (isGuestMode) {
+      Alert.alert('Login Required', 'Please log in to access these features.');
+      return;
+    }
     console.log('Analytics pressed');
     router.push('/analytics');
   };
 
   const handleForum = () => {
+    if (isGuestMode) {
+      Alert.alert('Login Required', 'Please log in to access these features.');
+      return;
+    }
     console.log('Forum pressed');
     router.push('/forum');
   };
@@ -57,6 +77,11 @@ export default function ReportScamScreen() {
       
       {/* Header */}
       <View style={styles.header}>
+        <View style={styles.headerTop}>
+          <TouchableOpacity onPress={() => router.push('/scam-detection')} style={styles.backButton}>
+            <Text style={styles.backButtonText}>{'< Back'}</Text>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.headerTitle}>Report a Scam</Text>
         <Text style={styles.headerDescription}>
           When you report a scam, you are creating a labeled example that teaches our detection system what to look for—suspicious keywords, sender patterns, URLs and more. These reports feed into our machine-learning model and rule-based filters, updating blacklists and on-device protections in real time. The result? Faster, more accurate blocking of new scams and a safer experience for everyone.
@@ -142,6 +167,17 @@ const styles = StyleSheet.create({
   header: {
     padding: 20,
     paddingTop: 10,
+  },
+  headerTop: {
+    marginBottom: 10,
+  },
+  backButton: {
+    alignSelf: 'flex-start',
+  },
+  backButtonText: {
+    color: '#007AFF',
+    fontSize: 16,
+    fontWeight: '500',
   },
   headerTitle: {
     color: '#fff',

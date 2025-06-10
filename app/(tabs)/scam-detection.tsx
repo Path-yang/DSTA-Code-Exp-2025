@@ -12,6 +12,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { router } from 'expo-router';
+import { useUser } from '../context/UserContext';
 
 interface DetectionResult {
   is_phishing: boolean;
@@ -25,6 +26,7 @@ export default function ScamDetectionScreen() {
   const [result, setResult] = useState<DetectionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const { isGuestMode, logout } = useUser();
 
   const handleDetect = async () => {
     if (!urlInput.trim()) return;
@@ -68,16 +70,33 @@ export default function ScamDetectionScreen() {
   };
 
   const handleChatForum = () => {
+    if (isGuestMode) {
+      Alert.alert('Login Required', 'Please log in to access these features.');
+      return;
+    }
     console.log('Chat forum pressed');
     router.push('/forum');
   };
 
   const handleStats = () => {
+    if (isGuestMode) {
+      Alert.alert('Login Required', 'Please log in to access these features.');
+      return;
+    }
     console.log('Analytics pressed');
     router.push('/analytics');
   };
 
+  const handleLearn = () => {
+    if (isGuestMode) {
+      Alert.alert('Login Required', 'Please log in to access these features.');
+      return;
+    }
+    router.push('/learn');
+  };
+
   const handleLogout = () => {
+    logout();
     router.replace('/');
   };
 
@@ -90,7 +109,7 @@ export default function ScamDetectionScreen() {
         <View style={styles.headerTop}>
           <Text style={styles.headerTitle}>Scam Detection</Text>
           <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-            <Text style={styles.logoutText}>Logout</Text>
+            <Text style={styles.logoutText}>{isGuestMode ? 'Login' : 'Logout'}</Text>
           </TouchableOpacity>
         </View>
         <Text style={styles.headerSubtitle}>
@@ -160,7 +179,7 @@ export default function ScamDetectionScreen() {
           <Text style={styles.navIcon}>🏠</Text>
           <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={() => router.push('/learn')}>
+        <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
           <Text style={styles.navIcon}>📚</Text>
           <Text style={styles.navText}>Learn</Text>
         </TouchableOpacity>

@@ -1,0 +1,6792 @@
+{
+  "timestamp": "2025-06-10T18:19:58.456Z",
+  "summary": {
+    "totalTested": 1006,
+    "uniqueScores": 80,
+    "uniquenessPercentage": 7.952286282306163,
+    "avgScores": {
+      "avgTrusted": 20.344927536231886,
+      "avgSuspicious": 55.36078431372549,
+      "avgPhishing": 65.62450592885375,
+      "avgNonExistent": 59.48366013071895
+    },
+    "accuracy": 69.98827667057445,
+    "distribution": {
+      "0-10%": 70,
+      "11-20%": 78,
+      "21-30%": 221,
+      "31-40%": 68,
+      "41-50%": 30,
+      "51-60%": 148,
+      "61-70%": 222,
+      "71-80%": 57,
+      "81-90%": 10,
+      "91-100%": 10
+    }
+  },
+  "rawResults": {
+    "tested": 1006,
+    "safe": [
+      {
+        "website": "google.com",
+        "score": 7,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "youtube.com",
+        "score": 8,
+        "details": []
+      },
+      {
+        "website": "facebook.com",
+        "score": 8,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "twitter.com",
+        "score": 6,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "instagram.com",
+        "score": 8,
+        "details": []
+      },
+      {
+        "website": "linkedin.com",
+        "score": 7,
+        "details": []
+      },
+      {
+        "website": "microsoft.com",
+        "score": 13,
+        "details": [
+          "Uses URL shortening service",
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "apple.com",
+        "score": 8,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "amazon.com",
+        "score": 6,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "netflix.com",
+        "score": 6,
+        "details": []
+      },
+      {
+        "website": "spotify.com",
+        "score": 7,
+        "details": []
+      },
+      {
+        "website": "dropbox.com",
+        "score": 8,
+        "details": []
+      },
+      {
+        "website": "github.com",
+        "score": 8,
+        "details": []
+      },
+      {
+        "website": "stackoverflow.com",
+        "score": 8,
+        "details": []
+      },
+      {
+        "website": "reddit.com",
+        "score": 10,
+        "details": [
+          "Uses URL shortening service"
+        ]
+      },
+      {
+        "website": "discord.com",
+        "score": 8,
+        "details": []
+      },
+      {
+        "website": "slack.com",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "zoom.us",
+        "score": 7,
+        "details": []
+      },
+      {
+        "website": "whatsapp.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "telegram.org",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "ebay.com",
+        "score": 7,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "etsy.com",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "shopify.com",
+        "score": 6,
+        "details": []
+      },
+      {
+        "website": "paypal.com",
+        "score": 9,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "stripe.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "square.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "uber.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "airbnb.com",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "booking.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "expedia.com",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "tripadvisor.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "yelp.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "opentable.com",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "cnn.com",
+        "score": 7,
+        "details": []
+      },
+      {
+        "website": "bbc.com",
+        "score": 6,
+        "details": []
+      },
+      {
+        "website": "reuters.com",
+        "score": 6,
+        "details": []
+      },
+      {
+        "website": "bloomberg.com",
+        "score": 7,
+        "details": []
+      },
+      {
+        "website": "nytimes.com",
+        "score": 7,
+        "details": []
+      },
+      {
+        "website": "theguardian.com",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "wsj.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "forbes.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "techcrunch.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "wired.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "nationalgeographic.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "discovery.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "espn.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "weather.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "harvard.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "mit.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "stanford.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "berkeley.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "cambridge.org",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "coursera.org",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "edx.org",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "khanacademy.org",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "wikipedia.org",
+        "score": 8,
+        "details": []
+      },
+      {
+        "website": "archive.org",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "mozilla.org",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "apache.org",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "gov.sg",
+        "score": 6,
+        "details": []
+      },
+      {
+        "website": "irs.gov",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "cdc.gov",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "fda.gov",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "nasa.gov",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "whitehouse.gov",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "chase.com",
+        "score": 8,
+        "details": []
+      },
+      {
+        "website": "bankofamerica.com",
+        "score": 6,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "wellsfargo.com",
+        "score": 6,
+        "details": []
+      },
+      {
+        "website": "citibank.com",
+        "score": 7,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "americanexpress.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "discover.com",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "capitalone.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "fidelity.com",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "schwab.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "vanguard.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "tdameritrade.com",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "robinhood.com",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "mayoclinic.org",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "webmd.com",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "healthline.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "nih.gov",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "medlineplus.gov",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "clevelandclinic.org",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "johnshopkins.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "aws.amazon.com",
+        "score": 6,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "cloud.google.com",
+        "score": 9,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "azure.microsoft.com",
+        "score": 14,
+        "details": [
+          "Uses URL shortening service",
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "heroku.com",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "digitalocean.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "cloudflare.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "netlify.com",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "vercel.com",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-1.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-2.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-3.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-5.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-6.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-7.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-8.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-9.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-10.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-11.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-12.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-13.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-14.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-15.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-16.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-17.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-18.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-19.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-20.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-21.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-22.com",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-23.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-24.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-25.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-26.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-28.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-29.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-30.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-31.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-32.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-33.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-34.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-35.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-36.com",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-37.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-38.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-39.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-40.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-41.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-42.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-43.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-44.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-45.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-46.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-48.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-49.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-50.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-51.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-52.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-53.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-54.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-56.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-57.com",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-58.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-59.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-60.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-61.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-62.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-63.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-65.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-66.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-67.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-68.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-69.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-70.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-71.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-72.com",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-73.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-75.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-76.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-77.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-78.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-79.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-80.com",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-82.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-83.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-84.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-85.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-86.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-87.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-88.com",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-89.com",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-90.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-91.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-92.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-93.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-94.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-95.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-96.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-98.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-99.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-100.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-101.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-103.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-104.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-105.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-106.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-107.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-108.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-109.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-110.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-111.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-112.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-113.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-114.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-115.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-116.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-117.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-118.com",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-119.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-120.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-121.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-122.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-123.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-124.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-126.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-127.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-128.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-129.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-130.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-132.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-133.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-134.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-136.com",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-137.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-138.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-139.com",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-140.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-141.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-142.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-143.com",
+        "score": 28,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-144.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-145.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-146.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-148.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-149.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-150.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "company1.org",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "company2.org",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "company3.org",
+        "score": 16,
+        "details": []
+      },
+      {
+        "website": "company4.org",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "company5.org",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "company6.org",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "company7.org",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "company8.org",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "company9.org",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "company10.org",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "company11.org",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "company12.org",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "company13.org",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "company14.org",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "company15.org",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "company16.org",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "company17.org",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "company18.org",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "company19.org",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "company20.org",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "company21.org",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "company22.org",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "company23.org",
+        "score": 16,
+        "details": []
+      },
+      {
+        "website": "company24.org",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "company25.org",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "company26.org",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "company27.org",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "company28.org",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "company29.org",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "company30.org",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "company31.org",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "company32.org",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "company33.org",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "company34.org",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "company35.org",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "company36.org",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "company37.org",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "company38.org",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "company39.org",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "company40.org",
+        "score": 21,
+        "details": []
+      },
+      {
+        "website": "company41.org",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "company42.org",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "company43.org",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "company44.org",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "company45.org",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "company46.org",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "company47.org",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "company48.org",
+        "score": 16,
+        "details": []
+      },
+      {
+        "website": "company49.org",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "company50.org",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "university1.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university2.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university3.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university4.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university5.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university6.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university7.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university8.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university9.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university10.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university11.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university12.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university13.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university14.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university15.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university16.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university17.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university18.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university19.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university20.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university21.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university22.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university23.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university24.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university25.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university26.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university27.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university28.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university29.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university30.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university31.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university32.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university33.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university34.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university35.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university36.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university37.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university38.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university39.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university40.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "university41.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university42.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university43.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university44.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university45.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university46.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university47.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university48.edu",
+        "score": 10,
+        "details": []
+      },
+      {
+        "website": "university49.edu",
+        "score": 9,
+        "details": []
+      },
+      {
+        "website": "university50.edu",
+        "score": 11,
+        "details": []
+      },
+      {
+        "website": "professional.name",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "site123.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "business456.com",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "company789.net",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "website2024.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "portal365.net",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "system247.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "platform24x7.com",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "best-deals-online.com",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "top-quality-products.net",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "super-fast-delivery.org",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "high-end-services.com",
+        "score": 29,
+        "details": []
+      },
+      {
+        "website": "premium-solutions.net",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "expert-consulting.org",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "top-investment-tips.net",
+        "score": 30,
+        "details": []
+      },
+      {
+        "website": "ultimate-guide.org",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "exclusive-offers.com",
+        "score": 27,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "special-promotion.org",
+        "score": 26,
+        "details": []
+      },
+      {
+        "website": "global-solutions.com",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "worldwide-services.net",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "international-group.org",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "universal-systems.com",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "premier-consulting.net",
+        "score": 20,
+        "details": []
+      },
+      {
+        "website": "elite-management.org",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "g00gle.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "fac3book.com",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "tw1tter.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "app1e.com",
+        "score": 23,
+        "details": []
+      },
+      {
+        "website": "amaz0n.com",
+        "score": 22,
+        "details": []
+      },
+      {
+        "website": "payp4l.com",
+        "score": 17,
+        "details": []
+      },
+      {
+        "website": "netf1ix.com",
+        "score": 27,
+        "details": []
+      },
+      {
+        "website": "sp0tify.com",
+        "score": 18,
+        "details": []
+      },
+      {
+        "website": "disc0rd.com",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "qpwoeirutyalskdjfh.net",
+        "score": 25,
+        "details": []
+      },
+      {
+        "website": "mnbvcxzlkjhgfdsa.org",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "plokijuhygtfrdeswaq.com",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "zmxncbvalskdjfhgqwerty.net",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "website$.com",
+        "score": 24,
+        "details": []
+      },
+      {
+        "website": "site@.org",
+        "score": 19,
+        "details": []
+      },
+      {
+        "website": "service*.net",
+        "score": 20,
+        "details": []
+      }
+    ],
+    "suspicious": [
+      {
+        "website": "lyft.com",
+        "score": 43,
+        "details": [
+          "Uses URL shortening service"
+        ]
+      },
+      {
+        "website": "oxford.ac.uk",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "who.int",
+        "score": 38,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-4.com",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-27.com",
+        "score": 32,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-47.com",
+        "score": 32,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-55.com",
+        "score": 32,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-64.com",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-74.com",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-81.com",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-97.com",
+        "score": 32,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-102.com",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-125.com",
+        "score": 32,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-131.com",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-135.com",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "legitimate-site-147.com",
+        "score": 32,
+        "details": []
+      },
+      {
+        "website": "example.co",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "startup.io",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "app.ly",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "service.me",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "business.cc",
+        "score": 36,
+        "details": []
+      },
+      {
+        "website": "portfolio.tv",
+        "score": 34,
+        "details": []
+      },
+      {
+        "website": "company.ws",
+        "score": 42,
+        "details": []
+      },
+      {
+        "website": "startup.biz",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "mobile.mobi",
+        "score": 37,
+        "details": []
+      },
+      {
+        "website": "telecom.tel",
+        "score": 34,
+        "details": []
+      },
+      {
+        "website": "travel.travel",
+        "score": 37,
+        "details": []
+      },
+      {
+        "website": "jobs.jobs",
+        "score": 40,
+        "details": []
+      },
+      {
+        "website": "cats.cat",
+        "score": 41,
+        "details": []
+      },
+      {
+        "website": "asia.asia",
+        "score": 38,
+        "details": []
+      },
+      {
+        "website": "extremely-long-business-name-with-many-words.net",
+        "score": 48,
+        "details": [
+          "Excessive special characters",
+          "Very long domain name"
+        ]
+      },
+      {
+        "website": "super-duper-long-website-address-example.org",
+        "score": 47,
+        "details": [
+          "Excessive special characters",
+          "Very long domain name"
+        ]
+      },
+      {
+        "website": "ridiculously-long-domain-name-for-testing-purposes.com",
+        "score": 43,
+        "details": [
+          "Excessive special characters",
+          "Very long domain name"
+        ]
+      },
+      {
+        "website": "service2023.org",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "best-crypto-trading.com",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "limited-time-deals.net",
+        "score": 39,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "random-business13.review",
+        "score": 49,
+        "details": []
+      },
+      {
+        "website": "random-business15.review",
+        "score": 47,
+        "details": []
+      },
+      {
+        "website": "random-business16.review",
+        "score": 50,
+        "details": []
+      },
+      {
+        "website": "random-business17.review",
+        "score": 49,
+        "details": []
+      },
+      {
+        "website": "random-business26.review",
+        "score": 47,
+        "details": []
+      },
+      {
+        "website": "random-business29.review",
+        "score": 48,
+        "details": []
+      },
+      {
+        "website": "medicare-enrollment.ga",
+        "score": 50,
+        "details": []
+      },
+      {
+        "website": "micr0soft.com",
+        "score": 45,
+        "details": [
+          "Uses URL shortening service"
+        ]
+      },
+      {
+        "website": "ajdkelcnxmwoeirut.com",
+        "score": 38,
+        "details": [
+          "Uses URL shortening service"
+        ]
+      },
+      {
+        "website": "domain.notreal",
+        "score": 41,
+        "details": []
+      },
+      {
+        "website": "domain#.net",
+        "score": 36,
+        "details": []
+      },
+      {
+        "website": "domain--.notreal",
+        "score": 47,
+        "details": []
+      },
+      {
+        "website": "invalid-domain1.notreal",
+        "score": 43,
+        "details": []
+      },
+      {
+        "website": "invalid-domain2.notreal",
+        "score": 35,
+        "details": []
+      },
+      {
+        "website": "invalid-domain3.notreal",
+        "score": 39,
+        "details": []
+      },
+      {
+        "website": "invalid-domain4.notreal",
+        "score": 37,
+        "details": []
+      },
+      {
+        "website": "invalid-domain5.notreal",
+        "score": 39,
+        "details": []
+      },
+      {
+        "website": "invalid-domain6.notreal",
+        "score": 37,
+        "details": []
+      },
+      {
+        "website": "invalid-domain7.notreal",
+        "score": 41,
+        "details": []
+      },
+      {
+        "website": "invalid-domain8.notreal",
+        "score": 41,
+        "details": []
+      },
+      {
+        "website": "invalid-domain9.notreal",
+        "score": 42,
+        "details": []
+      },
+      {
+        "website": "invalid-domain10.notreal",
+        "score": 37,
+        "details": []
+      },
+      {
+        "website": "invalid-domain11.notreal",
+        "score": 38,
+        "details": []
+      },
+      {
+        "website": "invalid-domain12.notreal",
+        "score": 43,
+        "details": []
+      },
+      {
+        "website": "invalid-domain13.notreal",
+        "score": 43,
+        "details": []
+      },
+      {
+        "website": "invalid-domain14.notreal",
+        "score": 36,
+        "details": []
+      },
+      {
+        "website": "invalid-domain15.notreal",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "invalid-domain16.notreal",
+        "score": 42,
+        "details": []
+      },
+      {
+        "website": "invalid-domain17.notreal",
+        "score": 38,
+        "details": []
+      },
+      {
+        "website": "invalid-domain18.notreal",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "invalid-domain19.notreal",
+        "score": 41,
+        "details": []
+      },
+      {
+        "website": "invalid-domain20.notreal",
+        "score": 38,
+        "details": []
+      },
+      {
+        "website": "invalid-domain21.notreal",
+        "score": 40,
+        "details": []
+      },
+      {
+        "website": "invalid-domain22.notreal",
+        "score": 41,
+        "details": []
+      },
+      {
+        "website": "invalid-domain23.notreal",
+        "score": 37,
+        "details": []
+      },
+      {
+        "website": "invalid-domain24.notreal",
+        "score": 41,
+        "details": []
+      },
+      {
+        "website": "invalid-domain25.notreal",
+        "score": 39,
+        "details": []
+      },
+      {
+        "website": "invalid-domain26.notreal",
+        "score": 41,
+        "details": []
+      },
+      {
+        "website": "invalid-domain27.notreal",
+        "score": 42,
+        "details": []
+      },
+      {
+        "website": "invalid-domain28.notreal",
+        "score": 40,
+        "details": []
+      },
+      {
+        "website": "invalid-domain29.notreal",
+        "score": 36,
+        "details": []
+      },
+      {
+        "website": "invalid-domain30.notreal",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "invalid-domain31.notreal",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "invalid-domain32.notreal",
+        "score": 34,
+        "details": []
+      },
+      {
+        "website": "invalid-domain33.notreal",
+        "score": 40,
+        "details": []
+      },
+      {
+        "website": "invalid-domain34.notreal",
+        "score": 38,
+        "details": []
+      },
+      {
+        "website": "invalid-domain35.notreal",
+        "score": 34,
+        "details": []
+      },
+      {
+        "website": "invalid-domain36.notreal",
+        "score": 39,
+        "details": []
+      },
+      {
+        "website": "invalid-domain37.notreal",
+        "score": 40,
+        "details": []
+      },
+      {
+        "website": "invalid-domain38.notreal",
+        "score": 41,
+        "details": []
+      },
+      {
+        "website": "invalid-domain39.notreal",
+        "score": 37,
+        "details": []
+      },
+      {
+        "website": "invalid-domain40.notreal",
+        "score": 32,
+        "details": []
+      },
+      {
+        "website": "invalid-domain41.notreal",
+        "score": 31,
+        "details": []
+      },
+      {
+        "website": "invalid-domain42.notreal",
+        "score": 43,
+        "details": []
+      },
+      {
+        "website": "invalid-domain43.notreal",
+        "score": 37,
+        "details": []
+      },
+      {
+        "website": "invalid-domain44.notreal",
+        "score": 32,
+        "details": []
+      },
+      {
+        "website": "invalid-domain45.notreal",
+        "score": 35,
+        "details": []
+      },
+      {
+        "website": "invalid-domain46.notreal",
+        "score": 37,
+        "details": []
+      },
+      {
+        "website": "invalid-domain47.notreal",
+        "score": 34,
+        "details": []
+      },
+      {
+        "website": "invalid-domain48.notreal",
+        "score": 33,
+        "details": []
+      },
+      {
+        "website": "invalid-domain49.notreal",
+        "score": 36,
+        "details": []
+      },
+      {
+        "website": "invalid-domain50.notreal",
+        "score": 32,
+        "details": []
+      }
+    ],
+    "dangerous": [
+      {
+        "website": "very-long-domain-name-that-might-be-suspicious.com",
+        "score": 56,
+        "details": [
+          "Suspicious keywords in domain (1)",
+          "Excessive special characters",
+          "Very long domain name"
+        ]
+      },
+      {
+        "website": "suspicious-domain-1.xyz",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-2.xyz",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-3.xyz",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-4.xyz",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-5.xyz",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-6.xyz",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-7.xyz",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-8.xyz",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-9.xyz",
+        "score": 71,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-10.xyz",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-11.xyz",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-12.xyz",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-13.xyz",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-14.xyz",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-15.xyz",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-16.xyz",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-17.xyz",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-18.xyz",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-19.xyz",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-20.xyz",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-21.xyz",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-22.xyz",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-23.xyz",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-24.xyz",
+        "score": 74,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-25.xyz",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-26.xyz",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-27.xyz",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-28.xyz",
+        "score": 76,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-29.xyz",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-30.xyz",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-31.xyz",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-32.xyz",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-33.xyz",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-34.xyz",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-35.xyz",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-36.xyz",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-37.xyz",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-38.xyz",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-39.xyz",
+        "score": 71,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-40.xyz",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-41.xyz",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-42.xyz",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-43.xyz",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-44.xyz",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-45.xyz",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-46.xyz",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-47.xyz",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-48.xyz",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-49.xyz",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "suspicious-domain-50.xyz",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site1.click",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site2.click",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site3.click",
+        "score": 56,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site4.click",
+        "score": 53,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site5.click",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site6.click",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site7.click",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site8.click",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site9.click",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site10.click",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site11.click",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site12.click",
+        "score": 57,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site13.click",
+        "score": 54,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site14.click",
+        "score": 57,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site15.click",
+        "score": 57,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site16.click",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site17.click",
+        "score": 57,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site18.click",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site19.click",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site20.click",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site21.click",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site22.click",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site23.click",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site24.click",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site25.click",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site26.click",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site27.click",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site28.click",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site29.click",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site30.click",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site31.click",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site32.click",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site33.click",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site34.click",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site35.click",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site36.click",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site37.click",
+        "score": 52,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site38.click",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site39.click",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site40.click",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site41.click",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site42.click",
+        "score": 55,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site43.click",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site44.click",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site45.click",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site46.click",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site47.click",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site48.click",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site49.click",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unusual-site50.click",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "weird-name-1.download",
+        "score": 62,
+        "details": []
+      },
+      {
+        "website": "weird-name-2.download",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "weird-name-3.download",
+        "score": 58,
+        "details": []
+      },
+      {
+        "website": "weird-name-4.download",
+        "score": 63,
+        "details": []
+      },
+      {
+        "website": "weird-name-5.download",
+        "score": 66,
+        "details": []
+      },
+      {
+        "website": "weird-name-6.download",
+        "score": 63,
+        "details": []
+      },
+      {
+        "website": "weird-name-7.download",
+        "score": 58,
+        "details": []
+      },
+      {
+        "website": "weird-name-8.download",
+        "score": 64,
+        "details": []
+      },
+      {
+        "website": "weird-name-9.download",
+        "score": 65,
+        "details": []
+      },
+      {
+        "website": "weird-name-10.download",
+        "score": 53,
+        "details": []
+      },
+      {
+        "website": "weird-name-11.download",
+        "score": 56,
+        "details": []
+      },
+      {
+        "website": "weird-name-12.download",
+        "score": 58,
+        "details": []
+      },
+      {
+        "website": "weird-name-13.download",
+        "score": 63,
+        "details": []
+      },
+      {
+        "website": "weird-name-14.download",
+        "score": 62,
+        "details": []
+      },
+      {
+        "website": "weird-name-15.download",
+        "score": 63,
+        "details": []
+      },
+      {
+        "website": "weird-name-16.download",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "weird-name-17.download",
+        "score": 64,
+        "details": []
+      },
+      {
+        "website": "weird-name-18.download",
+        "score": 67,
+        "details": []
+      },
+      {
+        "website": "weird-name-19.download",
+        "score": 54,
+        "details": []
+      },
+      {
+        "website": "weird-name-20.download",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "weird-name-21.download",
+        "score": 62,
+        "details": []
+      },
+      {
+        "website": "weird-name-22.download",
+        "score": 63,
+        "details": []
+      },
+      {
+        "website": "weird-name-23.download",
+        "score": 64,
+        "details": []
+      },
+      {
+        "website": "weird-name-24.download",
+        "score": 54,
+        "details": []
+      },
+      {
+        "website": "weird-name-25.download",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "weird-name-26.download",
+        "score": 57,
+        "details": []
+      },
+      {
+        "website": "weird-name-27.download",
+        "score": 57,
+        "details": []
+      },
+      {
+        "website": "weird-name-28.download",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "weird-name-29.download",
+        "score": 63,
+        "details": []
+      },
+      {
+        "website": "weird-name-30.download",
+        "score": 59,
+        "details": []
+      },
+      {
+        "website": "weird-name-31.download",
+        "score": 55,
+        "details": []
+      },
+      {
+        "website": "weird-name-32.download",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "weird-name-33.download",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "weird-name-34.download",
+        "score": 57,
+        "details": []
+      },
+      {
+        "website": "weird-name-35.download",
+        "score": 64,
+        "details": []
+      },
+      {
+        "website": "weird-name-36.download",
+        "score": 67,
+        "details": []
+      },
+      {
+        "website": "weird-name-37.download",
+        "score": 56,
+        "details": []
+      },
+      {
+        "website": "weird-name-38.download",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "weird-name-39.download",
+        "score": 59,
+        "details": []
+      },
+      {
+        "website": "weird-name-40.download",
+        "score": 55,
+        "details": []
+      },
+      {
+        "website": "weird-name-41.download",
+        "score": 56,
+        "details": []
+      },
+      {
+        "website": "weird-name-42.download",
+        "score": 62,
+        "details": []
+      },
+      {
+        "website": "weird-name-43.download",
+        "score": 51,
+        "details": []
+      },
+      {
+        "website": "weird-name-44.download",
+        "score": 58,
+        "details": []
+      },
+      {
+        "website": "weird-name-45.download",
+        "score": 54,
+        "details": []
+      },
+      {
+        "website": "weird-name-46.download",
+        "score": 53,
+        "details": []
+      },
+      {
+        "website": "weird-name-47.download",
+        "score": 54,
+        "details": []
+      },
+      {
+        "website": "weird-name-48.download",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "weird-name-49.download",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "weird-name-50.download",
+        "score": 58,
+        "details": []
+      },
+      {
+        "website": "test-site-1.work",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "test-site-2.work",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "test-site-3.work",
+        "score": 55,
+        "details": []
+      },
+      {
+        "website": "test-site-4.work",
+        "score": 62,
+        "details": []
+      },
+      {
+        "website": "test-site-5.work",
+        "score": 64,
+        "details": []
+      },
+      {
+        "website": "test-site-6.work",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "test-site-7.work",
+        "score": 66,
+        "details": []
+      },
+      {
+        "website": "test-site-8.work",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "test-site-9.work",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "test-site-10.work",
+        "score": 65,
+        "details": []
+      },
+      {
+        "website": "test-site-11.work",
+        "score": 57,
+        "details": []
+      },
+      {
+        "website": "test-site-12.work",
+        "score": 62,
+        "details": []
+      },
+      {
+        "website": "test-site-13.work",
+        "score": 57,
+        "details": []
+      },
+      {
+        "website": "test-site-14.work",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "test-site-15.work",
+        "score": 54,
+        "details": []
+      },
+      {
+        "website": "test-site-16.work",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "test-site-17.work",
+        "score": 66,
+        "details": []
+      },
+      {
+        "website": "test-site-18.work",
+        "score": 65,
+        "details": []
+      },
+      {
+        "website": "test-site-19.work",
+        "score": 59,
+        "details": []
+      },
+      {
+        "website": "test-site-20.work",
+        "score": 57,
+        "details": []
+      },
+      {
+        "website": "test-site-21.work",
+        "score": 67,
+        "details": []
+      },
+      {
+        "website": "test-site-22.work",
+        "score": 57,
+        "details": []
+      },
+      {
+        "website": "test-site-23.work",
+        "score": 63,
+        "details": []
+      },
+      {
+        "website": "test-site-24.work",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "test-site-25.work",
+        "score": 65,
+        "details": []
+      },
+      {
+        "website": "test-site-26.work",
+        "score": 53,
+        "details": []
+      },
+      {
+        "website": "test-site-27.work",
+        "score": 62,
+        "details": []
+      },
+      {
+        "website": "test-site-28.work",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "test-site-29.work",
+        "score": 56,
+        "details": []
+      },
+      {
+        "website": "test-site-30.work",
+        "score": 55,
+        "details": []
+      },
+      {
+        "website": "random-business1.review",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "random-business2.review",
+        "score": 54,
+        "details": []
+      },
+      {
+        "website": "random-business3.review",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "random-business4.review",
+        "score": 53,
+        "details": []
+      },
+      {
+        "website": "random-business5.review",
+        "score": 54,
+        "details": []
+      },
+      {
+        "website": "random-business6.review",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "random-business7.review",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "random-business8.review",
+        "score": 53,
+        "details": []
+      },
+      {
+        "website": "random-business9.review",
+        "score": 59,
+        "details": []
+      },
+      {
+        "website": "random-business10.review",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "random-business11.review",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "random-business12.review",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "random-business14.review",
+        "score": 56,
+        "details": []
+      },
+      {
+        "website": "random-business18.review",
+        "score": 59,
+        "details": []
+      },
+      {
+        "website": "random-business19.review",
+        "score": 59,
+        "details": []
+      },
+      {
+        "website": "random-business20.review",
+        "score": 53,
+        "details": []
+      },
+      {
+        "website": "random-business21.review",
+        "score": 54,
+        "details": []
+      },
+      {
+        "website": "random-business22.review",
+        "score": 55,
+        "details": []
+      },
+      {
+        "website": "random-business23.review",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "random-business24.review",
+        "score": 53,
+        "details": []
+      },
+      {
+        "website": "random-business25.review",
+        "score": 59,
+        "details": []
+      },
+      {
+        "website": "random-business27.review",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "random-business28.review",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "random-business30.review",
+        "score": 59,
+        "details": []
+      },
+      {
+        "website": "google-account-verify.tk",
+        "score": 100,
+        "details": [
+          "Suspicious keywords in domain (3)",
+          "Possible google impersonation"
+        ]
+      },
+      {
+        "website": "secure-google-login.ml",
+        "score": 97,
+        "details": [
+          "Suspicious keywords in domain (3)",
+          "Possible google impersonation"
+        ]
+      },
+      {
+        "website": "google-security-check.ga",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "accounts-google-verification.cf",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "gmail-secure-access.tk",
+        "score": 98,
+        "details": [
+          "Suspicious keywords in domain (1)",
+          "Possible gmail impersonation"
+        ]
+      },
+      {
+        "website": "google-password-reset.ml",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "paypal-secure-login.tk",
+        "score": 96,
+        "details": [
+          "Suspicious keywords in domain (3)",
+          "Possible paypal impersonation"
+        ]
+      },
+      {
+        "website": "paypal-account-verification.ml",
+        "score": 100,
+        "details": [
+          "Suspicious keywords in domain (2)",
+          "Possible paypal impersonation"
+        ]
+      },
+      {
+        "website": "secure-paypal-access.ga",
+        "score": 98,
+        "details": [
+          "Suspicious keywords in domain (2)",
+          "Possible paypal impersonation"
+        ]
+      },
+      {
+        "website": "paypal-payment-confirmation.cf",
+        "score": 77,
+        "details": [
+          "Suspicious keywords in domain (3)"
+        ]
+      },
+      {
+        "website": "paypal-dispute-resolution.tk",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "apple-id-verification.tk",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "secure-apple-login.ml",
+        "score": 96,
+        "details": [
+          "Suspicious keywords in domain (3)",
+          "Possible apple impersonation"
+        ]
+      },
+      {
+        "website": "icloud-account-access.ga",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "apple-support-verification.cf",
+        "score": 77,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "itunes-billing-update.tk",
+        "score": 79,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "microsoft-account-security.tk",
+        "score": 100,
+        "details": [
+          "Suspicious keywords in domain (3)",
+          "Possible microsoft impersonation"
+        ]
+      },
+      {
+        "website": "outlook-login-verification.ml",
+        "score": 100,
+        "details": [
+          "Suspicious keywords in domain (1)",
+          "Possible outlook impersonation"
+        ]
+      },
+      {
+        "website": "office365-access.ga",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "microsoft-security-alert.cf",
+        "score": 90,
+        "details": [
+          "Suspicious keywords in domain (3)"
+        ]
+      },
+      {
+        "website": "windows-activation-required.tk",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "amazon-account-suspended.tk",
+        "score": 100,
+        "details": [
+          "Suspicious keywords in domain (4)",
+          "Possible amazon impersonation"
+        ]
+      },
+      {
+        "website": "prime-membership-renewal.ml",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "aws-billing-alert.ga",
+        "score": 76,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "amazon-order-confirmation.cf",
+        "score": 82,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "kindle-subscription-expired.tk",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "chase-security-alert.tk",
+        "score": 75,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "bankofamerica-verification.ml",
+        "score": 70,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "wells-fargo-notice.ga",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "citibank-account-locked.cf",
+        "score": 75,
+        "details": [
+          "Suspicious keywords in domain (3)"
+        ]
+      },
+      {
+        "website": "paypal-billing-issue.tk",
+        "score": 78,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "irs-tax-refund.tk",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "social-security-benefits.ml",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "unemployment-benefits.cf",
+        "score": 54,
+        "details": []
+      },
+      {
+        "website": "stimulus-check-claim.tk",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "gov-benefits-portal.ml",
+        "score": 58,
+        "details": []
+      },
+      {
+        "website": "bitcoin-investment-opportunity.tk",
+        "score": 65,
+        "details": []
+      },
+      {
+        "website": "crypto-trading-profits.ml",
+        "score": 61,
+        "details": []
+      },
+      {
+        "website": "ethereum-mining-pool.ga",
+        "score": 60,
+        "details": []
+      },
+      {
+        "website": "binance-trading-bot.cf",
+        "score": 65,
+        "details": []
+      },
+      {
+        "website": "cryptocurrency-exchange.tk",
+        "score": 62,
+        "details": []
+      },
+      {
+        "website": "nft-marketplace-launch.ml",
+        "score": 53,
+        "details": []
+      },
+      {
+        "website": "international-dating-site.tk",
+        "score": 65,
+        "details": []
+      },
+      {
+        "website": "military-singles-online.ml",
+        "score": 69,
+        "details": []
+      },
+      {
+        "website": "mature-dating-network.ga",
+        "score": 53,
+        "details": []
+      },
+      {
+        "website": "christian-singles-meet.cf",
+        "score": 67,
+        "details": []
+      },
+      {
+        "website": "elite-matchmaking-service.tk",
+        "score": 66,
+        "details": []
+      },
+      {
+        "website": "work-from-home-jobs.tk",
+        "score": 52,
+        "details": []
+      },
+      {
+        "website": "remote-data-entry.ml",
+        "score": 63,
+        "details": []
+      },
+      {
+        "website": "easy-online-income.ga",
+        "score": 65,
+        "details": []
+      },
+      {
+        "website": "part-time-opportunity.cf",
+        "score": 56,
+        "details": []
+      },
+      {
+        "website": "freelance-writing-jobs.tk",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "microsoft-support-center.tk",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "apple-technical-support.ml",
+        "score": 76,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "windows-security-warning.ga",
+        "score": 78,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "computer-virus-removal.cf",
+        "score": 58,
+        "details": []
+      },
+      {
+        "website": "antivirus-software-update.tk",
+        "score": 77,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "secure-login-portal.tk",
+        "score": 88,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "account-verification-center.ml",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "identity-confirmation.ga",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "security-checkpoint.cf",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "authentication-required.tk",
+        "score": 77,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "verify-account-now.ml",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (2)"
+        ]
+      },
+      {
+        "website": "192.168.1.100",
+        "score": 86,
+        "details": [
+          "Uses IP address instead of domain",
+          "Excessive numbers in domain"
+        ]
+      },
+      {
+        "website": "10.0.0.1",
+        "score": 82,
+        "details": [
+          "Uses IP address instead of domain"
+        ]
+      },
+      {
+        "website": "172.16.0.1",
+        "score": 85,
+        "details": [
+          "Uses IP address instead of domain",
+          "Excessive numbers in domain"
+        ]
+      },
+      {
+        "website": "203.0.113.1",
+        "score": 88,
+        "details": [
+          "Uses IP address instead of domain",
+          "Excessive numbers in domain"
+        ]
+      },
+      {
+        "website": "198.51.100.1",
+        "score": 81,
+        "details": [
+          "Uses IP address instead of domain",
+          "Excessive numbers in domain"
+        ]
+      },
+      {
+        "website": "192.0.2.1",
+        "score": 78,
+        "details": [
+          "Uses IP address instead of domain"
+        ]
+      },
+      {
+        "website": "233.252.0.1",
+        "score": 79,
+        "details": [
+          "Uses IP address instead of domain",
+          "Excessive numbers in domain"
+        ]
+      },
+      {
+        "website": "224.0.0.1",
+        "score": 82,
+        "details": [
+          "Uses IP address instead of domain"
+        ]
+      },
+      {
+        "website": "239.255.255.250",
+        "score": 86,
+        "details": [
+          "Uses IP address instead of domain",
+          "Excessive numbers in domain"
+        ]
+      },
+      {
+        "website": "phishing-site-1.tk",
+        "score": 70,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-2.tk",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-3.tk",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-4.tk",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-5.tk",
+        "score": 70,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-6.tk",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-7.tk",
+        "score": 74,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-8.tk",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-9.tk",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-10.tk",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-11.tk",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-12.tk",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-13.tk",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-14.tk",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-15.tk",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-16.tk",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-17.tk",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-18.tk",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-19.tk",
+        "score": 71,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-20.tk",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-21.tk",
+        "score": 71,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-22.tk",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-23.tk",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-24.tk",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-25.tk",
+        "score": 71,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-26.tk",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-27.tk",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-28.tk",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-29.tk",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-30.tk",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-31.tk",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-32.tk",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-33.tk",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-34.tk",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-35.tk",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-36.tk",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-37.tk",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-38.tk",
+        "score": 74,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-39.tk",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-40.tk",
+        "score": 75,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-41.tk",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-42.tk",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-43.tk",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-44.tk",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-45.tk",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-46.tk",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-47.tk",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-48.tk",
+        "score": 71,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-49.tk",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "phishing-site-50.tk",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain1.ml",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain2.ml",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain3.ml",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain4.ml",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain5.ml",
+        "score": 57,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain6.ml",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain7.ml",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain8.ml",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain9.ml",
+        "score": 55,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain10.ml",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain11.ml",
+        "score": 54,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain12.ml",
+        "score": 55,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain13.ml",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain14.ml",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain15.ml",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain16.ml",
+        "score": 56,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain17.ml",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain18.ml",
+        "score": 54,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain19.ml",
+        "score": 53,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain20.ml",
+        "score": 70,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain21.ml",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain22.ml",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain23.ml",
+        "score": 56,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain24.ml",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain25.ml",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain26.ml",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain27.ml",
+        "score": 55,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain28.ml",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain29.ml",
+        "score": 71,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain30.ml",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain31.ml",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain32.ml",
+        "score": 63,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain33.ml",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain34.ml",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain35.ml",
+        "score": 53,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain36.ml",
+        "score": 70,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain37.ml",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain38.ml",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain39.ml",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain40.ml",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain41.ml",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain42.ml",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain43.ml",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain44.ml",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain45.ml",
+        "score": 54,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain46.ml",
+        "score": 57,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain47.ml",
+        "score": 53,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain48.ml",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain49.ml",
+        "score": 54,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "malicious-domain50.ml",
+        "score": 54,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-1.ga",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-2.ga",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-3.ga",
+        "score": 71,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-4.ga",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-5.ga",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-6.ga",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-7.ga",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-8.ga",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-9.ga",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-10.ga",
+        "score": 57,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-11.ga",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-12.ga",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-13.ga",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-14.ga",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-15.ga",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-16.ga",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-17.ga",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-18.ga",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-19.ga",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-20.ga",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-21.ga",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-22.ga",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-23.ga",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-24.ga",
+        "score": 73,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-25.ga",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-26.ga",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-27.ga",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-28.ga",
+        "score": 64,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-29.ga",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-30.ga",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-31.ga",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-32.ga",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-33.ga",
+        "score": 70,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-34.ga",
+        "score": 74,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-35.ga",
+        "score": 74,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-36.ga",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-37.ga",
+        "score": 72,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-38.ga",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-39.ga",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "dangerous-website-40.ga",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal1.cf",
+        "score": 58,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal2.cf",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal3.cf",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal4.cf",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal5.cf",
+        "score": 68,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal6.cf",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal7.cf",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal8.cf",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal9.cf",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal10.cf",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal11.cf",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal12.cf",
+        "score": 56,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal13.cf",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal14.cf",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal15.cf",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal16.cf",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal17.cf",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal18.cf",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal19.cf",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal20.cf",
+        "score": 65,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal21.cf",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal22.cf",
+        "score": 69,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal23.cf",
+        "score": 67,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal24.cf",
+        "score": 56,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal25.cf",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal26.cf",
+        "score": 60,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal27.cf",
+        "score": 61,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal28.cf",
+        "score": 66,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal29.cf",
+        "score": 59,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      },
+      {
+        "website": "scam-portal30.cf",
+        "score": 62,
+        "details": [
+          "Suspicious keywords in domain (1)"
+        ]
+      }
+    ],
+    "notFound": [
+      {
+        "website": "example.invalidtld",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "website.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "site.imaginary",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "page.nonexistent",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "portal.unreal",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "service.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "business.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "portal%.com",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "verylongandcompletelyinvaliddomainnamethatdoesnotexistandneverwill.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "anothersuperlongfakedomainthatiscompletlymadeupandwontwork.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "random123!@#.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "website_with_underscores.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-1.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-2.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-3.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-4.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-5.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-6.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-7.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-8.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-9.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-10.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-11.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-12.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-13.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-14.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-15.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-16.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-17.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-18.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-19.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-20.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-21.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-22.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-23.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-24.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-25.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-26.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-27.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-28.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-29.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-30.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-31.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-32.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-33.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-34.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-35.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-36.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-37.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-38.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-39.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-40.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-41.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-42.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-43.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-44.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-45.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-46.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-47.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-48.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-49.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "nonexistent-50.fake",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-1.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-2.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-3.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-4.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-5.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-6.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-7.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-8.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-9.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-10.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-11.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-12.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-13.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-14.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-15.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-16.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-17.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-18.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-19.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-20.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-21.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-22.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-23.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-24.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-25.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-26.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-27.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-28.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-29.invalid",
+        "reason": "Website has an invalid top-level domain"
+      },
+      {
+        "website": "fake-website-30.invalid",
+        "reason": "Website has an invalid top-level domain"
+      }
+    ],
+    "errors": [],
+    "riskScoreDistribution": {
+      "6": 10,
+      "7": 9,
+      "8": 10,
+      "9": 22,
+      "10": 19,
+      "11": 24,
+      "13": 1,
+      "14": 1,
+      "16": 3,
+      "17": 11,
+      "18": 11,
+      "19": 11,
+      "20": 16,
+      "21": 11,
+      "22": 28,
+      "23": 27,
+      "24": 38,
+      "25": 29,
+      "26": 14,
+      "27": 21,
+      "28": 16,
+      "29": 25,
+      "30": 12,
+      "31": 11,
+      "32": 9,
+      "33": 10,
+      "34": 5,
+      "35": 2,
+      "36": 5,
+      "37": 9,
+      "38": 7,
+      "39": 5,
+      "40": 5,
+      "41": 9,
+      "42": 4,
+      "43": 6,
+      "45": 1,
+      "47": 4,
+      "48": 2,
+      "49": 2,
+      "50": 2,
+      "51": 1,
+      "52": 11,
+      "53": 13,
+      "54": 15,
+      "55": 9,
+      "56": 12,
+      "57": 14,
+      "58": 17,
+      "59": 27,
+      "60": 29,
+      "61": 35,
+      "62": 27,
+      "63": 20,
+      "64": 15,
+      "65": 30,
+      "66": 21,
+      "67": 30,
+      "68": 15,
+      "69": 23,
+      "70": 6,
+      "71": 8,
+      "72": 19,
+      "73": 10,
+      "74": 5,
+      "75": 3,
+      "76": 3,
+      "77": 4,
+      "78": 3,
+      "79": 2,
+      "81": 1,
+      "82": 3,
+      "85": 1,
+      "86": 2,
+      "88": 2,
+      "90": 1,
+      "96": 2,
+      "97": 1,
+      "98": 2,
+      "100": 5
+    },
+    "averageScores": {
+      "trusted": [
+        7,
+        8,
+        8,
+        6,
+        8,
+        7,
+        13,
+        8,
+        6,
+        6,
+        7,
+        8,
+        8,
+        8,
+        10,
+        8,
+        17,
+        7,
+        24,
+        23,
+        7,
+        20,
+        6,
+        9,
+        22,
+        24,
+        22,
+        43,
+        21,
+        24,
+        18,
+        23,
+        22,
+        20,
+        7,
+        6,
+        6,
+        7,
+        7,
+        19,
+        24,
+        25,
+        22,
+        22,
+        24,
+        23,
+        23,
+        25,
+        11,
+        11,
+        11,
+        11,
+        33,
+        20,
+        21,
+        22,
+        26,
+        8,
+        17,
+        26,
+        24,
+        6,
+        10,
+        11,
+        9,
+        10,
+        9,
+        8,
+        6,
+        6,
+        7,
+        24,
+        20,
+        22,
+        17,
+        24,
+        24,
+        21,
+        17,
+        21,
+        20,
+        27,
+        10,
+        38,
+        10,
+        26,
+        11,
+        6,
+        9,
+        14,
+        19,
+        24,
+        22,
+        18,
+        19,
+        24,
+        30,
+        22,
+        31,
+        30,
+        25,
+        27,
+        23,
+        23,
+        22,
+        29,
+        23,
+        25,
+        22,
+        25,
+        27,
+        24,
+        29,
+        23,
+        24,
+        30,
+        26,
+        28,
+        24,
+        25,
+        24,
+        32,
+        28,
+        23,
+        25,
+        29,
+        25,
+        23,
+        30,
+        29,
+        26,
+        24,
+        24,
+        23,
+        24,
+        30,
+        29,
+        22,
+        25,
+        25,
+        29,
+        32,
+        24,
+        29,
+        24,
+        29,
+        25,
+        30,
+        22,
+        32,
+        22,
+        26,
+        27,
+        24,
+        28,
+        25,
+        29,
+        28,
+        31,
+        28,
+        30,
+        25,
+        23,
+        29,
+        28,
+        22,
+        26,
+        29,
+        31,
+        27,
+        27,
+        29,
+        28,
+        25,
+        26,
+        31,
+        22,
+        29,
+        29,
+        27,
+        27,
+        29,
+        21,
+        26,
+        30,
+        27,
+        28,
+        28,
+        24,
+        28,
+        27,
+        32,
+        30,
+        25,
+        25,
+        30,
+        31,
+        23,
+        28,
+        22,
+        29,
+        23,
+        25,
+        27,
+        24,
+        24,
+        22,
+        29,
+        29,
+        24,
+        25,
+        22,
+        21,
+        28,
+        29,
+        29,
+        25,
+        25,
+        24,
+        32,
+        28,
+        25,
+        23,
+        27,
+        28,
+        31,
+        23,
+        23,
+        25,
+        31,
+        26,
+        23,
+        29,
+        30,
+        27,
+        28,
+        25,
+        28,
+        29,
+        25,
+        22,
+        32,
+        27,
+        29,
+        27,
+        23,
+        22,
+        16,
+        19,
+        17,
+        23,
+        23,
+        25,
+        17,
+        22,
+        18,
+        24,
+        26,
+        17,
+        23,
+        19,
+        18,
+        21,
+        17,
+        21,
+        20,
+        20,
+        16,
+        25,
+        23,
+        21,
+        23,
+        18,
+        24,
+        19,
+        20,
+        17,
+        24,
+        23,
+        21,
+        20,
+        19,
+        24,
+        27,
+        21,
+        24,
+        20,
+        20,
+        18,
+        22,
+        23,
+        22,
+        16,
+        18,
+        20,
+        9,
+        10,
+        10,
+        11,
+        11,
+        10,
+        10,
+        11,
+        9,
+        9,
+        11,
+        10,
+        11,
+        11,
+        10,
+        11,
+        11,
+        10,
+        9,
+        9,
+        9,
+        11,
+        9,
+        9,
+        9,
+        9,
+        11,
+        11,
+        10,
+        11,
+        10,
+        10,
+        9,
+        9,
+        11,
+        11,
+        9,
+        11,
+        11,
+        11,
+        9,
+        9,
+        9,
+        10,
+        10,
+        9,
+        10,
+        10,
+        9,
+        11
+      ],
+      "suspicious": [
+        33,
+        33,
+        33,
+        31,
+        36,
+        34,
+        42,
+        33,
+        37,
+        29,
+        34,
+        37,
+        40,
+        41,
+        38,
+        56,
+        48,
+        47,
+        43,
+        22,
+        20,
+        24,
+        31,
+        25,
+        24,
+        24,
+        19,
+        26,
+        27,
+        26,
+        29,
+        27,
+        27,
+        31,
+        30,
+        18,
+        27,
+        39,
+        26,
+        17,
+        19,
+        18,
+        20,
+        20,
+        22,
+        59,
+        61,
+        66,
+        61,
+        68,
+        67,
+        68,
+        60,
+        71,
+        61,
+        60,
+        72,
+        61,
+        64,
+        66,
+        69,
+        62,
+        67,
+        63,
+        64,
+        68,
+        72,
+        73,
+        74,
+        73,
+        64,
+        65,
+        76,
+        72,
+        65,
+        67,
+        58,
+        65,
+        60,
+        66,
+        61,
+        63,
+        64,
+        71,
+        69,
+        61,
+        63,
+        72,
+        59,
+        61,
+        69,
+        58,
+        69,
+        66,
+        65,
+        59,
+        69,
+        56,
+        53,
+        67,
+        67,
+        67,
+        59,
+        63,
+        65,
+        58,
+        57,
+        54,
+        57,
+        57,
+        66,
+        57,
+        58,
+        63,
+        59,
+        67,
+        60,
+        59,
+        64,
+        60,
+        64,
+        62,
+        62,
+        59,
+        62,
+        67,
+        69,
+        59,
+        65,
+        68,
+        60,
+        52,
+        60,
+        65,
+        60,
+        67,
+        55,
+        65,
+        68,
+        62,
+        63,
+        58,
+        65,
+        64,
+        60,
+        62,
+        61,
+        58,
+        63,
+        66,
+        63,
+        58,
+        64,
+        65,
+        53,
+        56,
+        58,
+        63,
+        62,
+        63,
+        61,
+        64,
+        67,
+        54,
+        61,
+        62,
+        63,
+        64,
+        54,
+        52,
+        57,
+        57,
+        60,
+        63,
+        59,
+        55,
+        60,
+        52,
+        57,
+        64,
+        67,
+        56,
+        52,
+        59,
+        55,
+        56,
+        62,
+        51,
+        58,
+        54,
+        53,
+        54,
+        61,
+        61,
+        58,
+        61,
+        61,
+        55,
+        62,
+        64,
+        60,
+        66,
+        60,
+        52,
+        65,
+        57,
+        62,
+        57,
+        60,
+        54,
+        52,
+        66,
+        65,
+        59,
+        57,
+        67,
+        57,
+        63,
+        52,
+        65,
+        53,
+        62,
+        60,
+        56,
+        55,
+        60,
+        54,
+        52,
+        53,
+        54,
+        60,
+        52,
+        53,
+        59,
+        60,
+        61,
+        61,
+        49,
+        56,
+        47,
+        50,
+        49,
+        59,
+        59,
+        53,
+        54,
+        55,
+        61,
+        53,
+        59,
+        47,
+        61,
+        52,
+        48,
+        59
+      ],
+      "phishing": [
+        100,
+        97,
+        72,
+        73,
+        98,
+        69,
+        96,
+        100,
+        98,
+        77,
+        72,
+        68,
+        96,
+        67,
+        77,
+        79,
+        100,
+        100,
+        60,
+        90,
+        69,
+        100,
+        61,
+        76,
+        82,
+        65,
+        75,
+        70,
+        60,
+        75,
+        78,
+        60,
+        67,
+        50,
+        54,
+        72,
+        58,
+        65,
+        61,
+        60,
+        65,
+        62,
+        53,
+        65,
+        69,
+        53,
+        67,
+        66,
+        52,
+        63,
+        65,
+        56,
+        59,
+        63,
+        76,
+        78,
+        58,
+        77,
+        88,
+        67,
+        60,
+        69,
+        77,
+        69,
+        86,
+        82,
+        85,
+        88,
+        81,
+        78,
+        79,
+        82,
+        86,
+        24,
+        18,
+        22,
+        23,
+        45,
+        22,
+        17,
+        27,
+        18,
+        25,
+        70,
+        65,
+        72,
+        67,
+        70,
+        62,
+        74,
+        59,
+        69,
+        72,
+        68,
+        69,
+        66,
+        59,
+        68,
+        67,
+        61,
+        72,
+        71,
+        61,
+        71,
+        60,
+        60,
+        63,
+        71,
+        73,
+        67,
+        60,
+        72,
+        73,
+        66,
+        63,
+        65,
+        69,
+        62,
+        62,
+        72,
+        74,
+        67,
+        75,
+        60,
+        73,
+        68,
+        72,
+        61,
+        61,
+        59,
+        71,
+        73,
+        72,
+        58,
+        59,
+        65,
+        62,
+        57,
+        67,
+        61,
+        65,
+        55,
+        58,
+        54,
+        55,
+        58,
+        59,
+        59,
+        56,
+        61,
+        54,
+        53,
+        70,
+        64,
+        63,
+        56,
+        67,
+        63,
+        67,
+        55,
+        67,
+        71,
+        58,
+        60,
+        63,
+        66,
+        65,
+        53,
+        70,
+        66,
+        62,
+        62,
+        67,
+        65,
+        61,
+        69,
+        62,
+        54,
+        57,
+        53,
+        65,
+        54,
+        54,
+        59,
+        73,
+        71,
+        68,
+        72,
+        66,
+        73,
+        61,
+        69,
+        57,
+        62,
+        72,
+        65,
+        65,
+        64,
+        62,
+        72,
+        68,
+        67,
+        68,
+        69,
+        72,
+        61,
+        73,
+        62,
+        66,
+        69,
+        64,
+        66,
+        68,
+        61,
+        69,
+        70,
+        74,
+        74,
+        67,
+        72,
+        67,
+        65,
+        68,
+        58,
+        61,
+        66,
+        61,
+        68,
+        69,
+        66,
+        69,
+        62,
+        59,
+        66,
+        56,
+        66,
+        65,
+        69,
+        59,
+        67,
+        61,
+        62,
+        65,
+        61,
+        69,
+        67,
+        56,
+        62,
+        60,
+        61,
+        66,
+        59,
+        62
+      ],
+      "nonexistent": [
+        38,
+        25,
+        24,
+        19,
+        24,
+        75,
+        75,
+        41,
+        75,
+        75,
+        75,
+        75,
+        75,
+        24,
+        36,
+        19,
+        75,
+        20,
+        75,
+        75,
+        75,
+        75,
+        47,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        43,
+        35,
+        39,
+        37,
+        39,
+        37,
+        41,
+        41,
+        42,
+        37,
+        38,
+        43,
+        43,
+        36,
+        33,
+        42,
+        38,
+        33,
+        41,
+        38,
+        40,
+        41,
+        37,
+        41,
+        39,
+        41,
+        42,
+        40,
+        36,
+        33,
+        33,
+        34,
+        40,
+        38,
+        34,
+        39,
+        40,
+        41,
+        37,
+        32,
+        31,
+        43,
+        37,
+        32,
+        35,
+        37,
+        34,
+        33,
+        36,
+        32,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75,
+        75
+      ]
+    }
+  },
+  "recommendations": {
+    "scoreDistribution": "NEEDS_IMPROVEMENT",
+    "accuracy": "GOOD",
+    "suggestions": [
+      "Consider adding more randomization factors to increase score uniqueness",
+      "Suspicious website scores should average closer to 40% - adjust medium-risk TLD scoring"
+    ]
+  }
+}

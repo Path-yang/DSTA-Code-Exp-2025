@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, ActivityIndicator, Alert } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { router } from 'expo-router';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import ScamDetector from '../../utils/scamDetection';
 
 interface RealTimeData {
   cybersecurityThreats: {
@@ -67,7 +68,6 @@ interface ScamStats {
 }
 
 export default function AnalyticsScreen() {
-  const navigation = useNavigation();
   const [realTimeData, setRealTimeData] = useState<RealTimeData | null>(null);
   const [stats, setStats] = useState<ScamStats | null>(null);
   const [loading, setLoading] = useState(true);
@@ -650,102 +650,91 @@ export default function AnalyticsScreen() {
 
   const fetchStats = async () => {
     setLoading(true);
-
     try {
-      // Try to fetch real-time data from backend
-      const response = await fetch(`https://dsta-code-exp-2025.onrender.com/analytics?period=${timeRange}`);
-
-      if (response.ok) {
-        const realData = await response.json();
-
-        // Combine real backend data with existing mock data structure
-        const combinedStats: ScamStats = {
-          ...getMockStats(),
-          // Override with real data
-          totalScamsDetected: realData.totalScamsDetected,
-          totalBlocked: realData.totalBlocked,
-          accuracy: realData.accuracy,
-          totalScamsReported: realData.totalScamsReported
-        };
-
-        setStats(combinedStats);
-        console.log('Real-time stats loaded:', realData);
-      } else {
-        console.warn('Backend unavailable, using mock data');
-        setStats(getMockStats());
-      }
+      // Get real analytics from ScamDetector
+      const analytics = ScamDetector.generateAnalytics(timeRange);
+      
+      // Ensure the data matches our interface
+      const processedStats: ScamStats = {
+        totalScamsDetected: analytics.totalScamsDetected,
+        totalScamsReported: analytics.totalScamsReported,
+        totalBlocked: analytics.totalBlocked,
+        accuracy: analytics.accuracy,
+        regionStats: analytics.regionStats,
+        timeStats: analytics.timeStats,
+        scamTypes: analytics.scamTypes,
+        recentTrends: {
+          direction: analytics.recentTrends.direction as 'up' | 'down' | 'stable',
+          percentage: analytics.recentTrends.percentage
+        },
+        hourlyActivity: analytics.hourlyActivity,
+        topTargets: analytics.topTargets,
+        preventionStats: analytics.preventionStats
+      };
+      
+      setStats(processedStats);
     } catch (error) {
-      console.error('Failed to fetch real stats:', error);
-      // Fallback to mock data
-      setStats(getMockStats());
+      console.error('Error fetching analytics:', error);
+      // Fallback data
+      setStats({
+        totalScamsDetected: 287,
+        totalScamsReported: 23,
+        totalBlocked: 195,
+        accuracy: 91.2,
+        regionStats: [
+          { region: "Central", count: 89, percentage: 31.0 },
+          { region: "West", count: 67, percentage: 23.3 },
+          { region: "East", count: 58, percentage: 20.2 }
+        ],
+        timeStats: [
+          { period: "Mon", count: 34 },
+          { period: "Tue", count: 42 },
+          { period: "Wed", count: 56 },
+          { period: "Thu", count: 38 },
+          { period: "Fri", count: 61 },
+          { period: "Sat", count: 31 },
+          { period: "Sun", count: 25 }
+        ],
+        scamTypes: [
+          { type: "Phishing", count: 115, percentage: 40.1 },
+          { type: "Investment", count: 63, percentage: 22.0 },
+          { type: "Job Scam", count: 46, percentage: 16.0 }
+        ],
+        recentTrends: { direction: 'up', percentage: 12 },
+        hourlyActivity: [
+          { hour: "6AM", count: 8 },
+          { hour: "9AM", count: 23 },
+          { hour: "12PM", count: 41 },
+          { hour: "3PM", count: 38 },
+          { hour: "6PM", count: 52 },
+          { hour: "9PM", count: 67 },
+          { hour: "12AM", count: 34 }
+        ],
+        topTargets: [
+          { demographic: "Ages 25-34", count: 78, percentage: 27.2 },
+          { demographic: "Ages 35-44", count: 65, percentage: 22.6 },
+          { demographic: "Ages 45-54", count: 54, percentage: 18.8 },
+          { demographic: "Ages 55+", count: 47, percentage: 16.4 },
+          { demographic: "Ages 18-24", count: 43, percentage: 15.0 }
+        ],
+        preventionStats: {
+          warningsSent: 156,
+          linksBlocked: 195,
+          reportsProcessed: 23,
+          falsePositives: 12
+        }
+      });
     } finally {
       setLoading(false);
     }
   };
 
-  const getMockStats = (): ScamStats => ({
-    totalScamsDetected: 287,
-    totalScamsReported: 23,
-    totalBlocked: 195,
-    accuracy: 91.2,
-    regionStats: [
-      { region: 'Central', count: 89, percentage: 31.0 },
-      { region: 'West', count: 67, percentage: 23.3 },
-      { region: 'East', count: 58, percentage: 20.2 },
-      { region: 'North', count: 44, percentage: 15.3 },
-      { region: 'Northeast', count: 29, percentage: 10.1 }
-    ],
-    timeStats: [
-      { period: 'Mon', count: 34 },
-      { period: 'Tue', count: 42 },
-      { period: 'Wed', count: 56 },
-      { period: 'Thu', count: 38 },
-      { period: 'Fri', count: 61 },
-      { period: 'Sat', count: 31 },
-      { period: 'Sun', count: 25 }
-    ],
-    scamTypes: [
-      { type: 'Phishing', count: 115, percentage: 40.1 },
-      { type: 'Investment', count: 63, percentage: 22.0 },
-      { type: 'Job Scam', count: 46, percentage: 16.0 },
-      { type: 'Romance', count: 29, percentage: 10.1 },
-      { type: 'Parcel', count: 20, percentage: 7.0 },
-      { type: 'Others', count: 14, percentage: 4.9 }
-    ],
-    recentTrends: {
-      direction: 'up',
-      percentage: 15.3
-    },
-    hourlyActivity: [
-      { hour: '6AM', count: 8 },
-      { hour: '9AM', count: 23 },
-      { hour: '12PM', count: 41 },
-      { hour: '3PM', count: 38 },
-      { hour: '6PM', count: 52 },
-      { hour: '9PM', count: 67 },
-      { hour: '12AM', count: 34 }
-    ],
-    topTargets: [
-      { demographic: 'Ages 25-34', count: 78, percentage: 27.2 },
-      { demographic: 'Ages 35-44', count: 65, percentage: 22.6 },
-      { demographic: 'Ages 45-54', count: 54, percentage: 18.8 },
-      { demographic: 'Ages 55+', count: 47, percentage: 16.4 },
-      { demographic: 'Ages 18-24', count: 43, percentage: 15.0 }
-    ],
-    preventionStats: {
-      warningsSent: 156,
-      linksBlocked: 195,
-      reportsProcessed: 23,
-      falsePositives: 12
-    }
-  });
-
-  const handleGoHome = () => navigation.navigate('scam-detection' as never);
-  const handleLearn = () => navigation.navigate('learn' as never);
+  const handleGoHome = () => router.push('/scam-detection');
+  const handleLearn = () => router.push('/learn');
   const handleAnalytics = () => {
     // Already on Analytics
   };
-  const handleForum = () => navigation.navigate('forum' as never);
+  const handleForum = () => router.push('/forum');
 
   const renderRealTimeCard = (title: string, value: string, subtitle: string, status: 'live' | 'warning' | 'info' = 'live', trend?: { direction: 'up' | 'down' | 'stable'; percentage: number }) => (
     <View style={[styles.realTimeCard, status === 'warning' ? styles.warningCard : status === 'info' ? styles.infoCard : styles.liveCard]}>
@@ -767,20 +756,18 @@ export default function AnalyticsScreen() {
     </View>
   );
 
-  const renderStatCard = (title: string, value: string, subtitle: string, trend?: { direction: 'up' | 'down' | 'stable'; percentage: number }) => (
+  const renderStatCard = (title: string, value: string, subtitle: string) => (
     <View style={styles.statCard}>
       <Text style={styles.statTitle}>{title}</Text>
       <Text style={styles.statValue}>{value}</Text>
-      <View style={styles.statFooter}>
-        <Text style={styles.statSubtitle}>{subtitle}</Text>
-        {trend && (
-          <Text style={[styles.trendText, { color: trend.direction === 'up' ? '#e74c3c' : trend.direction === 'down' ? '#27ae60' : '#95a5a6' }]}>
-            {trend.direction === 'up' ? '↗' : trend.direction === 'down' ? '↘' : '→'} {trend.percentage}%
-          </Text>
-        )}
-      </View>
+      <Text style={styles.statSubtitle}>{subtitle}</Text>
     </View>
   );
+
+  const getTypeColor = (index: number) => {
+    const colors = ['#e74c3c', '#3498db', '#f39c12', '#9b59b6', '#1abc9c', '#95a5a6'];
+    return colors[index % colors.length];
+  };
 
   if (loading && realDataLoading) {
     return (
@@ -827,7 +814,7 @@ export default function AnalyticsScreen() {
                 realTimeData.globalScamStats.reportsToday.toString(), 
                 "Worldwide reports today",
                 'live',
-                realTimeData.globalScamStats
+                { direction: realTimeData.globalScamStats.trend, percentage: realTimeData.globalScamStats.percentage }
               )}
             </View>
 
@@ -840,8 +827,8 @@ export default function AnalyticsScreen() {
               )}
               {renderRealTimeCard(
                 "🌍 Global Crypto Scams", 
-                realTimeData.cryptoScams.totalLoss, 
-                `${realTimeData.cryptoScams.reported} reports worldwide today`,
+                realTimeData.cryptoScams?.totalLoss || "N/A", 
+                `${realTimeData.cryptoScams?.reported || 0} reports worldwide today`,
                 'warning'
               )}
             </View>
@@ -880,64 +867,35 @@ export default function AnalyticsScreen() {
         </View>
 
         {/* Overview Stats */}
-        <View style={styles.statsGrid}>
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{realTimeData?.cybersecurityThreats?.totalThreats?.toLocaleString() || "0"}</Text>
-          <Text style={styles.statLabel}>Blocked Threats</Text>
-          <Text style={styles.statSubLabel}>Global</Text>
-        </View>
-
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{realTimeData?.globalScamStats?.reportsToday?.toString() || "0"}</Text>
-          <Text style={styles.statLabel}>User Reports</Text>
-          <Text style={styles.statSubLabel}>Global</Text>
-        </View>
-        </View>
-
-        <View style={styles.statsGrid}>
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{realTimeData?.singaporeData?.policeReports?.toString() || "0"}</Text>
-          <Text style={styles.statLabel}>Police Reports Today</Text>
-          <Text style={styles.statSubLabel}>Local (Singapore)</Text>
-        </View>
-
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{realTimeData?.singaporeData?.scamAlerts?.toString() || "0"}</Text>
-          <Text style={styles.statLabel}>Active Scam Alerts</Text>
-          <Text style={styles.statSubLabel}>Local (Singapore)</Text>
-        </View>
-        </View>
-
-        {/* Overview Stats */}
+        <Text style={styles.sectionTitle}>📊 Overview</Text>
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🔴 Scams Detected (LIVE)", 
+            "🔴 Scams Detected", 
             stats?.totalScamsDetected.toLocaleString() || "0", 
-            `🇸🇬 Local detections this ${timeRange}`,
-            stats?.recentTrends
+            `Local detections this ${timeRange}`
           )}
           {renderStatCard(
-            "🛡️ Blocked Threats (LIVE)", 
+            "🛡️ Threats Blocked", 
             stats?.totalBlocked.toString() || "0", 
-            "🇸🇬 Local threats automatically blocked"
+            "Automatically blocked"
           )}
         </View>
 
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🎯 Detection Accuracy", 
+            "🎯 Accuracy", 
             (stats?.accuracy.toString() || "0") + "%", 
-            "🇸🇬 Local model performance"
+            "Model performance"
           )}
           {renderStatCard(
-            "📝 User Reports (LIVE)", 
+            "📝 User Reports", 
             stats?.totalScamsReported.toString() || "0", 
-            "🇸🇬 Local community reports"
+            "Community reports"
           )}
         </View>
 
         {/* Regional Breakdown */}
-        <Text style={styles.sectionTitle}>Regional Distribution</Text>
+        <Text style={styles.sectionTitle}>🗺️ Regional Distribution</Text>
         <View style={styles.chartContainer}>
           {stats?.regionStats.map((region, index) => (
             <View key={region.region} style={styles.barContainer}>
@@ -951,7 +909,7 @@ export default function AnalyticsScreen() {
         </View>
 
         {/* Scam Types */}
-        <Text style={styles.sectionTitle}>Scam Types</Text>
+        <Text style={styles.sectionTitle}>⚠️ Scam Types</Text>
         <View style={styles.typesContainer}>
           {stats?.scamTypes.map((type, index) => (
             <View key={type.type} style={styles.typeItem}>
@@ -965,15 +923,15 @@ export default function AnalyticsScreen() {
         </View>
 
         {/* Detection Trend */}
-        <Text style={styles.sectionTitle}>Detection Trend</Text>
-        <View style={styles.trendContainer}>
-          {stats?.timeStats.map((day, index) => (
-            <View key={day.period} style={styles.trendDay}>
-              <View style={[styles.trendBar, { height: `${(day.count / Math.max(...(stats?.timeStats.map(d => d.count) || [1]))) * 100}%` }]} />
-              <Text style={styles.trendLabel}>{day.period}</Text>
-              <Text style={styles.trendValue}>{day.count}</Text>
-            </View>
-          ))}
+        <Text style={styles.sectionTitle}>📈 Recent Trend</Text>
+        <View style={styles.trendCard}>
+          <Text style={styles.trendText}>
+            {stats?.recentTrends.direction === 'up' ? '↗️ Increasing' : 
+             stats?.recentTrends.direction === 'down' ? '↘️ Decreasing' : '→ Stable'}
+          </Text>
+          <Text style={styles.trendPercentage}>
+            {stats?.recentTrends.percentage}% change
+          </Text>
         </View>
 
         {/* Prevention Statistics */}
@@ -1021,11 +979,6 @@ export default function AnalyticsScreen() {
     </SafeAreaView>
   );
 }
-
-const getTypeColor = (index: number) => {
-  const colors = ['#e74c3c', '#3498db', '#f39c12', '#9b59b6', '#1abc9c', '#95a5a6'];
-  return colors[index % colors.length];
-};
 
 const styles = StyleSheet.create({
   container: {
@@ -1186,13 +1139,6 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignSelf: 'center',
   },
-  toggleActive: {
-    borderWidth: 1,
-    borderColor: '#4a9eff',
-    borderRadius: 20,
-    paddingHorizontal: 20,
-    paddingVertical: 8,
-  },
   toggle: {
     borderWidth: 1,
     borderColor: '#555',
@@ -1200,19 +1146,21 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 8,
   },
-  toggleTextActive: {
-    color: '#4a9eff',
-    fontSize: 14,
-    fontWeight: '600',
+  toggleActive: {
+    borderColor: '#007AFF',
   },
   toggleText: {
     color: '#aaa',
     fontSize: 14,
   },
+  toggleTextActive: {
+    color: '#007AFF',
+    fontWeight: '600',
+  },
   statsGrid: {
     flexDirection: 'row',
     gap: 15,
-    marginBottom: 30,
+    marginBottom: 15,
   },
   statCard: {
     flex: 1,
@@ -1232,24 +1180,15 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 4,
   },
-  statFooter: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
   statSubtitle: {
     color: '#666',
     fontSize: 11,
-  },
-  trendText: {
-    fontSize: 11,
-    fontWeight: '600',
   },
   chartContainer: {
     backgroundColor: '#1a1a1a',
     borderRadius: 12,
     padding: 16,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   barContainer: {
     flexDirection: 'row',
@@ -1259,14 +1198,14 @@ const styles = StyleSheet.create({
   barLabel: {
     color: '#fff',
     fontSize: 14,
-    width: 70,
+    width: 80,
   },
   barTrack: {
     flex: 1,
     height: 8,
     backgroundColor: '#333',
     borderRadius: 4,
-    marginHorizontal: 10,
+    marginHorizontal: 12,
   },
   barFill: {
     height: '100%',
@@ -1283,7 +1222,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#1a1a1a',
     borderRadius: 12,
     padding: 16,
-    marginBottom: 30,
+    marginBottom: 20,
   },
   typeItem: {
     flexDirection: 'row',
@@ -1307,37 +1246,23 @@ const styles = StyleSheet.create({
   typeCount: {
     color: '#aaa',
     fontSize: 12,
-    marginTop: 2,
   },
-  trendContainer: {
+  trendCard: {
     backgroundColor: '#1a1a1a',
     borderRadius: 12,
     padding: 16,
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'flex-end',
-    height: 120,
-    marginBottom: 30,
-  },
-  trendDay: {
     alignItems: 'center',
-    flex: 1,
+    marginBottom: 20,
   },
-  trendBar: {
-    backgroundColor: '#007AFF',
-    width: 20,
-    borderRadius: 2,
-    marginBottom: 8,
-    minHeight: 4,
-  },
-  trendLabel: {
-    color: '#aaa',
-    fontSize: 10,
-    marginBottom: 2,
-  },
-  trendValue: {
+  trendText: {
     color: '#fff',
-    fontSize: 9,
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  trendPercentage: {
+    color: '#007AFF',
+    fontSize: 16,
   },
   bottomNav: {
     flexDirection: 'row',
@@ -1345,6 +1270,10 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     justifyContent: 'space-around',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
   },
   navItem: {
     alignItems: 'center',
@@ -1356,6 +1285,7 @@ const styles = StyleSheet.create({
   navIcon: {
     fontSize: 20,
     marginBottom: 5,
+    color: '#fff',
   },
   navText: {
     color: '#fff',
@@ -1388,18 +1318,5 @@ const styles = StyleSheet.create({
     color: '#aaa',
     fontSize: 12,
     textAlign: 'center',
-  },
-  statLabel: {
-    fontSize: 14,
-    color: '#888',
-    textAlign: 'center',
-    marginTop: 5,
-  },
-  statSubLabel: {
-    fontSize: 11,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 2,
-    fontStyle: 'italic',
   },
 });

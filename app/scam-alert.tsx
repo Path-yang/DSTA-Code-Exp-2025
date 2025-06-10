@@ -1,81 +1,118 @@
 import React from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, StatusBar, ScrollView } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, StatusBar, ScrollView, Linking } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 export const options = { headerShown: false };
 
 export default function ScamAlertScreen() {
-  const handleBack = () => router.push('/(tabs)/scam-detection');
-  const handleGoHome = () => router.push('/(tabs)/scam-detection');
-  const handleLearn = () => router.push('/learn');
-  const handleAnalytics = () => router.push('/(tabs)/analytics');
-  const handleForum = () => router.push('/forum');
-
-  const { confidence, url, details } = useLocalSearchParams();
-  const conf = parseFloat(confidence as string) || 0;
+  const { confidence, url } = useLocalSearchParams();
+  const conf = parseFloat(confidence as string) || 75;
   const checkedUrl = decodeURIComponent(url as string || '');
-  const warningDetails = decodeURIComponent(details as string || '').split(', ').filter(d => d.length > 0);
+
+  const handleBack = () => router.push('/(tabs)/scam-detection');
+  
+  const handleReport = () => {
+    router.push('/(tabs)/report-scam');
+  };
+  
+  const handleLearnMore = () => {
+    Linking.openURL('https://www.csa.gov.sg/Tips-Resource/Online-Safety/Phishing');
+  };
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#000" />
-      <View style={[styles.header, { justifyContent: 'flex-start', paddingVertical: 15 }] }>
+      <StatusBar barStyle="light-content" backgroundColor="#d10000" />
+
+      {/* Header */}
+      <View style={styles.header}>
         <TouchableOpacity onPress={handleBack} style={styles.backButton}>
           <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
-        <Text style={[styles.title, { marginLeft: 10 }]}>Your Results</Text>
+        <Text style={styles.title}>Your Results</Text>
       </View>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={[styles.card, { backgroundColor: '#e74c3c' }]}>  
-          <Text style={styles.cardTitle}>⚠️ Warning!</Text>
-          <Text style={styles.cardSubtitle}>This link appears to be suspicious or potentially harmful. Do not proceed.</Text>
-          <Text style={styles.confidenceText}>⚠️ {conf.toFixed(1)}% Risk Level - DANGEROUS</Text>
-          
-          {checkedUrl && (
+
+      <ScrollView contentContainerStyle={styles.content}>
+        <View style={styles.resultCard}>
+          <View style={styles.warningSign}>
+            <Text style={styles.warningEmoji}>⚠️</Text>
+          </View>
+          <Text style={styles.warningTitle}>DANGEROUS WEBSITE</Text>
+          <Text style={styles.warningSubtitle}>
+            We've detected this website is likely fraudulent or malicious.
+          </Text>
+
+          {checkedUrl ? (
             <View style={styles.urlContainer}>
-              <Text style={styles.urlLabel}>Suspicious URL:</Text>
-              <Text style={styles.urlText} numberOfLines={3} ellipsizeMode="middle">{checkedUrl}</Text>
+              <Text style={styles.urlLabel}>Website:</Text>
+              <Text style={styles.urlText} numberOfLines={2}>{checkedUrl}</Text>
             </View>
-          )}
+          ) : null}
 
-          {warningDetails.length > 0 && (
-            <View style={styles.detailsContainer}>
-              <Text style={styles.detailsTitle}>Security Issues Detected:</Text>
-              {warningDetails.map((detail, index) => (
-                <Text key={index} style={styles.detailText}>• {detail}</Text>
-              ))}
+          <View style={styles.scoreContainer}>
+            <Text style={styles.scoreLabel}>RISK LEVEL:</Text>
+            <Text style={styles.scoreValue}>{conf}%</Text>
+            <View style={styles.scoreBar}>
+              <View style={[styles.scoreBarFill, { width: `${conf}%` as any }]} />
             </View>
-          )}
-
-          <View style={styles.actionContainer}>
-            <Text style={styles.actionTitle}>What to do:</Text>
-            <Text style={styles.actionText}>• Do NOT click on this link</Text>
-            <Text style={styles.actionText}>• Do NOT enter personal information</Text>
-            <Text style={styles.actionText}>• Report this to authorities if received via message</Text>
-            <Text style={styles.actionText}>• Delete the message containing this link</Text>
           </View>
 
-          <TouchableOpacity style={styles.reportButton} onPress={() => router.push('/(tabs)/report-scam')}>
-            <Text style={styles.reportButtonText}>🚩 Report This Scam</Text>
+          <View style={styles.divider} />
+
+          <Text style={styles.sectionTitle}>Warning Signs:</Text>
+          <View style={styles.warningsList}>
+            <View style={styles.warningItem}>
+              <Text style={styles.warningBullet}>•</Text>
+              <Text style={styles.warningText}>This website has been flagged as potentially dangerous</Text>
+            </View>
+            <View style={styles.warningItem}>
+              <Text style={styles.warningBullet}>•</Text>
+              <Text style={styles.warningText}>It may attempt to steal your personal information</Text>
+            </View>
+            <View style={styles.warningItem}>
+              <Text style={styles.warningBullet}>•</Text>
+              <Text style={styles.warningText}>Could contain malware or other harmful content</Text>
+            </View>
+          </View>
+
+          <View style={styles.divider} />
+
+          <Text style={styles.sectionTitle}>Recommended Actions:</Text>
+          <View style={styles.actionsList}>
+            <View style={styles.actionItem}>
+              <Text style={styles.actionNumber}>1.</Text>
+              <Text style={styles.actionText}>Avoid visiting this website</Text>
+            </View>
+            <View style={styles.actionItem}>
+              <Text style={styles.actionNumber}>2.</Text>
+              <Text style={styles.actionText}>Do not enter any personal information</Text>
+            </View>
+            <View style={styles.actionItem}>
+              <Text style={styles.actionNumber}>3.</Text>
+              <Text style={styles.actionText}>If you received this link, report it to the sender's platform</Text>
+            </View>
+          </View>
+
+          <TouchableOpacity style={styles.learnMoreButton} onPress={handleLearnMore}>
+            <Text style={styles.learnMoreText}>Learn About Phishing</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.reportButton} onPress={handleReport}>
+            <Text style={styles.reportText}>Report This Website</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleGoHome}>
+        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleBack}>
           <Text style={styles.navIcon}>🏠</Text>
           <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
+        <TouchableOpacity style={styles.navItem} onPress={handleLearnMore}>
           <Text style={styles.navIcon}>📚</Text>
           <Text style={styles.navText}>Learn</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleAnalytics}>
+        <TouchableOpacity style={styles.navItem} onPress={handleReport}>
           <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Analytics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navText}>Forum</Text>
+          <Text style={styles.navText}>Report</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -83,27 +120,188 @@ export default function ScamAlertScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#000' },
-  header: { paddingHorizontal: 20, paddingVertical: 15, flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center' },
-  title: { color: '#fff', fontSize: 28, fontWeight: 'bold' },
-  backButton: { padding: 5 },
-  backText: { color: '#007AFF', fontSize: 16 },
-  content: { flexGrow: 1, paddingHorizontal: 20 },
-  card: { flex: 1, width: '100%', borderRadius: 12, padding: 20, alignItems: 'center', justifyContent: 'center', marginVertical: 10 },
-  cardTitle: { color: '#fff', fontSize: 24, fontWeight: 'bold', marginBottom: 10 },
-  cardSubtitle: { color: '#fff', fontSize: 16, textAlign: 'center', marginBottom: 15 },
-  confidenceText: { color: '#fff', fontSize: 18, marginBottom: 20, fontWeight: '600' },
-  urlContainer: { marginBottom: 20, width: '100%' },
-  urlLabel: { color: '#fff', fontSize: 14, fontWeight: '600', marginBottom: 5 },
-  urlText: { color: '#ffebee', fontSize: 12, backgroundColor: 'rgba(255,255,255,0.1)', padding: 10, borderRadius: 8 },
-  detailsContainer: { marginBottom: 20, width: '100%' },
-  detailsTitle: { color: '#fff', fontSize: 16, fontWeight: '600', marginBottom: 10 },
-  detailText: { color: '#ffcdd2', fontSize: 14, marginBottom: 5 },
-  actionContainer: { marginBottom: 20, width: '100%' },
-  actionTitle: { color: '#fff', fontSize: 16, fontWeight: '600', marginBottom: 10 },
-  actionText: { color: '#ffcdd2', fontSize: 14, marginBottom: 5 },
-  reportButton: { backgroundColor: '#c62828', paddingVertical: 12, paddingHorizontal: 24, borderRadius: 8, marginTop: 10 },
-  reportButtonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  container: {
+    flex: 1,
+    backgroundColor: '#d10000',
+  },
+  header: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 15,
+  },
+  backButton: {
+    padding: 8,
+  },
+  backText: {
+    color: '#fff',
+    fontSize: 16,
+  },
+  title: {
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    marginLeft: 10,
+  },
+  content: {
+    padding: 15,
+    paddingBottom: 30,
+  },
+  resultCard: {
+    backgroundColor: '#1a1a1a',
+    borderRadius: 12,
+    padding: 20,
+    alignItems: 'center',
+  },
+  warningSign: {
+    width: 80,
+    height: 80,
+    borderRadius: 40,
+    backgroundColor: '#ff3b30',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 16,
+  },
+  warningEmoji: {
+    fontSize: 40,
+  },
+  warningTitle: {
+    color: '#ff3b30',
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  warningSubtitle: {
+    color: '#f8f8f8',
+    fontSize: 16,
+    textAlign: 'center',
+    marginBottom: 20,
+  },
+  urlContainer: {
+    backgroundColor: '#2a2a2a',
+    borderRadius: 8,
+    padding: 12,
+    width: '100%',
+    marginBottom: 20,
+  },
+  urlLabel: {
+    color: '#8e8e93',
+    fontSize: 14,
+    marginBottom: 4,
+  },
+  urlText: {
+    color: '#ffffff',
+    fontSize: 16,
+    fontFamily: 'monospace',
+  },
+  scoreContainer: {
+    width: '100%',
+    marginBottom: 24,
+  },
+  scoreLabel: {
+    color: '#ff3b30',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  scoreValue: {
+    color: '#ff3b30',
+    fontSize: 32,
+    fontWeight: 'bold',
+    marginBottom: 8,
+  },
+  scoreBar: {
+    height: 10,
+    width: '100%',
+    backgroundColor: '#2a2a2a',
+    borderRadius: 5,
+    overflow: 'hidden',
+  },
+  scoreBarFill: {
+    height: '100%',
+    backgroundColor: '#ff3b30',
+  },
+  divider: {
+    height: 1,
+    width: '100%',
+    backgroundColor: '#333',
+    marginVertical: 20,
+  },
+  sectionTitle: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+    alignSelf: 'flex-start',
+    marginBottom: 16,
+  },
+  warningsList: {
+    alignSelf: 'stretch',
+  },
+  warningItem: {
+    flexDirection: 'row',
+    marginBottom: 12,
+    alignItems: 'flex-start',
+  },
+  warningBullet: {
+    color: '#ff3b30',
+    fontSize: 16,
+    marginRight: 8,
+    fontWeight: 'bold',
+  },
+  warningText: {
+    color: '#f8f8f8',
+    fontSize: 16,
+    flex: 1,
+    lineHeight: 22,
+  },
+  actionsList: {
+    alignSelf: 'stretch',
+  },
+  actionItem: {
+    flexDirection: 'row',
+    marginBottom: 12,
+    alignItems: 'flex-start',
+  },
+  actionNumber: {
+    color: '#ff3b30',
+    fontSize: 16,
+    marginRight: 8,
+    fontWeight: 'bold',
+  },
+  actionText: {
+    color: '#f8f8f8',
+    fontSize: 16,
+    flex: 1,
+    lineHeight: 22,
+  },
+  learnMoreButton: {
+    backgroundColor: '#333',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    marginTop: 20,
+    width: '100%',
+    alignItems: 'center',
+  },
+  learnMoreText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  reportButton: {
+    backgroundColor: '#ff3b30',
+    borderRadius: 8,
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    marginTop: 12,
+    width: '100%',
+    alignItems: 'center',
+  },
+  reportText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
   bottomNav: { flexDirection: 'row', backgroundColor: '#2a2a2a', paddingVertical: 10, paddingHorizontal: 20, justifyContent: 'space-around' },
   navItem: { alignItems: 'center' },
   activeNavItem: { borderBottomWidth: 2, borderBottomColor: '#007AFF' },

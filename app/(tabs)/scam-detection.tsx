@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Alert, Linking } from 'react-native';
-import axios from 'axios';
 import {
   View,
   Text,
@@ -13,6 +12,8 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { useUser } from '../context/UserContext';
+import ScamDetector from '../../utils/scamDetection';
+import WebsiteChecker from '../../utils/websiteChecker';
 
 interface DetectionResult {
   is_phishing: boolean;
@@ -33,14 +34,35 @@ export default function ScamDetectionScreen() {
     setLoading(true);
     setError('');
     try {
-      const response = await axios.post("https://dsta-code-exp-2025.onrender.com/predict", { url: urlInput.trim() });
-      const { confidence } = response.data;
-      if (confidence > 80) {
-        router.push(`/(tabs)/good-news?confidence=${confidence}` as any);
-      } else if (confidence < 50) {
-        router.push(`/(tabs)/scam-alert?confidence=${confidence}` as any);
+      // First check if the website exists
+      const websiteCheck = await WebsiteChecker.checkWebsiteExists(urlInput.trim());
+      const urlParam = encodeURIComponent(urlInput.trim());
+      
+      // If website doesn't exist, redirect to not-found page
+      if (!websiteCheck.exists) {
+        const reasonParam = encodeURIComponent(websiteCheck.reason);
+        router.push(`/website-not-found?url=${urlParam}&reason=${reasonParam}` as any);
+        setLoading(false);
+        return;
+      }
+
+      // If website exists, proceed with rule-based scam detection
+      const result = await ScamDetector.analyzeURL(urlInput.trim());
+      const { confidence, riskScore = 0 } = result;
+      const actualRiskScore = riskScore || confidence || 0;
+
+      console.log(`🔍 Analyzed URL: ${urlInput.trim()} → Risk Score: ${actualRiskScore}%`);
+
+      // Route based on risk score, not classification
+      if (actualRiskScore >= 51) {
+        // HIGH RISK - Dangerous/Phishing (51-100%)
+        router.push(`/scam-alert?confidence=${actualRiskScore}&url=${urlParam}` as any);
+      } else if (actualRiskScore >= 31) {
+        // MEDIUM RISK - Unknown/Suspicious (31-50%)
+        router.push(`/unknown?confidence=${actualRiskScore}&url=${urlParam}` as any);
       } else {
-        router.push(`/(tabs)/unknown?confidence=${confidence}` as any);
+        // LOW RISK - Safe (0-30%)
+        router.push(`/good-news?confidence=${actualRiskScore}&url=${urlParam}` as any);
       }
     } catch (err) {
       setError('❌ Unable to analyze URL. Please try again later.');

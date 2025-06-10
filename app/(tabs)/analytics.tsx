@@ -61,7 +61,7 @@ interface ScamStats {
   }[];
   preventionStats: {
     warningsSent: number;
-    linksBlocked: 195;
+    linksBlocked: number;
     reportsProcessed: number;
     falsePositives: number;
   };
@@ -119,7 +119,7 @@ export default function AnalyticsScreen() {
           scamAlerts: 5,
           lastAlert: '15 minutes ago'
         },
-        cryptoScams: crypto.status === 'fulfilled' ? crypto.value : getDefaultCryptoData()
+        cryptoScams: crypto.status === 'fulfilled' && crypto.value ? crypto.value : getDefaultCryptoData()
       };
 
       setRealTimeData(realData);

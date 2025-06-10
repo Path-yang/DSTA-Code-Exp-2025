@@ -5,13 +5,13 @@ import { router, useLocalSearchParams } from 'expo-router';
 export const options = { headerShown: false };
 
 export default function ScamAlertScreen() {
-  const { confidence } = useLocalSearchParams();
-  const conf = parseFloat(confidence as string) || 0;
   const handleBack = () => router.back();
   const handleGoHome = () => router.push('/scam-detection');
   const handleLearn = () => router.push('/learn');
   const handleAnalytics = () => router.push('/analytics');
   const handleForum = () => router.push('/forum');
+  const { confidence } = useLocalSearchParams();
+  const conf = parseFloat(confidence as string) || 0;
 
   return (
     <SafeAreaView style={styles.container}>

@@ -34,11 +34,11 @@ export default function ScamDetectionScreen() {
       const response = await axios.post("https://dsta-code-exp-2025.onrender.com/predict", { url: urlInput.trim() });
       const { confidence } = response.data;
       if (confidence > 80) {
-        router.push(`/good-news?confidence=${confidence}` as any);
+        router.push(`/(tabs)/good-news?confidence=${confidence}` as any);
       } else if (confidence < 50) {
-        router.push(`/scam-alert?confidence=${confidence}` as any);
+        router.push(`/(tabs)/scam-alert?confidence=${confidence}` as any);
       } else {
-        router.push(`/unknown?confidence=${confidence}` as any);
+        router.push(`/(tabs)/unknown?confidence=${confidence}` as any);
       }
     } catch (err) {
       setError('❌ Unable to analyze URL. Please try again later.');

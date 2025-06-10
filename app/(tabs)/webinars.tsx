@@ -26,7 +26,11 @@ export default function WebinarsScreen() {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Webinars by cybersecurity experts</Text>
       </View>
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+      <ScrollView 
+        contentContainerStyle={styles.content} 
+        showsVerticalScrollIndicator={true}
+        indicatorStyle="white"
+      >
         <Text style={styles.description}>
           Join live webinars led by cybersecurity experts, and access recorded sessions for practical advice on emerging threats.
         </Text>
@@ -72,6 +76,9 @@ export default function WebinarsScreen() {
         <TouchableOpacity style={styles.actionButton} onPress={() => {/* TODO: Open recordings */}}>
           <Text style={styles.actionButtonText}>View Recordings</Text>
         </TouchableOpacity>
+        
+        {/* Extra spacing to ensure content is fully scrollable */}
+        <View style={styles.extraSpacing} />
       </ScrollView>
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem} onPress={handleGoHome}>
@@ -100,7 +107,7 @@ const styles = StyleSheet.create({
   header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15 },
   backText: { color: '#007AFF', fontSize: 16, marginRight: 10 },
   headerTitle: { color: '#fff', fontSize: 24, fontWeight: 'bold' },
-  content: { paddingHorizontal: 20, paddingBottom: 120 },
+  content: { paddingHorizontal: 20, paddingBottom: 200 },
   description: { color: '#aaa', fontSize: 16, textAlign: 'center', marginTop: 20 },
   bottomNav: { flexDirection: 'row', backgroundColor: '#2a2a2a', paddingVertical: 10, paddingHorizontal: 20, justifyContent: 'space-around' },
   navItem: { alignItems: 'center' },
@@ -170,5 +177,8 @@ const styles = StyleSheet.create({
   selectedDateOptionText: { 
     color: '#007AFF', 
     fontWeight: 'bold' 
+  },
+  extraSpacing: {
+    height: 50
   },
 }); 

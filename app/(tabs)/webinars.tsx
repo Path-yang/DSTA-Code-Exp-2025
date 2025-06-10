@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, Sta
 import { router } from 'expo-router';
 
 export default function WebinarsScreen() {
-  const [selectedDate, setSelectedDate] = useState('All Dates');
+  const [selectedDate, setSelectedDate] = useState('Today');
   
   const handleBack = () => router.push('/learn');
   const handleGoHome = () => router.push('/scam-detection');
@@ -11,7 +11,7 @@ export default function WebinarsScreen() {
   const handleAnalytics = () => router.push('/analytics');
   const handleForum = () => router.push('/forum');
 
-  const dateOptions = ['All Dates', 'This Week', 'This Month', 'Last 3 Months', 'Last 6 Months'];
+  const dateOptions = ['Today', 'This Week', 'This Month', 'Last 6 Months', 'All Time'];
   
   const handleDateSelect = (date: string) => {
     setSelectedDate(date);

@@ -128,11 +128,13 @@ export default function ForumScreen() {
         <View style={{ flex: 1 }}>
           <StatusBar barStyle="light-content" backgroundColor="#000" />
           {/* Header with back to selector */}
-          <View style={[styles.header, { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }] }>
-            <Text style={styles.headerTitle}>Verified Scam Hunter Community</Text>
-            <TouchableOpacity onPress={() => setForumType('news')} style={styles.selectionButton}>
-              <Text numberOfLines={1} ellipsizeMode="tail" style={styles.selectionButtonText}>News Forum</Text>
-            </TouchableOpacity>
+          <View style={styles.header}>
+            <View style={styles.headerContent}>
+              <Text style={styles.headerTitle}>Verified Scam Hunter Community</Text>
+              <TouchableOpacity onPress={() => setForumType('news')} style={styles.selectionButton}>
+                <Text style={styles.selectionButtonIcon}>📰</Text>
+              </TouchableOpacity>
+            </View>
           </View>
           <ScrollView contentContainerStyle={styles.postsContainer} showsVerticalScrollIndicator={true} persistentScrollbar={true} indicatorStyle="white">
             {mockVerifiedPosts.map((post) => (
@@ -169,11 +171,13 @@ export default function ForumScreen() {
       <View style={{ flex: 1 }}>
         <StatusBar barStyle="light-content" backgroundColor="#000" />
         {/* Header */}
-        <View style={[styles.header, { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }] }>
-          <Text style={styles.headerTitle}>News Forum</Text>
-          <TouchableOpacity onPress={() => setForumType('verified')} style={styles.selectionButton}>
-            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.selectionButtonText}>Verified Scam Hunter Community</Text>
-          </TouchableOpacity>
+        <View style={styles.header}>
+          <View style={styles.headerContent}>
+            <Text style={styles.headerTitle}>News Forum</Text>
+            <TouchableOpacity onPress={() => setForumType('verified')} style={styles.selectionButton}>
+              <Text style={styles.selectionButtonIcon}>🛡️</Text>
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Search and Profile Bar */}
@@ -294,10 +298,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
   },
+  headerContent: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
   headerTitle: {
     color: '#fff',
     fontSize: 28,
     fontWeight: 'bold',
+    flex: 1,
+    marginRight: 10,
   },
   topBar: {
     flexDirection: 'row',
@@ -542,12 +554,19 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   selectionButton: {
-    backgroundColor: '#333',
-    borderRadius: 15,
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    maxWidth: 180,
-    flexShrink: 1,
+    backgroundColor: '#666',
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    minWidth: 50,
+    minHeight: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  selectionButtonIcon: {
+    fontSize: 24,
+    color: '#fff',
+    textAlign: 'center',
   },
   selectionButtonText: {
     color: '#fff',

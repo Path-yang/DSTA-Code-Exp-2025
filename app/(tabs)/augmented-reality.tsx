@@ -135,12 +135,23 @@ export default function ARScamScanner() {
 
   if (hasPermission === false) {
     return (
-      <View style={styles.permissionContainer}>
-        <Text style={styles.permissionText}>Camera permission denied</Text>
-        <TouchableOpacity style={styles.permissionButton} onPress={getCameraPermissions}>
-          <Text style={styles.permissionButtonText}>Grant Permission</Text>
-        </TouchableOpacity>
-      </View>
+      <SafeAreaView style={styles.permissionContainer}>
+        <View style={styles.permissionHeader}>
+          <TouchableOpacity onPress={() => router.push('/learn')} style={styles.backButton}>
+            <IconSymbol name="chevron.left" size={24} color="#007AFF" />
+            <Text style={styles.backText}>Back</Text>
+          </TouchableOpacity>
+        </View>
+        <View style={styles.permissionContent}>
+          <Text style={styles.permissionText}>Camera permission denied</Text>
+          <Text style={styles.permissionSubtext}>
+            To use AR Scam Scanner, please grant camera access in your device settings.
+          </Text>
+          <TouchableOpacity style={styles.permissionButton} onPress={getCameraPermissions}>
+            <Text style={styles.permissionButtonText}>Grant Permission</Text>
+          </TouchableOpacity>
+        </View>
+      </SafeAreaView>
     );
   }
 
@@ -148,8 +159,9 @@ export default function ARScamScanner() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+        <TouchableOpacity onPress={() => router.push('/learn')} style={styles.backButton}>
           <IconSymbol name="chevron.left" size={24} color="#FFFFFF" />
+          <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>AR Scam Scanner</Text>
         <TouchableOpacity 
@@ -262,16 +274,31 @@ const styles = StyleSheet.create({
   },
   permissionContainer: {
     flex: 1,
+    backgroundColor: '#000',
+  },
+  permissionHeader: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+  },
+  permissionContent: {
+    flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#1C1C1E',
     padding: 20,
   },
   permissionText: {
     color: '#FFFFFF',
     fontSize: 18,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 12,
+    fontWeight: '600',
+  },
+  permissionSubtext: {
+    color: '#aaa',
+    fontSize: 14,
+    textAlign: 'center',
+    marginBottom: 30,
+    lineHeight: 20,
   },
   permissionButton: {
     backgroundColor: '#007AFF',
@@ -293,7 +320,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
   backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 8,
+  },
+  backText: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    marginLeft: 8,
   },
   headerTitle: {
     color: '#FFFFFF',

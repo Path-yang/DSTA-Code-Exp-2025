@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     container: { flex: 1, backgroundColor: '#000' },
     header: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 20, paddingVertical: 15 },
     backText: { color: '#007AFF', fontSize: 16, marginRight: 10 },
-    headerTitle: { color: '#fff', fontSize: 24, fontWeight: 'bold' },
+    headerTitle: { color: '#fff', fontSize: 28, fontWeight: 'bold' },
     content: { paddingHorizontal: 20, paddingBottom: 120, alignItems: 'center' },
     mainIcon: { marginVertical: 20 },
     mainTitle: { color: '#fff', fontSize: 22, fontWeight: 'bold', marginBottom: 5 },

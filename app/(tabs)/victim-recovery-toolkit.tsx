@@ -83,16 +83,17 @@ export default function VictimRecoveryToolkit() {
     }));
   };
 
-  const handleGoBack = () => router.back();
+  const handleGoBack = () => router.push('/learn');
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#1C1C1E" />
+      <StatusBar barStyle="light-content" backgroundColor="#000" />
       
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
           <IconSymbol name="chevron.left" size={24} color="#007AFF" />
+          <Text style={styles.backText}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Recovery Toolkit</Text>
       </View>
@@ -233,18 +234,25 @@ export default function VictimRecoveryToolkit() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1C1C1E',
+    backgroundColor: '#000',
   },
   header: {
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 20,
-    paddingVertical: 16,
-    backgroundColor: '#1C1C1E',
+    paddingVertical: 15,
+    backgroundColor: '#000',
   },
   backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
     padding: 8,
     marginRight: 12,
+  },
+  backText: {
+    color: '#007AFF',
+    fontSize: 16,
+    marginLeft: 8,
   },
   headerTitle: {
     fontSize: 28,
@@ -260,13 +268,13 @@ const styles = StyleSheet.create({
   subtitle: {
     fontSize: 16,
     lineHeight: 24,
-    color: '#8E8E93',
+    color: '#aaa',
     marginBottom: 24,
   },
   card: {
-    backgroundColor: '#2C2C2E',
-    borderRadius: 16,
-    marginBottom: 16,
+    backgroundColor: '#1a1a1a',
+    borderRadius: 15,
+    marginBottom: 20,
     overflow: 'hidden',
   },
   cardHeader: {
@@ -278,7 +286,7 @@ const styles = StyleSheet.create({
     width: 44,
     height: 44,
     borderRadius: 12,
-    backgroundColor: '#3A3A3C',
+    backgroundColor: '#2a2a2a',
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 16,
@@ -297,7 +305,7 @@ const styles = StyleSheet.create({
   },
   cardDescription: {
     fontSize: 14,
-    color: '#8E8E93',
+    color: '#aaa',
   },
   expandedContent: {
     paddingHorizontal: 20,
@@ -343,7 +351,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   resourceLink: {
-    backgroundColor: '#3A3A3C',
+    backgroundColor: '#333',
     borderRadius: 12,
     padding: 16,
     marginBottom: 12,
@@ -356,7 +364,7 @@ const styles = StyleSheet.create({
   },
   resourceDescription: {
     fontSize: 14,
-    color: '#8E8E93',
+    color: '#aaa',
   },
   emergencyCard: {
     backgroundColor: '#FF453A',

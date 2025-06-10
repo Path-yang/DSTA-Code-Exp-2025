@@ -220,8 +220,8 @@ export default function VictimRecoveryToolkit() {
               If you're in crisis or need immediate support
             </Text>
             <View style={styles.helplineContainer}>
-              <Text style={styles.helplineNumber}>Crisis Line: 988</Text>
-              <Text style={styles.helplineNumber}>FTC Help: 1-877-FTC-HELP</Text>
+              <Text style={styles.helplineNumber}>Police hotline: 999</Text>
+              <Text style={styles.helplineNumber}>ScamShield helpline: 1799</Text>
             </View>
           </View>
         </View>

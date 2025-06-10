@@ -16,7 +16,8 @@ export default function LearnScreen() {
     { label: 'How To Identify Scam', route: '/how-to-identify-scams' },
     { label: 'Avoiding Scams', route: '/avoiding-scams' },
     { label: 'Victim Recovery Toolkit', route: '/victim-recovery-toolkit' },
-    {label: 'Augmented Reality', route: '/augmented-reality' },
+    { label: 'Augmented Reality', route: '/augmented-reality' },
+    { label: 'Reality Mode', route: '/reality-mode-intro' },
   ];
 
   return (
@@ -50,12 +51,12 @@ export default function LearnScreen() {
           <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleLearn}>
-          <Text style={[styles.navIcon, styles.activeNavText]}>📚</Text>
+          <Text style={styles.navIcon}>📚</Text>
           <Text style={[styles.navText, styles.activeNavText]}>Learn</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleAnalytics}>
           <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Stats</Text>
+          <Text style={styles.navText}>Analytics</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleForum}>
           <Text style={styles.navIcon}>💬</Text>
@@ -132,7 +133,6 @@ const styles = StyleSheet.create({
   navIcon: {
     fontSize: 20,
     marginBottom: 5,
-    color: '#fff',
   },
   navText: {
     color: '#fff',

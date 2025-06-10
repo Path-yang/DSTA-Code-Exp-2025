@@ -42,4 +42,7 @@ export const useUser = (): UserContextType => {
     throw new Error('useUser must be used within a UserProvider');
   }
   return context;
-}; 
+};
+
+// Default export to prevent Expo Router warnings
+export default UserProvider; 

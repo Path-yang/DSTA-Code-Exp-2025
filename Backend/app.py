@@ -21,13 +21,15 @@ def load_detections():
             return json.load(f)
     return []
 
-def save_detection(url, is_phishing, confidence, timestamp):
+def save_detection(url, is_phishing, confidence, timestamp, blocked=True, user_reported=False):
     detections = load_detections()
     detection = {
         "url": url,
         "is_phishing": is_phishing,
         "confidence": confidence,
-        "timestamp": timestamp
+        "timestamp": timestamp,
+        "blocked": blocked,
+        "user_reported": user_reported
     }
     detections.append(detection)
     
@@ -57,7 +59,8 @@ def get_real_stats(period='week'):
     # Calculate real statistics
     total_scams = len([d for d in period_detections if d['is_phishing']])
     total_detections = len(period_detections)
-    total_blocked = total_scams  # Assume all detected scams are blocked
+    total_blocked = len([d for d in period_detections if d.get('blocked', True) and d['is_phishing']])
+    total_user_reports = len([d for d in period_detections if d.get('user_reported', False)])
     
     # Calculate accuracy based on confidence scores
     if total_detections > 0:
@@ -70,6 +73,7 @@ def get_real_stats(period='week'):
         'total_scams': total_scams,
         'total_detections': total_detections,
         'total_blocked': total_blocked,
+        'total_user_reports': total_user_reports,
         'accuracy': round(accuracy, 1)
     }
 
@@ -101,6 +105,18 @@ def predict():
         'confidence': confidence_percent
     })
 
+@app.route('/report', methods=['POST'])
+def report_scam():
+    url = request.json.get("url")
+    if not url:
+        return jsonify({'success': False, 'error': 'No URL provided'}), 400
+    
+    # Save as user-reported scam
+    timestamp = datetime.now().isoformat()
+    save_detection(url, True, 100.0, timestamp, blocked=True, user_reported=True)
+    
+    return jsonify({'success': True, 'message': 'Scam reported successfully'})
+
 @app.route('/analytics', methods=['GET'])
 def get_analytics():
     period = request.args.get('period', 'week')
@@ -112,7 +128,7 @@ def get_analytics():
     if period == 'week':
         analytics_data = {
             "totalScamsDetected": real_stats['total_scams'],
-            "totalScamsReported": 23,  # Keep mock for now
+            "totalScamsReported": real_stats['total_user_reports'],
             "totalBlocked": real_stats['total_blocked'],
             "accuracy": real_stats['accuracy'],
             "regionStats": [
@@ -169,7 +185,7 @@ def get_analytics():
     else:  # month
         analytics_data = {
             "totalScamsDetected": real_stats['total_scams'],
-            "totalScamsReported": 167,  # Keep mock for now
+            "totalScamsReported": real_stats['total_user_reports'],
             "totalBlocked": real_stats['total_blocked'],
             "accuracy": real_stats['accuracy'],
             "regionStats": [

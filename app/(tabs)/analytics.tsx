@@ -843,15 +843,15 @@ export default function AnalyticsScreen() {
           <>
             <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "Global Threats", 
+                "🌍 Global Cyber Threats", 
                 realTimeData.cybersecurityThreats.totalThreats.toLocaleString(), 
-                `Last updated: ${realTimeData.cybersecurityThreats.lastUpdated}`,
+                `Worldwide • Updated: ${realTimeData.cybersecurityThreats.lastUpdated}`,
                 'warning'
               )}
               {renderRealTimeCard(
-                "Scam Reports Today", 
+                "🌍 Global Scam Reports", 
                 realTimeData.globalScamStats.reportsToday.toString(), 
-                "Worldwide reports",
+                "Worldwide reports today",
                 'live',
                 realTimeData.globalScamStats
               )}
@@ -859,28 +859,28 @@ export default function AnalyticsScreen() {
 
             <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "Singapore Police Reports", 
+                "🇸🇬 Singapore Police Reports", 
                 realTimeData.singaporeData.policeReports.toString(), 
-                "Today's reports",
+                "Local reports today",
                 'info'
               )}
               {renderRealTimeCard(
-                "Crypto Scams", 
+                "🌍 Global Crypto Scams", 
                 realTimeData.cryptoScams.totalLoss, 
-                `${realTimeData.cryptoScams.reported} reports today`,
+                `${realTimeData.cryptoScams.reported} reports worldwide today`,
                 'warning'
               )}
             </View>
 
             <View style={styles.alertsContainer}>
-              <Text style={styles.alertTitle}>🚨 Recent Singapore Alerts</Text>
+              <Text style={styles.alertTitle}>🚨 Live Security Alerts</Text>
               <View style={styles.alertItem}>
-                <Text style={styles.alertText}>{realTimeData.singaporeData.scamAlerts} active scam alerts</Text>
-                <Text style={styles.alertTime}>Last alert: {realTimeData.singaporeData.lastAlert}</Text>
+                <Text style={styles.alertText}>🇸🇬 Singapore: {realTimeData.singaporeData.scamAlerts} active scam alerts</Text>
+                <Text style={styles.alertTime}>Last local alert: {realTimeData.singaporeData.lastAlert}</Text>
               </View>
               <View style={styles.alertItem}>
-                <Text style={styles.alertText}>Top threat: {realTimeData.cybersecurityThreats.topThreat}</Text>
-                <Text style={styles.alertSeverity}>Severity: {realTimeData.cybersecurityThreats.severity}</Text>
+                <Text style={styles.alertText}>🌍 Global: {realTimeData.cybersecurityThreats.topThreat}</Text>
+                <Text style={styles.alertSeverity}>Threat level: {realTimeData.cybersecurityThreats.severity}</Text>
               </View>
             </View>
           </>
@@ -910,26 +910,26 @@ export default function AnalyticsScreen() {
           {renderStatCard(
             "🔴 Scams Detected (LIVE)", 
             stats?.totalScamsDetected.toLocaleString() || "0", 
-            "Real detections this " + timeRange,
+            `🇸🇬 Local detections this ${timeRange}`,
             stats?.recentTrends
           )}
           {renderStatCard(
-            "Blocked Threats", 
+            "🛡️ Blocked Threats (LIVE)", 
             stats?.totalBlocked.toString() || "0", 
-            "Automatically blocked"
+            "🇸🇬 Local threats automatically blocked"
           )}
         </View>
 
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "Detection Accuracy", 
+            "🎯 Detection Accuracy", 
             (stats?.accuracy.toString() || "0") + "%", 
-            "Model performance"
+            "🇸🇬 Local model performance"
           )}
           {renderStatCard(
-            "User Reports", 
+            "📝 User Reports (LIVE)", 
             stats?.totalScamsReported.toString() || "0", 
-            "Community contributed"
+            "🇸🇬 Local community reports"
           )}
         </View>
 

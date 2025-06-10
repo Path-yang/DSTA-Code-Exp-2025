@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, Image } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, Image, Alert } from 'react-native';
 import { router } from 'expo-router';
 
 export default function WebinarsScreen() {
@@ -15,6 +15,25 @@ export default function WebinarsScreen() {
   
   const handleDateSelect = (date: string) => {
     setSelectedDate(date);
+  };
+
+  const showDatePicker = () => {
+    const buttons = [
+      ...dateOptions.map(option => ({
+        text: option,
+        onPress: () => handleDateSelect(option)
+      })),
+      {
+        text: "Cancel",
+        style: "cancel" as const
+      }
+    ];
+
+    Alert.alert(
+      "Filter by Date",
+      "Select a time period to filter recorded webinars:",
+      buttons
+    );
   };
 
   return (
@@ -44,32 +63,11 @@ export default function WebinarsScreen() {
           <Text style={styles.sectionTitle}>Recorded Webinars</Text>
           <View style={styles.datePickerContainer}>
             <Text style={styles.dateLabel}>Filter by:</Text>
-            <TouchableOpacity style={styles.datePicker}>
+            <TouchableOpacity style={styles.datePicker} onPress={showDatePicker}>
               <Text style={styles.datePickerText}>{selectedDate}</Text>
               <Text style={styles.dropdownArrow}>▼</Text>
             </TouchableOpacity>
           </View>
-        </View>
-        
-        {/* Date Options Dropdown */}
-        <View style={styles.dateOptionsContainer}>
-          {dateOptions.map((option) => (
-            <TouchableOpacity
-              key={option}
-              style={[
-                styles.dateOption,
-                selectedDate === option && styles.selectedDateOption
-              ]}
-              onPress={() => handleDateSelect(option)}
-            >
-              <Text style={[
-                styles.dateOptionText,
-                selectedDate === option && styles.selectedDateOptionText
-              ]}>
-                {option}
-              </Text>
-            </TouchableOpacity>
-          ))}
         </View>
         
         <Image source={require('@/assets/images/cybersec-webinar-article.jpg')} style={styles.image} />
@@ -153,30 +151,6 @@ const styles = StyleSheet.create({
   dropdownArrow: { 
     color: '#007AFF', 
     fontSize: 12 
-  },
-  dateOptionsContainer: { 
-    backgroundColor: '#1a1a1a', 
-    borderRadius: 8, 
-    marginBottom: 15, 
-    borderWidth: 1, 
-    borderColor: '#333' 
-  },
-  dateOption: { 
-    paddingHorizontal: 15, 
-    paddingVertical: 12, 
-    borderBottomWidth: 1, 
-    borderBottomColor: '#333' 
-  },
-  selectedDateOption: { 
-    backgroundColor: '#007AFF20' 
-  },
-  dateOptionText: { 
-    color: '#fff', 
-    fontSize: 14 
-  },
-  selectedDateOptionText: { 
-    color: '#007AFF', 
-    fontWeight: 'bold' 
   },
   extraSpacing: {
     height: 50

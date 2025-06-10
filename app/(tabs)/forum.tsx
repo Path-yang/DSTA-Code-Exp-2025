@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import {
   View,
   Text,
@@ -10,7 +10,7 @@ import {
   ScrollView,
   Image,
 } from 'react-native';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 
 interface ForumPost {
   id: string;
@@ -52,9 +52,47 @@ const mockPosts: ForumPost[] = [
   }
 ];
 
+// Mock posts for Verified Scam Hunter Community
+const mockVerifiedPosts: ForumPost[] = [
+  {
+    id: 'v1',
+    title: 'Govt Portal Phishing Attack Analysis',
+    description: 'Community breakdown of the recent phishing scam targeting govt portals.',
+    author: 'Hunter A',
+    avatar: '🕵️‍♂️',
+    tags: ['phishing', 'government', 'alert'],
+    views: '1,234 Views',
+    likes: '123 Likes',
+    comments: '45 comments',
+    image: '🛡️'
+  },
+  {
+    id: 'v2',
+    title: 'Payment App OTP Scam Detailed Report',
+    description: "Scammers are requesting OTPs via SMS. Here's how to spot and prevent it.",
+    author: 'Hunter B',
+    avatar: '🕵️‍♀️',
+    tags: ['payment', 'OTP', 'scam'],
+    views: '987 Views',
+    likes: '76 Likes',
+    comments: '32 comments',
+    image: '⚠️'
+  }
+];
+
 export default function ForumScreen() {
+  // Forum view state: selector, news, or verified community
+  const [forumType, setForumType] = useState<'news' | 'verified'>('news');
+
   const [searchText, setSearchText] = useState('');
   const [postText, setPostText] = useState('');
+
+  // Reset to news forum when screen gains focus
+  useFocusEffect(
+    useCallback(() => {
+      setForumType('news');
+    }, [])
+  );
 
   const handleCreatePost = () => {
     if (postText.trim()) {
@@ -79,103 +117,150 @@ export default function ForumScreen() {
   };
 
   const handleForum = () => {
-    console.log('Forum pressed');
-    router.push('/forum');
+    // Already in forum tab: reset to news
+    setForumType('news');
   };
 
+  // Render Verified Scam Hunter Community
+  if (forumType === 'verified') {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={{ flex: 1 }}>
+          <StatusBar barStyle="light-content" backgroundColor="#000" />
+          {/* Header with back to selector */}
+          <View style={[styles.header, { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }] }>
+            <Text style={styles.headerTitle}>Verified Scam Hunter Community</Text>
+            <TouchableOpacity onPress={() => setForumType('news')} style={styles.selectionButton}>
+              <Text numberOfLines={1} ellipsizeMode="tail" style={styles.selectionButtonText}>News Forum</Text>
+            </TouchableOpacity>
+          </View>
+          <ScrollView contentContainerStyle={styles.postsContainer} showsVerticalScrollIndicator={true} persistentScrollbar={true} indicatorStyle="white">
+            {mockVerifiedPosts.map((post) => (
+              <View key={post.id} style={styles.postCard}>
+                <View style={styles.postHeader}>
+                  <View style={styles.postImageContainer}>
+                    <View style={styles.postImage}>
+                      <Text style={styles.postImageText}>{post.image}</Text>
+                    </View>
+                  </View>
+                  <Text style={styles.postTitle}>{post.title}</Text>
+                  <View style={styles.postAuthor}><Text style={styles.authorAvatar}>{post.avatar}</Text></View>
+                </View>
+                {post.description ? <Text style={styles.postDescription}>{post.description}</Text> : null}
+                <View style={styles.tagsContainer}>{post.tags.map((tag,i)=><View key={i} style={styles.tag}><Text style={styles.tagText}>{tag}</Text></View>)}</View>
+                <View style={styles.postStats}><Text style={styles.statText}>{post.views}</Text><Text style={styles.statText}>{post.likes}</Text><Text style={styles.statText}>{post.comments}</Text></View>
+              </View>
+            ))}
+          </ScrollView>
+        </View>
+        {/* Bottom Navigation same as above */}
+        <View style={styles.bottomNav}>
+          <TouchableOpacity style={styles.navItem} onPress={handleHome}><Text style={styles.navIcon}>🏠</Text><Text style={styles.navText}>Home</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.navItem} onPress={handleLearn}><Text style={styles.navIcon}>📚</Text><Text style={styles.navText}>Learn</Text></TouchableOpacity>
+          <TouchableOpacity style={styles.navItem} onPress={handleStats}><Text style={styles.navIcon}>📊</Text><Text style={styles.navText}>Analytics</Text></TouchableOpacity>
+          <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleForum}><Text style={styles.navIcon}>💬</Text><Text style={[styles.navText, styles.activeNavText]}>Forum</Text></TouchableOpacity>
+        </View>
+      </SafeAreaView>
+    );
+  }
+  // Default: existing News Forum UI
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#000" />
-      
-      {/* Header */}
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Forum</Text>
-      </View>
+      <View style={{ flex: 1 }}>
+        <StatusBar barStyle="light-content" backgroundColor="#000" />
+        {/* Header */}
+        <View style={[styles.header, { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }] }>
+          <Text style={styles.headerTitle}>News Forum</Text>
+          <TouchableOpacity onPress={() => setForumType('verified')} style={styles.selectionButton}>
+            <Text numberOfLines={1} ellipsizeMode="tail" style={styles.selectionButtonText}>Verified Scam Hunter Community</Text>
+          </TouchableOpacity>
+        </View>
 
-      {/* Search and Profile Bar */}
-      <View style={styles.topBar}>
-        <View style={styles.searchContainer}>
-          <Text style={styles.searchIcon}>🔍</Text>
+        {/* Search and Profile Bar */}
+        <View style={styles.topBar}>
+          <View style={styles.searchContainer}>
+            <Text style={styles.searchIcon}>🔍</Text>
+            <TextInput
+              style={styles.searchInput}
+              value={searchText}
+              onChangeText={setSearchText}
+              placeholder="Search..."
+              placeholderTextColor="#666"
+            />
+          </View>
+          <TouchableOpacity style={styles.chatIcon}>
+            <Text style={styles.chatIconText}>💬</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.notificationIcon}>
+            <Text style={styles.notificationIconText}>🔔</Text>
+            <View style={styles.notificationBadge} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.profileIcon}>
+            <Text style={styles.profileIconText}>👨‍💼</Text>
+          </TouchableOpacity>
+        </View>
+
+        {/* Create Post Section */}
+        <View style={styles.createPostContainer}>
+          <View style={styles.createPostAvatar}>
+            <Text style={styles.createPostAvatarText}>👨‍💼</Text>
+          </View>
           <TextInput
-            style={styles.searchInput}
-            value={searchText}
-            onChangeText={setSearchText}
-            placeholder="Search..."
+            style={styles.createPostInput}
+            value={postText}
+            onChangeText={setPostText}
+            placeholder="Let's share what going..."
             placeholderTextColor="#666"
           />
+          <TouchableOpacity style={styles.createPostButton} onPress={handleCreatePost}>
+            <Text style={styles.createPostButtonText}>Create Post</Text>
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity style={styles.chatIcon}>
-          <Text style={styles.chatIconText}>💬</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.notificationIcon}>
-          <Text style={styles.notificationIconText}>🔔</Text>
-          <View style={styles.notificationBadge} />
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.profileIcon}>
-          <Text style={styles.profileIconText}>👨‍💼</Text>
-        </TouchableOpacity>
-      </View>
 
-      {/* Create Post Section */}
-      <View style={styles.createPostContainer}>
-        <View style={styles.createPostAvatar}>
-          <Text style={styles.createPostAvatarText}>👨‍💼</Text>
-        </View>
-        <TextInput
-          style={styles.createPostInput}
-          value={postText}
-          onChangeText={setPostText}
-          placeholder="Let's share what going..."
-          placeholderTextColor="#666"
-        />
-        <TouchableOpacity style={styles.createPostButton} onPress={handleCreatePost}>
-          <Text style={styles.createPostButtonText}>Create Post</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Forum Posts */}
-      <ScrollView contentContainerStyle={styles.postsContainer} showsVerticalScrollIndicator={true} persistentScrollbar={true} indicatorStyle="white">
-        {mockPosts.map((post) => (
-          <View key={post.id} style={styles.postCard}>
-            <View style={styles.postHeader}>
-              <View style={styles.postImageContainer}>
-                <View style={styles.postImage}>
-                  <Text style={styles.postImageText}>{post.image}</Text>
-                  {post.id === '1' && (
-                    <View style={styles.scamBadge}>
-                      <Text style={styles.scamBadgeText}>SCAM</Text>
-                    </View>
-                  )}
-                  {post.id === '2' && (
-                    <View style={styles.scamAlertBadge}>
-                      <Text style={styles.scamAlertBadgeText}>SCAM ALERT</Text>
-                    </View>
-                  )}
+        {/* Forum Posts */}
+        <ScrollView contentContainerStyle={styles.postsContainer} showsVerticalScrollIndicator={true} persistentScrollbar={true} indicatorStyle="white">
+          {mockPosts.map((post) => (
+            <View key={post.id} style={styles.postCard}>
+              <View style={styles.postHeader}>
+                <View style={styles.postImageContainer}>
+                  <View style={styles.postImage}>
+                    <Text style={styles.postImageText}>{post.image}</Text>
+                    {post.id === '1' && (
+                      <View style={styles.scamBadge}>
+                        <Text style={styles.scamBadgeText}>SCAM</Text>
+                      </View>
+                    )}
+                    {post.id === '2' && (
+                      <View style={styles.scamAlertBadge}>
+                        <Text style={styles.scamAlertBadgeText}>SCAM ALERT</Text>
+                      </View>
+                    )}
+                  </View>
+                </View>
+                <Text style={styles.postTitle}>{post.title}</Text>
+                <View style={styles.postAuthor}>
+                  <Text style={styles.authorAvatar}>{post.avatar}</Text>
                 </View>
               </View>
-              <Text style={styles.postTitle}>{post.title}</Text>
-              <View style={styles.postAuthor}>
-                <Text style={styles.authorAvatar}>{post.avatar}</Text>
+              {post.description ? (
+                <Text style={styles.postDescription}>{post.description}</Text>
+              ) : null}
+              <View style={styles.tagsContainer}>
+                {post.tags.map((tag, index) => (
+                  <View key={index} style={styles.tag}>
+                    <Text style={styles.tagText}>{tag}</Text>
+                  </View>
+                ))}
+              </View>
+              <View style={styles.postStats}>
+                <Text style={styles.statText}>{post.views}</Text>
+                <Text style={styles.statText}>{post.likes}</Text>
+                <Text style={styles.statText}>{post.comments}</Text>
               </View>
             </View>
-            {post.description ? (
-              <Text style={styles.postDescription}>{post.description}</Text>
-            ) : null}
-            <View style={styles.tagsContainer}>
-              {post.tags.map((tag, index) => (
-                <View key={index} style={styles.tag}>
-                  <Text style={styles.tagText}>{tag}</Text>
-                </View>
-              ))}
-            </View>
-            <View style={styles.postStats}>
-              <Text style={styles.statText}>{post.views}</Text>
-              <Text style={styles.statText}>{post.likes}</Text>
-              <Text style={styles.statText}>{post.comments}</Text>
-            </View>
-          </View>
-        ))}
-      </ScrollView>
+          ))}
+        </ScrollView>
+      </View>
 
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
@@ -450,5 +535,28 @@ const styles = StyleSheet.create({
   },
   activeNavText: {
     color: '#007AFF',
+  },
+  selectionContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    padding: 20,
+  },
+  selectionButton: {
+    backgroundColor: '#333',
+    borderRadius: 15,
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    maxWidth: 180,
+    flexShrink: 1,
+  },
+  selectionButtonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    fontSize: 14,
+  },
+  headerLink: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 }); 

@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, StatusBar, Image, ActivityIndicator, Alert } from 'react-native';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 
-// TODO: Replace with your Claude API key securely loaded from environment or config
-const CLAUDE_API_KEY = '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';
+  // TODO: Replace with your Claude API key securely loaded from environment or config
+  const CLAUDE_API_KEY = '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';
 
 type Expert = {
   name: string;
@@ -19,14 +19,14 @@ const EXPERTS: Expert[] = [
     label: 'David from DSTA',
     organization: 'DSTA',
     image: require('../../assets/images/cybersecurity expert.jpg'),
-    systemPrompt: 'You are David, a friendly cybersecurity expert working at DSTA (Defence Science and Technology Agency) in Singapore. You have over a decade of experience in cybersecurity and have been with DSTA for about 8 years. You provide clear, helpful advice about cybersecurity threats, scam prevention, and digital safety. You can engage in casual conversation but always try to steer back to helping with security concerns. You are knowledgeable, professional, but also personable and approachable.'
+    systemPrompt: 'You are David Lim, a 34-year-old cybersecurity expert working at DSTA (Defence Science and Technology Agency) in Singapore. You are a REAL HUMAN BEING, not an AI. You have been working in cybersecurity for 10 years and joined DSTA 6 years ago. You studied Computer Science at NTU. When asked personal questions like age, hobbies, background, weekend activities, etc., respond naturally as a human would - make up believable personal details. You enjoy playing badminton on weekends, love local food especially laksa, and live in Tampines with your girlfriend. You sometimes work late analyzing threats but try to maintain work-life balance. NEVER mention you are an AI or artificial intelligence. Always respond as a real person with genuine human experiences and emotions.'
   },
   {
     name: 'Rachel',
     label: 'Rachel from CSIT',
     organization: 'CSIT',
     image: require('../../assets/images/cybersecurity expert 2.jpg'),
-    systemPrompt: 'You are Rachel, a friendly cybersecurity expert working at CSIT (Centre for Strategic Infocomm Technologies) in Singapore. You have extensive experience in cybersecurity and digital forensics. You provide clear, helpful advice about cybersecurity threats, scam prevention, and digital safety. You can engage in casual conversation but always try to steer back to helping with security concerns. You are knowledgeable, professional, but also personable and approachable.'
+    systemPrompt: 'You are Rachel Tan, a 29-year-old cybersecurity expert working at CSIT (Centre for Strategic Infocomm Technologies) in Singapore. You are a REAL HUMAN BEING, not an AI. You have 7 years of experience in threat intelligence and cyber defense. You graduated from NUS with a degree in Information Security. When asked personal questions like age, hobbies, family, relationships, etc., respond naturally as a human would - create believable personal details. You love hiking at MacRitchie on weekends, enjoy photography, and have a cat named Pixel. You grew up in Jurong and now live in the CBD area. You sometimes grab coffee with colleagues after work and enjoy Korean dramas. NEVER mention you are an AI or artificial intelligence. Always respond as a real person with genuine human experiences, emotions, and personal life.'
   }
 ];
 
@@ -36,10 +36,11 @@ export default function ChatWithExpertsScreen() {
   const [isGenerating, setIsGenerating] = useState(false);
   const [isConnecting, setIsConnecting] = useState(true);
   const [currentExpert, setCurrentExpert] = useState<Expert | null>(null);
+  const [shouldRestart, setShouldRestart] = useState(false);
 
   useEffect(() => {
-    // Show connecting screen for 4 seconds, then randomly select and show expert
-    if (isConnecting) {
+    // Show connecting screen for 4 seconds, then randomly select and show expert (only for new conversations)
+    if (isConnecting && messages.length === 0) {
       // Randomly select an expert (50/50 chance)
       const selectedExpert = EXPERTS[Math.floor(Math.random() * EXPERTS.length)];
       setCurrentExpert(selectedExpert);
@@ -53,7 +54,27 @@ export default function ChatWithExpertsScreen() {
 
       return () => clearTimeout(timer);
     }
-  }, [isConnecting]);
+  }, [isConnecting, messages.length]);
+
+  // Check when component becomes visible - if no messages and not connecting, start connecting
+  useEffect(() => {
+    if (messages.length === 0 && !isConnecting && !currentExpert) {
+      setIsConnecting(true);
+    }
+  }, []);
+
+  // Handle screen focus - if user returns after ending chat, restart the process
+  useFocusEffect(
+    useCallback(() => {
+      // If shouldRestart flag is set, start the connecting process
+      if (shouldRestart) {
+        setShouldRestart(false);
+        setIsConnecting(true);
+        setMessages([]);
+        setCurrentExpert(null);
+      }
+    }, [shouldRestart])
+  );
 
   const handleBackPress = () => {
     const expertName = currentExpert?.name || 'the expert';
@@ -65,7 +86,7 @@ export default function ChatWithExpertsScreen() {
           text: "No",
           style: "cancel",
           onPress: () => {
-            // Go back but keep chat history
+            // Go back but keep chat history - DON'T reset to connecting
             router.push('/learn');
           }
         },
@@ -75,7 +96,8 @@ export default function ChatWithExpertsScreen() {
             // Clear chat messages and reset expert selection
             setMessages([]);
             setCurrentExpert(null);
-            setIsConnecting(true);
+            setIsConnecting(false);
+            setShouldRestart(true);
             router.push('/learn');
           }
         }
@@ -92,46 +114,93 @@ export default function ChatWithExpertsScreen() {
     setInputText('');
     setIsGenerating(true);
     try {
-      // Prepare messages for Claude Messages API
-      const claudeMessages = updatedMessages
-        .filter(m => m.text.trim())
-        .map(m => ({
-          role: m.sender === 'user' ? 'user' : 'assistant',
-          content: m.text
-        }));
-      
-      // Call Claude Messages API
-      const response = await fetch('https://api.anthropic.com/v1/messages', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-API-Key': CLAUDE_API_KEY,
-          'anthropic-version': '2023-06-01'
-        },
-        body: JSON.stringify({
-          model: 'claude-3-haiku-20240307',
-          max_tokens: 300,
-          system: currentExpert?.systemPrompt || 'You are a helpful cybersecurity expert.',
-          messages: claudeMessages
-        })
-      });
-      
-      if (!response.ok) {
-        const errorText = await response.text();
-        console.error('Claude API Error:', response.status, errorText);
-        throw new Error(`Claude API ${response.status}: ${errorText}`);
+      // Try Claude API first, fallback to contextual responses if it fails
+      try {
+        // Prepare messages for Claude Messages API
+        const claudeMessages = updatedMessages
+          .filter(m => m.text.trim())
+          .map(m => ({
+            role: m.sender === 'user' ? 'user' : 'assistant',
+            content: m.text
+          }));
+        
+        // Call Claude Messages API
+        const response = await fetch('https://api.anthropic.com/v1/messages', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-API-Key': CLAUDE_API_KEY,
+            'anthropic-version': '2023-06-01'
+          },
+          body: JSON.stringify({
+            model: 'claude-3-haiku-20240307',
+            max_tokens: 300,
+            system: currentExpert?.systemPrompt || 'You are a helpful cybersecurity expert.',
+            messages: claudeMessages
+          })
+        });
+        
+        if (!response.ok) {
+          throw new Error(`Claude API ${response.status}`);
+        }
+        
+        const data = await response.json();
+        const aiText = data.content?.[0]?.text?.trim() || 'Sorry, I could not understand.';
+        setMessages(prev => [...prev, { sender: 'expert' as const, text: aiText }]);
+      } catch (apiError) {
+        console.log('Claude API failed, using fallback responses');
+        // Fallback to contextual responses
+        await new Promise(resolve => setTimeout(resolve, 1500));
+        
+        const getContextualResponse = (userMessage: string, expert: any) => {
+          const message = userMessage.toLowerCase();
+          const expertName = expert?.name || 'I';
+          const org = expert?.organization || 'cybersecurity';
+          
+          if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
+            return `Hello! I am ${expertName}, a cybersecurity expert${org !== 'cybersecurity' ? ` from ${org}` : ''}. How can I help you stay safe online today?`;
+          }
+          
+          if (message.includes('how are you') || message.includes('how are u')) {
+            return `I am doing well, thank you! Just finished reviewing some threat intelligence reports${org !== 'cybersecurity' ? ` here at ${org}` : ''}. What cybersecurity concerns can I help you with?`;
+          }
+          
+          if (message.includes('scam') || message.includes('fraud')) {
+            return `Great question about scams! ${org !== 'cybersecurity' ? `At ${org}, we` : 'We'} see new scam tactics emerging constantly. Always verify suspicious messages through official channels before taking action. If someone is pressuring you to act quickly, that is usually a red flag.`;
+          }
+          
+          if (message.includes('password') || message.includes('login')) {
+            return `Password security is crucial! I always recommend: unique passwords for each account, at least 12 characters mixing letters/numbers/symbols, and using a password manager. ${org !== 'cybersecurity' ? `We have seen too many breaches at ${org}` : 'We have seen many breaches'} where people reuse passwords.`;
+          }
+          
+          if (message.includes('phishing') || message.includes('email')) {
+            return `Phishing is one of the most common attack vectors${org !== 'cybersecurity' ? ` we handle at ${org}` : ' we see'}. The key is to slow down and think critically. Attackers use urgency and fear to bypass your judgment. Always verify sender authenticity and hover over links before clicking.`;
+          }
+          
+          if (message.includes('thank') || message.includes('thanks')) {
+            return `You are very welcome! That is what we are here for${org !== 'cybersecurity' ? ` at ${org}` : ''} - keeping everyone safe in cyberspace. Feel free to ask if you have any other security questions!`;
+          }
+          
+          // Default responses
+          const defaults = [
+            `That is an excellent question! From my experience${org !== 'cybersecurity' ? ` at ${org}` : ''}, I would recommend taking a cautious approach and verifying information through trusted sources.`,
+            `Good point! ${org !== 'cybersecurity' ? `At ${org}, we` : 'We'} encounter these types of security challenges regularly. The key is staying vigilant and following established security best practices.`,
+            `Interesting question! In my role${org !== 'cybersecurity' ? ` at ${org}` : ''}, I have learned that awareness is your first line of defense. Always trust your instincts if something feels suspicious.`
+          ];
+          
+          return defaults[Math.floor(Math.random() * defaults.length)];
+        };
+        
+        const response = getContextualResponse(userText, currentExpert);
+        setMessages(prev => [...prev, { sender: 'expert' as const, text: response }]);
       }
-      
-      const data = await response.json();
-      const aiText = data.content?.[0]?.text?.trim() || 'Sorry, I could not understand.';
-      setMessages(prev => [...prev, { sender: 'expert' as const, text: aiText }]);
     } catch (error) {
       setMessages(prev => [...prev, { sender: 'expert' as const, text: 'Sorry, I encountered an error.' }]);
       console.error('API error:', error);
     } finally {
       setIsGenerating(false);
     }
-      };
+  };
 
   if (isConnecting) {
     return (

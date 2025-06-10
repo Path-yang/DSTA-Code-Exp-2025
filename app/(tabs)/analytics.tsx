@@ -57,6 +57,17 @@ export default function AnalyticsScreen() {
     try {
       setLoading(true);
       const response = await fetch(`https://dsta-code-exp-2025.onrender.com/analytics?period=${timeRange}`);
+      
+      // Check if response is ok and content type is JSON
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
+      const contentType = response.headers.get('content-type');
+      if (!contentType || !contentType.includes('application/json')) {
+        throw new Error('Response is not JSON');
+      }
+      
       const data = await response.json();
       setStats(data);
     } catch (error) {

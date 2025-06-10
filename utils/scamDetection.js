@@ -1,6 +1,27 @@
 // Enhanced Scam Detection Utility - With Real Threat Intelligence APIs
 // Integrates with multiple government and industry threat feeds
 
+// Add deterministic random function based on domain hash
+function hashCode(str) {
+  let hash = 0;
+  for (let i = 0; i < str.length; i++) {
+    const char = str.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32bit integer
+  }
+  return Math.abs(hash);
+}
+
+function seededRandom(seed, min = 0, max = 1) {
+  const x = Math.sin(seed) * 10000;
+  const random = x - Math.floor(x);
+  return min + random * (max - min);
+}
+
+function seededRandomInt(seed, min, max) {
+  return Math.floor(seededRandom(seed, min, max + 1));
+}
+
 // Phishing keywords (expanded from research)
 const PHISHING_KEYWORDS = [
   'secure', 'account', 'suspended', 'verify', 'update', 'confirm', 'urgent',
@@ -51,18 +72,32 @@ const SUSPICIOUS_PATTERNS = [
   /^(account|secure|login|confirm|verify)/, // Security term at start
 ];
 
-// Expanded whitelist of trusted domains
+// Expanded whitelist of trusted domains (deterministic low scores)
 const TRUSTED_DOMAINS = [
+  // Major tech companies
   'google.com', 'youtube.com', 'facebook.com', 'amazon.com', 'wikipedia.org',
   'twitter.com', 'instagram.com', 'linkedin.com', 'reddit.com', 'netflix.com',
   'microsoft.com', 'apple.com', 'github.com', 'stackoverflow.com', 'yahoo.com',
   'ebay.com', 'paypal.com', 'dropbox.com', 'zoom.us', 'adobe.com',
   'salesforce.com', 'shopify.com', 'wordpress.com', 'medium.com', 'twitch.tv',
   'tiktok.com', 'snapchat.com', 'pinterest.com', 'discord.com', 'spotify.com',
+  
+  // News & Media
   'cnn.com', 'bbc.com', 'nytimes.com', 'reuters.com', 'bloomberg.com',
-  'chase.com', 'bankofamerica.com', 'wellsfargo.com', 'citibank.com',
+  'theguardian.com', 'wsj.com', 'forbes.com', 'techcrunch.com', 'wired.com',
+  
+  // Government & Education
   'gov.sg', 'gov.uk', 'gov.us', 'edu.sg', 'edu.uk', 'edu.us',
-  'walmart.com', 'target.com', 'bestbuy.com', 'costco.com'
+  'dsta.gov.sg', 'moe.gov.sg', 'ica.gov.sg', 'cpf.gov.sg', 'hdb.gov.sg',
+  'singhealth.com.sg', 'ntu.edu.sg', 'nus.edu.sg', 'smu.edu.sg',
+  
+  // Financial services
+  'chase.com', 'bankofamerica.com', 'wellsfargo.com', 'citibank.com',
+  'americanexpress.com', 'discover.com', 'capitalone.com', 'fidelity.com',
+  
+  // E-commerce & Services
+  'walmart.com', 'target.com', 'bestbuy.com', 'costco.com', 'alibaba.com',
+  'aliexpress.com', 'taobao.com', 'jd.com', 'rakuten.com'
 ];
 
 // Popular brands for impersonation detection
@@ -98,25 +133,28 @@ class ScamDetector {
       const urlObj = new URL(url);
       const domain = urlObj.hostname;
       
-      // Calculate risk score with more nuanced approach
-      let riskScore = this.calculateBaseRiskScore(domain);
+      // Create deterministic seed from domain
+      const domainSeed = hashCode(domain);
+      
+      // Calculate risk score with deterministic approach
+      let riskScore = this.calculateBaseRiskScore(domain, domainSeed);
       
       // Apply various risk factors
-      const riskFactors = await this.calculateAllRiskFactors(url, urlObj);
+      const riskFactors = await this.calculateAllRiskFactors(url, urlObj, domainSeed);
       riskScore += riskFactors.total;
       
       // Apply domain reputation adjustments
       riskScore = this.applyDomainReputation(domain, riskScore);
       
-      // Ensure score is within bounds and add some randomization for uniqueness
+      // Ensure score is within bounds
       riskScore = Math.max(0, Math.min(100, riskScore));
       
-      // Add larger random factor for more varied results (1-8 points)
-      const randomVariation = Math.floor(Math.random() * 8) + 1;
-      riskScore = Math.min(100, riskScore + randomVariation);
+      // Add deterministic variation based on domain (not random)
+      const domainVariation = seededRandomInt(domainSeed, 1, 8);
+      riskScore = Math.min(100, riskScore + domainVariation);
       
-      // Add additional fine-tuning randomization for uniqueness
-      const fineRandomization = (Math.random() - 0.5) * 4; // -2 to +2
+      // Add deterministic fine-tuning for uniqueness
+      const fineRandomization = (seededRandom(domainSeed + 1) - 0.5) * 4; // -2 to +2
       riskScore = Math.max(0, Math.min(100, Math.round(riskScore + fineRandomization)));
 
       // Determine result and confidence based on RISK LEVEL with adjusted thresholds
@@ -159,39 +197,39 @@ class ScamDetector {
     }
   }
 
-  static calculateBaseRiskScore(domain) {
+  static calculateBaseRiskScore(domain, seed) {
     // Start with a base score depending on domain characteristics
     let baseScore = 20; // Default moderate base
     
-    // Trusted domains get very low base scores
+    // Trusted domains get very low base scores (deterministic)
     if (this.isExplicitlyTrusted(domain)) {
-      baseScore = 3 + Math.floor(Math.random() * 12); // 3-14
+      baseScore = 3 + seededRandomInt(seed, 0, 12); // 3-14
     }
     // Common TLDs get lower base scores
     else if (domain.endsWith('.com') || domain.endsWith('.org') || domain.endsWith('.net')) {
-      baseScore = 12 + Math.floor(Math.random() * 15); // 12-26
+      baseScore = 12 + seededRandomInt(seed + 1, 0, 15); // 12-26
     }
     // Government/education domains
     else if (domain.includes('.gov') || domain.includes('.edu')) {
-      baseScore = 5 + Math.floor(Math.random() * 10); // 5-14
+      baseScore = 5 + seededRandomInt(seed + 2, 0, 10); // 5-14
     }
     // Medium risk TLDs (should end up in suspicious range)
     else if (MEDIUM_RISK_TLDS.some(tld => domain.endsWith(tld))) {
-      baseScore = 20 + Math.floor(Math.random() * 18); // 20-37
+      baseScore = 20 + seededRandomInt(seed + 3, 0, 18); // 20-37
     }
     // High risk TLDs
     else if (HIGH_RISK_TLDS.some(tld => domain.endsWith(tld))) {
-      baseScore = 40 + Math.floor(Math.random() * 20); // 40-59
+      baseScore = 40 + seededRandomInt(seed + 4, 0, 20); // 40-59
     }
     // Unknown/unusual TLDs (should be suspicious)
     else {
-      baseScore = 25 + Math.floor(Math.random() * 18); // 25-42
+      baseScore = 25 + seededRandomInt(seed + 5, 0, 18); // 25-42
     }
     
     return baseScore;
   }
 
-  static async calculateAllRiskFactors(url, urlObj) {
+  static async calculateAllRiskFactors(url, urlObj, seed) {
     const domain = urlObj.hostname;
     const path = urlObj.pathname;
     const fullUrl = url.toLowerCase();
@@ -247,14 +285,14 @@ class ScamDetector {
     const pathKeywords = PHISHING_KEYWORDS.filter(keyword => path.toLowerCase().includes(keyword));
     
     if (domainKeywords.length > 0) {
-      const keywordRisk = domainKeywords.length * (4 + Math.floor(Math.random() * 6)) + Math.floor(Math.random() * 5); // More varied
+      const keywordRisk = domainKeywords.length * (4 + seededRandomInt(seed + 6, 0, 6)) + seededRandomInt(seed + 7, 0, 5); // More varied
       totalRisk += Math.min(keywordRisk, 25);
       warnings.push(`Suspicious keywords in domain (${domainKeywords.length})`);
       breakdown.domainKeywords = Math.min(keywordRisk, 25);
     }
     
     if (pathKeywords.length > 0) {
-      const pathRisk = pathKeywords.length * (2 + Math.floor(Math.random() * 4)) + Math.floor(Math.random() * 4); // More varied
+      const pathRisk = pathKeywords.length * (2 + seededRandomInt(seed + 8, 0, 4)) + seededRandomInt(seed + 9, 0, 4); // More varied
       totalRisk += Math.min(pathRisk, 15);
       warnings.push(`Suspicious keywords in path (${pathKeywords.length})`);
       breakdown.pathKeywords = Math.min(pathRisk, 15);
@@ -263,9 +301,9 @@ class ScamDetector {
     // Feature 6: Brand impersonation (very serious)
     const brandImpersonation = this.checkBrandImpersonation(domain);
     if (brandImpersonation) {
-      totalRisk += 30 + Math.floor(Math.random() * 15); // 30-44
+      totalRisk += 30 + seededRandomInt(seed + 10, 0, 15); // 30-44
       warnings.push(`Possible ${brandImpersonation} impersonation`);
-      breakdown.brandImpersonation = 30 + Math.floor(Math.random() * 15);
+      breakdown.brandImpersonation = 30 + seededRandomInt(seed + 11, 0, 15);
     }
 
     // Feature 7: HTTPS check
@@ -313,9 +351,9 @@ class ScamDetector {
 
     // Feature 11: Homograph detection
     if (this.detectHomographAttack(domain)) {
-      totalRisk += 25 + Math.floor(Math.random() * 10); // 25-34
+      totalRisk += 25 + seededRandomInt(seed + 12, 0, 10); // 25-34
       warnings.push('Possible character substitution attack');
-      breakdown.homograph = 25 + Math.floor(Math.random() * 10);
+      breakdown.homograph = 25 + seededRandomInt(seed + 13, 0, 10);
     }
 
     return {
@@ -389,12 +427,12 @@ class ScamDetector {
     // More nuanced threat simulation
     if (domain.includes('secure-') || domain.includes('-secure') || 
         domain.includes('verify-') || domain.includes('-login')) {
-      results.phishTank = Math.random() > 0.6;
+      results.phishTank = seededRandom(hashCode(domain)) > 0.6;
     }
 
     if (HIGH_RISK_TLDS.some(tld => domain.endsWith(tld))) {
-      results.ipReputation = Math.random() > 0.5;
-      results.domainAge = Math.floor(Math.random() * 60) + 1; // 1-60 days
+      results.ipReputation = seededRandom(hashCode(domain)) > 0.5;
+      results.domainAge = Math.floor(seededRandom(hashCode(domain + 'age'), 1, 60)) + 1; // 1-60 days
     }
 
     // Add small delay to simulate API call
@@ -547,13 +585,13 @@ class ScamDetector {
     const variance = 0.1;
     Object.keys(baseData).forEach(key => {
       if (typeof baseData[key] === 'number' && key !== 'accuracy') {
-        const random = 1 + (Math.random() - 0.5) * variance;
+        const random = 1 + (seededRandom(hashCode(key)) - 0.5) * variance;
         baseData[key] = Math.round(baseData[key] * random);
       }
     });
 
     const directions = ['up', 'down', 'stable'];
-    const randomDirection = directions[Math.floor(Math.random() * directions.length)];
+    const randomDirection = directions[Math.floor(seededRandom(hashCode('direction'), 0, directions.length))];
 
     return {
       ...baseData,
@@ -581,15 +619,15 @@ class ScamDetector {
         {"type": "Parcel", "count": Math.round(baseData.totalScamsDetected * 0.07), "percentage": 7.0},
         {"type": "Others", "count": Math.round(baseData.totalScamsDetected * 0.05), "percentage": 4.9}
       ],
-      recentTrends: { direction: randomDirection, percentage: Math.round(Math.random() * 20 + 5) },
+      recentTrends: { direction: randomDirection, percentage: Math.round(seededRandom(hashCode('trends'), 5, 25)) },
       hourlyActivity: [
-        {"hour": "6AM", "count": Math.round(Math.random() * 20 + 5)},
-        {"hour": "9AM", "count": Math.round(Math.random() * 30 + 15)},
-        {"hour": "12PM", "count": Math.round(Math.random() * 50 + 25)},
-        {"hour": "3PM", "count": Math.round(Math.random() * 45 + 20)},
-        {"hour": "6PM", "count": Math.round(Math.random() * 60 + 30)},
-        {"hour": "9PM", "count": Math.round(Math.random() * 70 + 40)},
-        {"hour": "12AM", "count": Math.round(Math.random() * 40 + 20)}
+        {"hour": "6AM", "count": Math.round(seededRandom(hashCode('6AM'), 5, 25))},
+        {"hour": "9AM", "count": Math.round(seededRandom(hashCode('9AM'), 15, 35))},
+        {"hour": "12PM", "count": Math.round(seededRandom(hashCode('12PM'), 25, 55))},
+        {"hour": "3PM", "count": Math.round(seededRandom(hashCode('3PM'), 20, 45))},
+        {"hour": "6PM", "count": Math.round(seededRandom(hashCode('6PM'), 30, 60))},
+        {"hour": "9PM", "count": Math.round(seededRandom(hashCode('9PM'), 40, 70))},
+        {"hour": "12AM", "count": Math.round(seededRandom(hashCode('12AM'), 20, 40))},
       ],
       topTargets: [
         {"demographic": "Ages 25-34", "count": Math.round(baseData.totalScamsDetected * 0.27), "percentage": 27.2},

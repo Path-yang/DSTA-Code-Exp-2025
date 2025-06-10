@@ -46,19 +46,19 @@ export default function WebsiteNotFound() {
               <Text style={styles.statusText}>Website Does Not Exist</Text>
             </View>
 
-                         {/* URL Display */}
-             <View style={styles.urlSection}>
-               <Text style={styles.sectionTitle}>Entered URL:</Text>
-               <View style={styles.urlContainer}>
-                 <Text style={styles.urlText}>{displayUrl}</Text>
-               </View>
-             </View>
+            {/* URL Display */}
+            <View style={styles.urlSection}>
+              <Text style={styles.sectionTitle}>Entered URL:</Text>
+              <View style={styles.urlContainer}>
+                <Text style={styles.urlText}>{displayUrl}</Text>
+              </View>
+            </View>
 
-             {/* Issue Details */}
-             <View style={styles.detailsSection}>
-               <Text style={styles.sectionTitle}>Issue Detected:</Text>
-               <Text style={styles.detailText}>• {displayReason}</Text>
-             </View>
+            {/* Issue Details */}
+            <View style={styles.detailsSection}>
+              <Text style={styles.sectionTitle}>Issue Detected:</Text>
+              <Text style={styles.detailText}>• {displayReason}</Text>
+            </View>
 
             {/* Possible Causes */}
             <View style={styles.causesSection}>
@@ -93,11 +93,11 @@ export default function WebsiteNotFound() {
               <Text style={styles.secondaryButtonText}>Back to Home</Text>
             </TouchableOpacity>
           </View>
-                 </ScrollView>
-       </SafeAreaView>
-     </View>
-   );
- }
+        </ScrollView>
+      </SafeAreaView>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
   container: {

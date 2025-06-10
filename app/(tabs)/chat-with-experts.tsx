@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleS
 import { router } from 'expo-router';
 
 // TODO: Replace with your Claude API key securely loaded from environment or config
-const CLAUDE_API_KEY = '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';
+const CLAUDE_API_KEY = '<YOUR_CLAUDE_API_KEY>';
 
 export default function ChatWithExpertsScreen() {
   const [messages, setMessages] = useState<{ sender: 'user' | 'expert'; text: string }[]>([

@@ -1,21 +1,57 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, StatusBar, Image } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, StatusBar, Image, ActivityIndicator } from 'react-native';
 import { router } from 'expo-router';
+
+// TODO: Replace with your Claude API key securely loaded from environment or config
+const CLAUDE_API_KEY = '<YOUR_CLAUDE_API_KEY>';
 
 export default function ChatWithExpertsScreen() {
   const [messages, setMessages] = useState<{ sender: 'user' | 'expert'; text: string }[]>([
     { sender: 'expert', text: 'Welcome to Cybersecurity Experts Chat! How can we help you today?' }
   ]);
   const [inputText, setInputText] = useState('');
+  const [isGenerating, setIsGenerating] = useState(false);
 
-  const sendMessage = () => {
-    if (!inputText.trim()) return;
-    setMessages(prev => [...prev, { sender: 'user', text: inputText.trim() }]);
+  const sendMessage = async () => {
+    const userText = inputText.trim();
+    if (!userText) return;
+    // Add user message
+    const updatedMessages = [...messages, { sender: 'user' as const, text: userText }];
+    setMessages(updatedMessages);
     setInputText('');
-    // TODO: Send message to experts via WebSocket or API
-    setTimeout(() => {
-      setMessages(prev => [...prev, { sender: 'expert', text: 'Thank you for your question. We will respond shortly.' }]);
-    }, 1000);
+    setIsGenerating(true);
+    try {
+      // Build Claude prompt from conversation
+      let prompt = 'You are a helpful cybersecurity expert.';
+      updatedMessages.forEach(m => {
+        prompt += `\nHuman: ${m.sender === 'user' ? m.text : ''}`;
+        prompt += `\nAssistant: ${m.sender === 'expert' ? m.text : ''}`;
+      });
+      prompt += `\nHuman: ${userText}\nAssistant:`;
+      // Call Claude API
+      const response = await fetch('https://api.anthropic.com/v1/complete', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-API-Key': CLAUDE_API_KEY
+        },
+        body: JSON.stringify({
+          model: 'claude-2.1',
+          prompt: prompt,
+          max_tokens_to_sample: 300,
+          stop_sequences: ['\nHuman:']
+        })
+      });
+      if (!response.ok) throw new Error(`Claude API ${response.status}`);
+      const data = await response.json();
+      const aiText = data.completion?.trim() || 'Sorry, I could not understand.';
+      setMessages(prev => [...prev, { sender: 'expert' as const, text: aiText }]);
+    } catch (error) {
+      setMessages(prev => [...prev, { sender: 'expert' as const, text: 'Sorry, I encountered an error.' }]);
+      console.error('API error:', error);
+    } finally {
+      setIsGenerating(false);
+    }
   };
 
   return (
@@ -61,8 +97,12 @@ export default function ChatWithExpertsScreen() {
           value={inputText}
           onChangeText={setInputText}
         />
-        <TouchableOpacity style={styles.sendButton} onPress={sendMessage}>
-          <Text style={styles.sendButtonText}>Send</Text>
+        <TouchableOpacity style={styles.sendButton} onPress={sendMessage} disabled={isGenerating}>
+          {isGenerating ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.sendButtonText}>Send</Text>
+          )}
         </TouchableOpacity>
       </View>
     </SafeAreaView>

@@ -54,9 +54,15 @@ const fakeSites: Record<string, { title: string; url: string; content: string; i
 };
 
 export default function BrowserSimulation() {
-    const { addScore, showPointsPopup } = useContext(ScoreContext);
-    const params = useLocalSearchParams<{ initialUrl: string }>();
+    const { addScore, showPointsPopup, addRespondedEmail, addRespondedMessage } = useContext(ScoreContext);
+    const params = useLocalSearchParams<{
+        initialUrl: string;
+        sourceType?: string;
+        sourceId?: string;
+    }>();
     const initialUrl = params.initialUrl ?? 'http://sigmashield.com';
+    const sourceType = params.sourceType;
+    const sourceId = params.sourceId;
     const [currentUrl, setCurrentUrl] = useState<string>(initialUrl);
     const router = useRouter();
     const onExit = () => router.back();
@@ -75,6 +81,15 @@ export default function BrowserSimulation() {
                 message = '✅ Info submitted safely.';
                 points = 10;
             }
+
+            // Mark the source email/message as responded when submitting info
+            if (sourceType && sourceId) {
+                if (sourceType === 'email') {
+                    addRespondedEmail(sourceId);
+                } else if (sourceType === 'message') {
+                    addRespondedMessage(sourceId);
+                }
+            }
         }
 
         setFeedback(message);
@@ -87,7 +102,14 @@ export default function BrowserSimulation() {
             <TouchableOpacity onPress={onExit} style={styles.backButton}>
                 <Text style={styles.backText}>{'< Back'}</Text>
             </TouchableOpacity>
-            <Text style={styles.url}>{site.url}</Text>
+
+            {/* URL Bar Container */}
+            <View style={styles.urlContainer}>
+                <Text style={styles.url}>{site.url}</Text>
+                <TouchableOpacity style={styles.reloadButton}>
+                    <Image source={require('@/assets/images/very-basic-reload-icon.png')} style={styles.reloadIcon} />
+                </TouchableOpacity>
+            </View>
 
             <ScrollView style={styles.contentBox}>
                 <Text style={styles.title}>{site.title}</Text>
@@ -116,7 +138,37 @@ const styles = StyleSheet.create({
     backButton: { marginBottom: 10 },
     backText: { color: '#007AFF', fontSize: 16, marginLeft: 10 },
     title: { fontSize: 20, fontWeight: 'bold', marginBottom: 15 },
-    url: { color: '#555', marginBottom: 15, fontStyle: 'italic', marginLeft: 10 },
+    urlContainer: {
+        backgroundColor: '#f0f0f0',
+        borderRadius: 20,
+        paddingVertical: 10,
+        paddingHorizontal: 15,
+        marginHorizontal: 10,
+        marginBottom: 15,
+        elevation: 2,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.2,
+        shadowRadius: 2,
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
+    url: {
+        flex: 1,
+        color: '#333',
+        fontSize: 14,
+        textAlign: 'center',
+        fontFamily: 'monospace',
+    },
+    reloadButton: {
+        marginLeft: 10,
+        padding: 2,
+    },
+    reloadIcon: {
+        width: 16,
+        height: 16,
+        tintColor: '#666',
+    },
     contentBox: { flex: 1, backgroundColor: '#fff', padding: 15, borderRadius: 10, marginBottom: 20, elevation: 3 },
     warning: { marginTop: 15, color: 'red', fontWeight: 'bold' },
     buttons: { flexDirection: 'row', justifyContent: 'space-around', marginBottom: 15 },

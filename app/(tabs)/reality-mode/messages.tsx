@@ -50,9 +50,16 @@ export default function RealityModeMessages() {
     const handleLinkClick = () => {
         if (!selectedMsg) return;
         const initialUrl = selectedMsg.url ?? selectedMsg.body.match(/https?:\/\/[^\s]+/)?.[0] ?? '';
-        addRespondedMessage(selectedMsg.id);
+        // Don't mark as responded when clicking link - only when submitting info in browser
         setSelectedMsg(null);
-        router.push({ pathname: '/reality-mode/browser', params: { initialUrl } });
+        router.push({
+            pathname: '/reality-mode/browser',
+            params: {
+                initialUrl,
+                sourceType: 'message',
+                sourceId: selectedMsg.id
+            }
+        });
     };
 
     const renderMessageBody = (body: string) => {

@@ -24,8 +24,10 @@ export default function LearnScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>Learning About Scams</Text>
-        <IconSymbol size={60} name="shield.fill" color="#e74c3c" />
+        <View style={styles.headerContent}>
+          <Text style={styles.headerTitle}>Learning About Scams</Text>
+          <IconSymbol size={60} name="shield.fill" color="#e74c3c" />
+        </View>
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
         {topics.map((topic, index) => (
@@ -75,14 +77,19 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     paddingVertical: 15,
+  },
+  headerContent: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: '100%',
   },
   headerTitle: {
     color: '#fff',
     fontSize: 28,
     fontWeight: 'bold',
+    flex: 1,
+    marginRight: 10,
   },
   content: {
     paddingHorizontal: 20,

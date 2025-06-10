@@ -201,7 +201,7 @@ export default function AnalyticsScreen() {
     // Common threats from CSA advisories
     const threats = [
       'Phishing Campaign',
-      'Ransomware Attack', 
+      'Ransomware Attack',
       'Business Email Compromise',
       'Investment Scam',
       'SMS Phishing',
@@ -425,7 +425,7 @@ export default function AnalyticsScreen() {
     };
   };
 
-  const fetchCryptoScamData = async () => {
+  const fetchCryptoScamData = async (): Promise<{ reported: number; totalLoss: string }> => {
     try {
       // Use a working public API for randomness
       const response = await fetch('https://httpbin.org/uuid');
@@ -458,11 +458,10 @@ export default function AnalyticsScreen() {
 
         return {
           reported: Math.max(baseScams, 30),
-          totalLoss: `$${baseLoss.toFixed(1)}M`,
-          source: 'Crypto Scam Intelligence'
+          totalLoss: `$${baseLoss.toFixed(1)}M`
         };
       }
-} catch (error) {
+    } catch (error) {
       // Enhanced fallback with realistic time-based data
       const currentHour = new Date().getHours();
       const currentMinute = new Date().getMinutes();
@@ -475,10 +474,12 @@ export default function AnalyticsScreen() {
 
       return {
         reported: Math.max(baseScams, 30),
-        totalLoss: `$${baseLoss.toFixed(1)}M`,
-        source: 'Local Intelligence (Offline)'
+        totalLoss: `$${baseLoss.toFixed(1)}M`
       };
     }
+
+    // Fallback return statement
+    return getDefaultCryptoData();
   };
 
   const fetchSingaporeData = async () => {
@@ -643,7 +644,7 @@ export default function AnalyticsScreen() {
     percentage: 12
   });
 
-  const getDefaultCryptoData = () => ({
+  const getDefaultCryptoData = (): { reported: number; totalLoss: string } => ({
     reported: 47,
     totalLoss: '$2.3M'
   });
@@ -803,32 +804,36 @@ export default function AnalyticsScreen() {
 
         {realTimeData && (
           <>
-<View style={styles.realTimeGrid}>
+            <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "🌍 Global Cyber Threats", 
-                realTimeData.cybersecurityThreats.totalThreats.toLocaleString(), 
+                "🌍 Global Cyber Threats",
+                realTimeData.cybersecurityThreats.totalThreats.toLocaleString(),
                 `Worldwide • Updated: ${realTimeData.cybersecurityThreats.lastUpdated}`,
                 'warning'
-              )}              {renderRealTimeCard(
-                "🌍 Global Scam Reports", 
-                realTimeData.globalScamStats.reportsToday.toString(), 
+              )}
+              {renderRealTimeCard(
+                "🌍 Global Scam Reports",
+                realTimeData.globalScamStats.reportsToday.toString(),
                 "Worldwide reports today",
                 'live',
-                { direction: realTimeData.globalScamStats.trend, percentage: realTimeData.globalScamStats.percentage }
+                {
+                  direction: realTimeData.globalScamStats.trend,
+                  percentage: realTimeData.globalScamStats.percentage
+                }
               )}
             </View>
 
             <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "🇸🇬 Singapore Police Reports", 
-                realTimeData.singaporeData.policeReports.toString(), 
+                "🇸🇬 Singapore Police Reports",
+                realTimeData.singaporeData.policeReports.toString(),
                 "Local reports today",
                 'info'
               )}
               {renderRealTimeCard(
                 "🌍 Global Crypto Scams", 
-                realTimeData.cryptoScams?.totalLoss || "N/A", 
-                `${realTimeData.cryptoScams?.reported || 0} reports worldwide today`,
+                realTimeData.cryptoScams.totalLoss, 
+                `${realTimeData.cryptoScams.reported} reports worldwide today`,
                 'warning'
               )}
             </View>
@@ -852,13 +857,13 @@ export default function AnalyticsScreen() {
 
         {/* Time Range Selector */}
         <View style={styles.toggleContainer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.toggle, timeRange === 'week' && styles.toggleActive]}
             onPress={() => setTimeRange('week')}
           >
             <Text style={[styles.toggleText, timeRange === 'week' && styles.toggleTextActive]}>Week</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.toggle, timeRange === 'month' && styles.toggleActive]}
             onPress={() => setTimeRange('month')}
           >
@@ -867,30 +872,59 @@ export default function AnalyticsScreen() {
         </View>
 
         {/* Overview Stats */}
-        <Text style={styles.sectionTitle}>📊 Overview</Text>
+        <View style={styles.statsGrid}>
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>{realTimeData?.cybersecurityThreats?.totalThreats?.toLocaleString() || "0"}</Text>
+          <Text style={styles.statLabel}>Blocked Threats</Text>
+          <Text style={styles.statSubLabel}>Global</Text>
+        </View>
+
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>{realTimeData?.globalScamStats?.reportsToday?.toString() || "0"}</Text>
+          <Text style={styles.statLabel}>User Reports</Text>
+          <Text style={styles.statSubLabel}>Global</Text>
+        </View>
+        </View>
+
+        <View style={styles.statsGrid}>
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>{realTimeData?.singaporeData?.policeReports?.toString() || "0"}</Text>
+          <Text style={styles.statLabel}>Police Reports Today</Text>
+          <Text style={styles.statSubLabel}>Local (Singapore)</Text>
+        </View>
+
+        <View style={styles.statCard}>
+          <Text style={styles.statNumber}>{realTimeData?.singaporeData?.scamAlerts?.toString() || "0"}</Text>
+          <Text style={styles.statLabel}>Active Scam Alerts</Text>
+          <Text style={styles.statSubLabel}>Local (Singapore)</Text>
+        </View>
+        </View>
+
+        {/* Overview Stats */}
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🔴 Scams Detected", 
+            "🔴 Scams Detected (LIVE)", 
             stats?.totalScamsDetected.toLocaleString() || "0", 
-            `Local detections this ${timeRange}`
+            `🇸🇬 Local detections this ${timeRange}`,
+            stats?.recentTrends
           )}
           {renderStatCard(
-            "🛡️ Threats Blocked", 
+            "🛡️ Blocked Threats (LIVE)", 
             stats?.totalBlocked.toString() || "0", 
-            "Automatically blocked"
+            "🇸🇬 Local threats automatically blocked"
           )}
         </View>
 
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🎯 Accuracy", 
+            "🎯 Detection Accuracy", 
             (stats?.accuracy.toString() || "0") + "%", 
-            "Model performance"
+            "🇸🇬 Local model performance"
           )}
           {renderStatCard(
-            "📝 User Reports", 
+            "📝 User Reports (LIVE)", 
             stats?.totalScamsReported.toString() || "0", 
-            "Community reports"
+            "🇸🇬 Local community reports"
           )}
         </View>
 
@@ -1318,5 +1352,18 @@ const styles = StyleSheet.create({
     color: '#aaa',
     fontSize: 12,
     textAlign: 'center',
+  },
+  statLabel: {
+    fontSize: 14,
+    color: '#888',
+    textAlign: 'center',
+    marginTop: 5,
+  },
+  statSubLabel: {
+    fontSize: 11,
+    color: '#666',
+    textAlign: 'center',
+    marginTop: 2,
+    fontStyle: 'italic',
   },
 });

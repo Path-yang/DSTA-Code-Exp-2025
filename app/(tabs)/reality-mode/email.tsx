@@ -48,9 +48,16 @@ export default function RealityModeEmail() {
     const handleLinkClick = () => {
         if (!selectedEmail) return;
         const initialUrl = selectedEmail.url ?? selectedEmail.body.match(/https?:\/\/[^\s]+/)?.[0] ?? '';
-        addRespondedEmail(selectedEmail.id);
+        // Don't mark as responded when clicking link - only when submitting info in browser
         setSelectedEmail(null);
-        router.push({ pathname: '/reality-mode/browser', params: { initialUrl } });
+        router.push({
+            pathname: '/reality-mode/browser',
+            params: {
+                initialUrl,
+                sourceType: 'email',
+                sourceId: selectedEmail.id
+            }
+        });
     };
 
     const renderEmailBody = (body: string) => {

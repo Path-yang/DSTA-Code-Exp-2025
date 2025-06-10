@@ -35,7 +35,7 @@ export default function RealityModeLanding() {
                         </View>
 
                         <View style={styles.featuresSection}>
-                            <Text style={styles.featuresTitle}>🎯 What You'll Practice</Text>
+                            <Text style={styles.featuresTitle}>🎯 What You'll Practice in this Level</Text>
 
                             <View style={styles.feature}>
                                 <Text style={styles.featureIcon}>📧</Text>

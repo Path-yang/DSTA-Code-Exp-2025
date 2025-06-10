@@ -4,7 +4,7 @@ import { router } from 'expo-router';
 
 export default function RealityModeIntro() {
     const handleStartTraining = () => {
-        router.push('./reality-mode-landing');
+        router.push('./reality-mode-landing-lvl1');
     };
 
     const handleBack = () => {
@@ -37,7 +37,8 @@ export default function RealityModeIntro() {
                             <Text style={styles.objectiveTitle}>🏆 Scoring System</Text>
                             <View style={styles.objectiveCard}>
                                 <Text style={styles.objectiveText}>
-                                    • Correctly identify threats: +10 points{'\n'}
+                                    • Correctly report threats: +10 points{'\n'}
+                                    • Falling for threats: -10 points{'\n'}
                                     • Trusting safe sources: +10 points{'\n'}
                                     • False reporting: -5 points{'\n'}
                                     • Ignoring threats: 0 points{'\n'}

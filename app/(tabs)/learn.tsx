@@ -11,6 +11,7 @@ export default function LearnScreen() {
 
   const topics = [
     { label: 'Webinars', route: '/webinars' },
+    { label: 'Chat with Experts', route: '/chat-with-experts' },
     { label: 'Common Types of Scam', route: '/common-types-of-scam' },
     { label: 'How To Identify Scam', route: '/how-to-identify-scams' },
     { label: 'Avoiding Scams', route: '/avoiding-scams' },

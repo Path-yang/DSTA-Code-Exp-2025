@@ -54,11 +54,20 @@ export default function AnalyticsScreen() {
   }, [timeRange]);
 
   const fetchStats = async () => {
+    setLoading(true);
+    
+    // Simulate loading time for better UX
+    setTimeout(() => {
+      setStats(getMockStats());
+      setLoading(false);
+    }, 800);
+    
+    // Note: API endpoint not available, using mock data
+    // When API is ready, uncomment the code below:
+    /*
     try {
-      setLoading(true);
       const response = await fetch(`https://dsta-code-exp-2025.onrender.com/analytics?period=${timeRange}`);
       
-      // Check if response is ok and content type is JSON
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -72,11 +81,11 @@ export default function AnalyticsScreen() {
       setStats(data);
     } catch (error) {
       console.error('Failed to fetch analytics:', error);
-      // Fallback to mock data if API fails
       setStats(getMockStats());
     } finally {
       setLoading(false);
     }
+    */
   };
 
   const getMockStats = (): ScamStats => ({

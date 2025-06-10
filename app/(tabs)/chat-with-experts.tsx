@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleS
 import { router } from 'expo-router';
 
 // TODO: Replace with your Claude API key securely loaded from environment or config
-const CLAUDE_API_KEY = '<YOUR_CLAUDE_API_KEY>';
+const CLAUDE_API_KEY = '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';
 
 export default function ChatWithExpertsScreen() {
   const [messages, setMessages] = useState<{ sender: 'user' | 'expert'; text: string }[]>([
@@ -21,30 +21,38 @@ export default function ChatWithExpertsScreen() {
     setInputText('');
     setIsGenerating(true);
     try {
-      // Build Claude prompt from conversation
-      let prompt = 'You are a helpful cybersecurity expert.';
-      updatedMessages.forEach(m => {
-        prompt += `\nHuman: ${m.sender === 'user' ? m.text : ''}`;
-        prompt += `\nAssistant: ${m.sender === 'expert' ? m.text : ''}`;
-      });
-      prompt += `\nHuman: ${userText}\nAssistant:`;
-      // Call Claude API
-      const response = await fetch('https://api.anthropic.com/v1/complete', {
+      // Prepare messages for Claude Messages API
+      const claudeMessages = updatedMessages
+        .filter(m => m.text.trim())
+        .map(m => ({
+          role: m.sender === 'user' ? 'user' : 'assistant',
+          content: m.text
+        }));
+      
+      // Call Claude Messages API
+      const response = await fetch('https://api.anthropic.com/v1/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'X-API-Key': CLAUDE_API_KEY
+          'X-API-Key': CLAUDE_API_KEY,
+          'anthropic-version': '2023-06-01'
         },
         body: JSON.stringify({
-          model: 'claude-2.1',
-          prompt: prompt,
-          max_tokens_to_sample: 300,
-          stop_sequences: ['\nHuman:']
+          model: 'claude-3-haiku-20240307',
+          max_tokens: 300,
+          system: 'You are a helpful cybersecurity expert from DSTA. Provide clear, accurate advice about cybersecurity threats, scam prevention, and digital safety.',
+          messages: claudeMessages
         })
       });
-      if (!response.ok) throw new Error(`Claude API ${response.status}`);
+      
+      if (!response.ok) {
+        const errorText = await response.text();
+        console.error('Claude API Error:', response.status, errorText);
+        throw new Error(`Claude API ${response.status}: ${errorText}`);
+      }
+      
       const data = await response.json();
-      const aiText = data.completion?.trim() || 'Sorry, I could not understand.';
+      const aiText = data.content?.[0]?.text?.trim() || 'Sorry, I could not understand.';
       setMessages(prev => [...prev, { sender: 'expert' as const, text: aiText }]);
     } catch (error) {
       setMessages(prev => [...prev, { sender: 'expert' as const, text: 'Sorry, I encountered an error.' }]);
@@ -71,7 +79,7 @@ export default function ChatWithExpertsScreen() {
             return (
               <View style={styles.expertRow}>
                 <Image
-                  source={require('@/assets/images/cybersecurity expert.jpg')}
+                  source={require('../../assets/images/cybersecurity expert.jpg')}
                   style={styles.avatar}
                 />
                 <View style={[styles.messageContainer, styles.expertMessage]}> 

@@ -41,6 +41,11 @@ export default function ChatWithExpertsScreen() {
   // Force clear input text on component mount to prevent autofill issues
   useEffect(() => {
     setInputText('');
+    // Additional timeout to ensure input is cleared after any autofill attempts
+    const timeoutId = setTimeout(() => {
+      setInputText('');
+    }, 100);
+    return () => clearTimeout(timeoutId);
   }, []);
 
   useEffect(() => {
@@ -292,25 +297,34 @@ export default function ChatWithExpertsScreen() {
         contentContainerStyle={styles.messagesList}
       />
       <View style={styles.inputContainer}>
-        <TextInput
-          key="chat-input-field"
-          style={styles.input}
-          placeholder="Type your message..."
-          placeholderTextColor="#aaa"
-          value={inputText}
-          onChangeText={setInputText}
-          autoComplete="off"
-          autoCorrect={true}
-          autoCapitalize="sentences"
-          textContentType={undefined}
-          passwordRules=""
-          enablesReturnKeyAutomatically={false}
-          returnKeyType="send"
-          blurOnSubmit={false}
-          clearTextOnFocus={false}
-          selectTextOnFocus={false}
-          onSubmitEditing={sendMessage}
-        />
+        <View style={styles.inputWrapper}>
+          <TextInput
+            style={styles.input}
+            placeholder="Type your message..."
+            placeholderTextColor="#aaa"
+            value={inputText}
+            onChangeText={(text) => {
+              // Force clear any autofill suggestions by handling text change manually
+              setInputText(text);
+            }}
+            autoComplete="off"
+            autoCorrect={true}
+            autoCapitalize="sentences"
+            textContentType="none"
+            importantForAutofill="no"
+            passwordRules=""
+            keyboardType="default"
+            returnKeyType="send"
+            enablesReturnKeyAutomatically={false}
+            onSubmitEditing={sendMessage}
+            clearButtonMode="never"
+            autoFocus={false}
+            selectTextOnFocus={false}
+            clearTextOnFocus={false}
+            secureTextEntry={false}
+            dataDetectorTypes="none"
+          />
+        </View>
         <TouchableOpacity style={styles.sendButton} onPress={sendMessage} disabled={isGenerating}>
           {isGenerating ? (
             <ActivityIndicator color="#fff" />
@@ -341,7 +355,8 @@ const styles = StyleSheet.create({
   expertLabel: { color: '#aaa', fontSize: 12, marginTop: 4 },
   messageText: { color: '#fff', fontSize: 16 },
   inputContainer: { flexDirection: 'row', alignItems: 'center', padding: 10, borderTopWidth: 1, borderTopColor: '#333', backgroundColor: '#000' },
-  input: { flex: 1, color: '#fff', fontSize: 16, padding: 10, backgroundColor: '#1a1a1a', borderRadius: 20, marginRight: 10 },
+  inputWrapper: { flex: 1, marginRight: 10 },
+  input: { flex: 1, color: '#fff', fontSize: 16, padding: 10, backgroundColor: '#1a1a1a', borderRadius: 20 },
   sendButton: { backgroundColor: '#007AFF', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 20 },
   sendButtonText: { color: '#fff', fontSize: 16, fontWeight: 'bold' },
 }); 

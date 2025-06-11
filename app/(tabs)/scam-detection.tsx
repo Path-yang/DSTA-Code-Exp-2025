@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Alert, Linking } from 'react-native';
 import {
   View,
@@ -9,6 +9,9 @@ import {
   SafeAreaView,
   StatusBar,
   ActivityIndicator,
+  ScrollView,
+  Keyboard,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import { router } from 'expo-router';
 import { useUser } from '../context/UserContext';
@@ -29,16 +32,37 @@ export default function ScamDetectionScreen() {
   const [result, setResult] = useState<DetectionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
   const { isLoggedIn, isGuestMode, logout, updateStats } = useUser();
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setIsKeyboardVisible(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setIsKeyboardVisible(false);
+    });
+
+    return () => {
+      keyboardDidShowListener?.remove();
+      keyboardDidHideListener?.remove();
+    };
+  }, []);
 
   const handleDetect = async () => {
     if (!urlInput.trim()) return;
+
+    // Hide keyboard and clear input immediately
+    Keyboard.dismiss();
+    const inputToProcess = urlInput.trim();
+    setUrlInput('');
+
     setLoading(true);
     setError('');
     try {
       // First check if the website exists
-      const websiteCheck = await WebsiteChecker.checkWebsiteExists(urlInput.trim());
-      const urlParam = encodeURIComponent(urlInput.trim());
+      const websiteCheck = await WebsiteChecker.checkWebsiteExists(inputToProcess);
+      const urlParam = encodeURIComponent(inputToProcess);
 
       // If website doesn't exist, redirect to not-found page
       if (!websiteCheck.exists) {
@@ -49,11 +73,11 @@ export default function ScamDetectionScreen() {
       }
 
       // If website exists, proceed with rule-based scam detection
-      const result = await ScamDetector.analyzeURL(urlInput.trim());
+      const result = await ScamDetector.analyzeURL(inputToProcess);
       const { confidence, riskScore = 0 } = result;
       const actualRiskScore = riskScore || confidence || 0;
 
-      console.log(`🔍 Analyzed URL: ${urlInput.trim()} → Risk Score: ${actualRiskScore}%`);
+      console.log(`🔍 Analyzed URL: ${inputToProcess} → Risk Score: ${actualRiskScore}%`);
 
       // Update user stats if logged in
       if (isLoggedIn && !isGuestMode) {
@@ -91,19 +115,7 @@ export default function ScamDetectionScreen() {
     router.push('/(tabs)/report-scam');
   };
 
-  const handleReadMore = () => {
-    Alert.alert(
-      "Open IMDA Website",
-      "You'll be redirected to the official IMDA site to learn more about scam prevention.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Proceed",
-          onPress: () => Linking.openURL('https://www.imda.gov.sg/how-we-can-help/anti-scam-measures#:~:text=Learn%20about%20the%20different%20scam,6pm%2C%20excluding%20Public%20Holidays)')
-        }
-      ]
-    );
-  };
+
 
   const showLoginPrompt = (feature: string) => {
     Alert.alert(
@@ -177,101 +189,112 @@ export default function ScamDetectionScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
-
-      {/* Header */}
-      <View style={styles.header}>
-        <View style={styles.headerTop}>
-          <Text style={styles.headerTitle}>Scam Detection</Text>
-        </View>
-        <Text style={styles.headerSubtitle}>
-          Need help deciphering if somebody is trying to scam you? Paste suspicious messages or links and let our AI and community flag the risks — fast, free, and secure.
-        </Text>
-      </View>
-
-      {/* Main Content */}
-      <View style={styles.content}>
-        {/* Read More Card */}
-        <TouchableOpacity style={styles.readMoreCard} onPress={handleReadMore}>
-          <View style={styles.cardIcon}>
-            <FontAwesome name="book" size={20} color="#fff" />
-          </View>
-          <Text style={styles.cardText}>Read more about the dangers of scams</Text>
-          <Text style={styles.linkText}>Link</Text>
-        </TouchableOpacity>
-
-        {/* Scam Detector Section */}
-        <View style={styles.detectorSection}>
-          <View style={styles.detectorHeader}>
-            <View style={styles.warningIcon}>
-              <FontAwesome name="exclamation-triangle" size={20} color="#fff" />
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={{ flex: 1 }}>
+          {/* Header */}
+          <View style={styles.header}>
+            <View style={styles.headerTop}>
+              <Text style={styles.headerTitle}>Scam Detection</Text>
             </View>
-            <View>
-              <Text style={styles.detectorTitle}>Scam detector:</Text>
-              <Text style={styles.detectorSubtitle}>Enter URL</Text>
-            </View>
+            <Text style={styles.headerSubtitle}>
+              Need help deciphering if somebody is trying to scam you? Paste suspicious messages or links and let our AI and community flag the risks — fast, free, and secure.
+            </Text>
           </View>
 
-          <TextInput
-            style={styles.urlInput}
-            value={urlInput}
-            onChangeText={setUrlInput}
-            placeholder="Type Here . . ."
-            placeholderTextColor="#666"
-            autoComplete="off"
-            autoCorrect={false}
-            autoCapitalize="none"
-            textContentType="URL"
-            secureTextEntry={false}
-            keyboardType="url"
+          {/* Main Content */}
+          <ScrollView
+            style={styles.scrollView}
+            contentContainerStyle={[
+              styles.content,
+              isKeyboardVisible && styles.contentWithKeyboard
+            ]}
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            scrollEnabled={isKeyboardVisible}
+          >
+            {/* How to Use Section */}
+            <View style={styles.howToUseSection}>
+              <Text style={styles.howToUseTitle}>How to use</Text>
+              <Text style={styles.howToUseText}>
+                Copy any suspicious links and paste it into our scam detector below. Hit the detect button and let our AI do the work to keep you safe!
+              </Text>
+            </View>
+
+            {/* Scam Detector Section */}
+            <View style={styles.detectorSection}>
+              <View style={styles.detectorHeader}>
+                <View style={styles.warningIcon}>
+                  <FontAwesome name="exclamation-triangle" size={20} color="#fff" />
+                </View>
+                <View>
+                  <Text style={styles.detectorTitle}>Scam detector:</Text>
+                  <Text style={styles.detectorSubtitle}>Enter URL</Text>
+                </View>
+              </View>
+
+              <TextInput
+                style={styles.urlInput}
+                value={urlInput}
+                onChangeText={setUrlInput}
+                placeholder="Type Here . . ."
+                placeholderTextColor="#666"
+                autoComplete="off"
+                autoCorrect={false}
+                autoCapitalize="none"
+                textContentType="URL"
+                secureTextEntry={false}
+                keyboardType="url"
+              />
+            </View>
+
+            {/* Results Section removed - handled via separate pages */}
+
+            {/* Action Buttons */}
+            {loading ? (
+              <View style={styles.loadingContainer}>
+                <ActivityIndicator size="large" color="#007AFF" />
+              </View>
+            ) : (
+              <TouchableOpacity style={styles.detectButton} onPress={handleDetect}>
+                <FontAwesome name="exclamation-triangle" size={20} color="#fff" style={styles.detectButtonIcon} />
+                <Text style={styles.detectButtonText}>Detect</Text>
+              </TouchableOpacity>
+            )}
+
+            <TouchableOpacity style={styles.reportButton} onPress={handleReport}>
+              <FontAwesome name="flag" size={20} color="#fff" style={styles.reportButtonIcon} />
+              <Text style={styles.reportButtonText}>Report</Text>
+            </TouchableOpacity>
+
+            <Text style={styles.warningText}>
+              Please remain vigilant... Do not be the next victim
+            </Text>
+          </ScrollView>
+
+          {/* Enhanced Bottom Navigation */}
+          <EnhancedBottomNav
+            onTabPress={(tabId) => {
+              switch (tabId) {
+                case 'home':
+                  router.push('/scam-detection');
+                  break;
+                case 'learn':
+                  handleLearn();
+                  break;
+                case 'analytics':
+                  handleStats();
+                  break;
+                case 'forum':
+                  handleChatForum();
+                  break;
+                case 'myInfo':
+                  handleMyInfo();
+                  break;
+              }
+            }}
           />
         </View>
-
-        {/* Results Section removed - handled via separate pages */}
-
-        {/* Action Buttons */}
-        {loading ? (
-          <View style={styles.loadingContainer}>
-            <ActivityIndicator size="large" color="#007AFF" />
-          </View>
-        ) : (
-          <TouchableOpacity style={styles.detectButton} onPress={handleDetect}>
-            <FontAwesome name="exclamation-triangle" size={20} color="#fff" style={styles.detectButtonIcon} />
-            <Text style={styles.detectButtonText}>Detect</Text>
-          </TouchableOpacity>
-        )}
-
-        <TouchableOpacity style={styles.reportButton} onPress={handleReport}>
-          <FontAwesome name="flag" size={20} color="#fff" style={styles.reportButtonIcon} />
-          <Text style={styles.reportButtonText}>Report</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.warningText}>
-          Please remain vigilant... Do not be the next victim
-        </Text>
-      </View>
-
-      {/* Enhanced Bottom Navigation */}
-      <EnhancedBottomNav
-        onTabPress={(tabId) => {
-          switch (tabId) {
-            case 'home':
-              router.push('/scam-detection');
-              break;
-            case 'learn':
-              handleLearn();
-              break;
-            case 'analytics':
-              handleStats();
-              break;
-            case 'forum':
-              handleChatForum();
-              break;
-            case 'myInfo':
-              handleMyInfo();
-              break;
-          }
-        }}
-      />
+      </TouchableWithoutFeedback>
     </SafeAreaView>
   );
 }
@@ -301,42 +324,39 @@ const styles = StyleSheet.create({
     fontSize: 18,
     lineHeight: 24,
   },
-  content: {
+  scrollView: {
     flex: 1,
-    paddingHorizontal: 20,
-    justifyContent: 'space-around',
   },
-  readMoreCard: {
+  content: {
+    flexGrow: 1,
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  contentWithKeyboard: {
+    paddingBottom: 300,
+  },
+  howToUseSection: {
     backgroundColor: '#333',
     borderRadius: 12,
     padding: 15,
-    marginBottom: 20,
-    flexDirection: 'row',
-    alignItems: 'center',
+    marginBottom: 30,
   },
-  cardIcon: {
-    width: 40,
-    height: 40,
-    backgroundColor: '#e74c3c',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 15,
-  },
-  cardText: {
+  howToUseTitle: {
     color: '#fff',
-    fontSize: 16,
-    flex: 1,
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
   },
-  linkText: {
-    color: '#4a9eff',
-    fontSize: 14,
+  howToUseText: {
+    color: '#aaa',
+    fontSize: 16,
+    lineHeight: 22,
   },
   detectorSection: {
     backgroundColor: '#333',
     borderRadius: 12,
     padding: 15,
-    marginBottom: 20,
+    marginBottom: 30,
   },
   detectorHeader: {
     flexDirection: 'row',
@@ -375,7 +395,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 20,
   },
   detectButtonIcon: {
     marginRight: 10,

@@ -404,7 +404,7 @@ class AuthService {
       if (DEMO_MODE) {
         return true;
       }
-      
+
       const response = await fetch(`${API_BASE_URL}/auth/health/`);
       return response.ok;
     } catch {
@@ -421,6 +421,7 @@ export default {
   logout: authService.logout.bind(authService),
   getUserInfo: authService.getUserInfo.bind(authService),
   refreshToken: authService.refreshToken.bind(authService),
+  isLoggedIn: authService.isLoggedIn.bind(authService),
   isTokenValid: authService.isLoggedIn.bind(authService),
   getStoredUserData: authService.getStoredUserData.bind(authService),
   updateStats: authService.updateStats.bind(authService),

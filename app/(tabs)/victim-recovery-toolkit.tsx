@@ -210,20 +210,7 @@ export default function VictimRecoveryToolkit() {
             <ChecklistItem>Never give personal info to unsolicited contacts</ChecklistItem>
           </ActionCard>
 
-          {/* Emergency Helpline */}
-          <View style={styles.emergencyCard}>
-            <View style={styles.emergencyHeader}>
-              <Text style={styles.emergencyIcon}>📞</Text>
-              <Text style={styles.emergencyTitle}>Need Immediate Help?</Text>
-            </View>
-            <Text style={styles.emergencyText}>
-              If you're in crisis or need immediate support
-            </Text>
-            <View style={styles.helplineContainer}>
-              <Text style={styles.helplineNumber}>Police hotline: 999</Text>
-              <Text style={styles.helplineNumber}>ScamShield helpline: 1799</Text>
-            </View>
-          </View>
+
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -368,35 +355,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#aaa',
   },
-  emergencyCard: {
-    backgroundColor: '#FF453A',
-    borderRadius: 16,
-    padding: 20,
-    marginTop: 8,
-  },
-  emergencyHeader: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  emergencyIcon: {
-    fontSize: 24,
-    marginRight: 12,
-  },
-  emergencyTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#FFFFFF',
-  },
-  emergencyText: {
-    fontSize: 16,
-    color: '#FFFFFF',
-    marginBottom: 16,
-    opacity: 0.9,
-  },
-  helplineContainer: {
-    gap: 8,
-  },
+
   helplineNumber: {
     fontSize: 18,
     fontWeight: '600',

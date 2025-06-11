@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -12,7 +12,8 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
-  ScrollView
+  ScrollView,
+  Keyboard
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useUser } from '../context/UserContext';
@@ -21,9 +22,24 @@ export default function HomeScreen() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isKeyboardVisible, setIsKeyboardVisible] = useState(false);
 
   const router = useRouter();
   const { login, loginAsGuest, register, loading } = useUser();
+
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', () => {
+      setIsKeyboardVisible(true);
+    });
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', () => {
+      setIsKeyboardVisible(false);
+    });
+
+    return () => {
+      keyboardDidShowListener?.remove();
+      keyboardDidHideListener?.remove();
+    };
+  }, []);
 
   const handleLogin = async () => {
     if (!email.trim() || !password.trim()) {
@@ -93,83 +109,82 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
-      <KeyboardAvoidingView 
+      <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardAvoidingView}
       >
-        <ScrollView 
+        <ScrollView
           contentContainerStyle={styles.scrollContent}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
+          scrollEnabled={isKeyboardVisible}
         >
           {/* Logo Section */}
           <View style={styles.logoContainer}>
             <View style={styles.logoCircle}>
               <Image
-                source={require('@/assets/images/sigmashield-logo.jpeg')}
+                source={require('@/assets/images/sigmashield-logo-2.png')}
                 style={styles.logoImage}
                 resizeMode="contain"
               />
             </View>
-            <Text style={styles.logoText}>SIGMASHIELD</Text>
-            <Text style={styles.logoSubtext}>SCAN BEFORE YOU GET SCAMMED</Text>
           </View>
 
           {/* Login Form */}
           <View style={styles.formContainer}>
-        <Text style={styles.label}>Username:</Text>
-        <TextInput
-          style={styles.input}
-          value={email}
-          onChangeText={setEmail}
-          placeholder="Enter your email"
-          placeholderTextColor="#666"
-          autoCapitalize="none"
-          keyboardType="email-address"
-          autoComplete="email"
-        />
+            <Text style={styles.label}>Username:</Text>
+            <TextInput
+              style={styles.input}
+              value={email}
+              onChangeText={setEmail}
+              placeholder="Enter your email"
+              placeholderTextColor="#666"
+              autoCapitalize="none"
+              keyboardType="email-address"
+              autoComplete="email"
+            />
 
-        <Text style={styles.label}>Password:</Text>
-        <TextInput
-          style={styles.input}
-          value={password}
-          onChangeText={setPassword}
-          placeholder="Enter your password"
-          placeholderTextColor="#666"
-          secureTextEntry
-          autoComplete="password"
-        />
+            <Text style={styles.label}>Password:</Text>
+            <TextInput
+              style={styles.input}
+              value={password}
+              onChangeText={setPassword}
+              placeholder="Enter your password"
+              placeholderTextColor="#666"
+              secureTextEntry
+              autoComplete="password"
+            />
 
-        <TouchableOpacity style={styles.forgotPassword} onPress={handleForgotPassword}>
-          <Text style={styles.forgotPasswordText}>Forget Password?</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.forgotPassword} onPress={handleForgotPassword}>
+              <Text style={styles.forgotPasswordText}>Forget Password?</Text>
+            </TouchableOpacity>
 
-        <TouchableOpacity
-          style={[styles.loginButton, isLoading && styles.disabledButton]}
-          onPress={handleLogin}
-          disabled={isLoading}
-        >
-          {isLoading ? (
-            <ActivityIndicator size="small" color="#000" />
-          ) : (
-            <Text style={styles.loginButtonText}>LOGIN</Text>
-          )}
-        </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.loginButton, isLoading && styles.disabledButton]}
+              onPress={handleLogin}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <ActivityIndicator size="small" color="#000" />
+              ) : (
+                <Text style={styles.loginButtonText}>LOGIN</Text>
+              )}
+            </TouchableOpacity>
 
-        <TouchableOpacity style={styles.guestButton} onPress={handleGuestMode}>
-          <Text style={styles.guestButtonText}>Continue as Guest</Text>
-        </TouchableOpacity>
+            <TouchableOpacity style={styles.guestButton} onPress={handleGuestMode}>
+              <Text style={styles.guestButtonText}>Continue as Guest</Text>
+            </TouchableOpacity>
 
-        <View style={styles.signupContainer}>
-          <Text style={styles.newUserText}>New User? </Text>
-          <TouchableOpacity onPress={handleSignUp}>
-            <Text style={styles.signupText}>Sign Up</Text>
-          </TouchableOpacity>
+            <View style={styles.signupContainer}>
+              <Text style={styles.newUserText}>New User? </Text>
+              <TouchableOpacity onPress={handleSignUp}>
+                <Text style={styles.signupText}>Sign Up</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </ScrollView>
-    </KeyboardAvoidingView>
-  </SafeAreaView>
+        </ScrollView>
+      </KeyboardAvoidingView>
+    </SafeAreaView>
   );
 }
 
@@ -192,7 +207,7 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   logoCircle: {
-    marginBottom: 20,
+    marginBottom: 10,
   },
   lockIcon: {
     width: 60,
@@ -218,7 +233,7 @@ const styles = StyleSheet.create({
   },
   formContainer: {
     flex: 1.5,
-    paddingTop: 20,
+    paddingTop: 0,
     marginHorizontal: 35,
   },
   label: {
@@ -283,8 +298,8 @@ const styles = StyleSheet.create({
     textDecorationLine: 'underline',
   },
   logoImage: {
-    width: 300,
-    height: 200,
+    width: 400,
+    height: 280,
   },
   loadingContainer: {
     flex: 1,

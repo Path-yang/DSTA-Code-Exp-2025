@@ -99,7 +99,7 @@ export function ScoreProvider({ children }: { children: React.ReactNode }) {
             ]).start(() => {
                 setPopupVisible(false);
             });
-        }, 2000);
+        }, 1000);
     };
 
     return (

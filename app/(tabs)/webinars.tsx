@@ -6,10 +6,6 @@ export default function WebinarsScreen() {
   const [selectedDate, setSelectedDate] = useState('Today');
 
   const handleBack = () => router.push('/learn');
-  const handleGoHome = () => router.push('/scam-detection');
-  const handleLearn = () => router.push('/learn');
-  const handleAnalytics = () => router.push('/analytics');
-  const handleForum = () => router.push('/forum');
 
   const dateOptions = ['Today', 'This Week', 'This Month', 'Last 6 Months', 'All Time'];
 
@@ -40,12 +36,10 @@ export default function WebinarsScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-            <Text style={styles.backText}>{'< Back'}</Text>
-          </TouchableOpacity>
-        </View>
-        <Text style={styles.headerTitle}>Webinars by cybersecurity{'\n'}experts</Text>
+        <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+          <Text style={styles.backText}>{'< Back'}</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>Webinars</Text>
       </View>
       <ScrollView
         contentContainerStyle={styles.content}
@@ -80,24 +74,6 @@ export default function WebinarsScreen() {
         {/* Extra spacing to ensure content is fully scrollable */}
         <View style={styles.extraSpacing} />
       </ScrollView>
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={handleGoHome}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleLearn}>
-          <Text style={[styles.navIcon, styles.activeNavText]}>📚</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>Learn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleAnalytics}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Stats</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navText}>Forum</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 }
@@ -105,36 +81,29 @@ export default function WebinarsScreen() {
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 15,
-    paddingBottom: 20,
-    backgroundColor: '#000'
-  },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginBottom: 10,
+    padding: 15,
+    backgroundColor: '#000',
+    position: 'relative'
   },
   backButton: {
-    paddingVertical: 5,
-    paddingHorizontal: 0,
+    zIndex: 10,
+    position: 'relative'
   },
   backText: { color: '#007AFF', fontSize: 16 },
   headerTitle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 15,
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    lineHeight: 26,
+    paddingVertical: 0,
+    zIndex: 1
   },
-  content: { paddingHorizontal: 20, paddingBottom: 200 },
+  content: { paddingHorizontal: 20, paddingBottom: 20 },
   description: { color: '#aaa', fontSize: 16, textAlign: 'center', marginTop: 20 },
-  bottomNav: { flexDirection: 'row', backgroundColor: '#2a2a2a', paddingVertical: 10, paddingHorizontal: 20, justifyContent: 'space-around' },
-  navItem: { alignItems: 'center' },
-  activeNavItem: { borderBottomWidth: 2, borderBottomColor: '#007AFF' },
-  navIcon: { fontSize: 20, marginBottom: 5, color: '#fff' },
-  navText: { color: '#fff', fontSize: 12 },
-  activeNavText: { color: '#007AFF' },
   sectionTitle: { color: '#fff', fontSize: 20, fontWeight: 'bold', marginTop: 20, marginBottom: 10 },
   image: { width: '100%', height: 200, borderRadius: 10, marginBottom: 20 },
   actionButton: { backgroundColor: '#007AFF', padding: 15, borderRadius: 10, alignItems: 'center', marginTop: 20 },

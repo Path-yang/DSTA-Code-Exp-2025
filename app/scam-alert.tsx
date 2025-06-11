@@ -10,11 +10,11 @@ export default function ScamAlertScreen() {
   const checkedUrl = decodeURIComponent(url as string || '');
 
   const handleBack = () => router.push('/(tabs)/scam-detection');
-  
+
   const handleReport = () => {
     router.push('/(tabs)/report-scam');
   };
-  
+
   const handleLearnMore = () => {
     Linking.openURL('https://www.csa.gov.sg/Tips-Resource/Online-Safety/Phishing');
   };
@@ -101,20 +101,6 @@ export default function ScamAlertScreen() {
           </TouchableOpacity>
         </View>
       </ScrollView>
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleBack}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleLearnMore}>
-          <Text style={styles.navIcon}>📚</Text>
-          <Text style={styles.navText}>Learn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleReport}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Report</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 }
@@ -302,10 +288,4 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  bottomNav: { flexDirection: 'row', backgroundColor: '#2a2a2a', paddingVertical: 10, paddingHorizontal: 20, justifyContent: 'space-around' },
-  navItem: { alignItems: 'center' },
-  activeNavItem: { borderBottomWidth: 2, borderBottomColor: '#007AFF' },
-  navIcon: { fontSize: 20, marginBottom: 5, color: '#fff' },
-  navText: { color: '#fff', fontSize: 12 },
-  activeNavText: { color: '#007AFF' },
 }); 

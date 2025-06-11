@@ -6,51 +6,29 @@ export const options = { headerShown: false };
 
 export default function ScamAlertScreen() {
   const handleBack = () => router.push('/scam-detection');
-  const handleGoHome = () => router.push('/scam-detection');
-  const handleLearn = () => router.push('/learn');
-  const handleAnalytics = () => router.push('/analytics');
-  const handleForum = () => router.push('/forum');
   const { confidence } = useLocalSearchParams();
   const conf = parseFloat(confidence as string) || 0;
 
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-      <View style={[styles.header, { justifyContent: 'flex-start', paddingVertical: 15 }] }>
+      <View style={[styles.header, { justifyContent: 'flex-start', paddingVertical: 15 }]}>
         <TouchableOpacity onPress={handleBack} style={styles.backButton}>
           <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
         <Text style={[styles.title, { marginLeft: 10 }]}>Your Results</Text>
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={[styles.card, { backgroundColor: '#e74c3c' }]}>  
+        <View style={[styles.card, { backgroundColor: '#e74c3c' }]}>
           <Text style={styles.cardTitle}>Scam Alert</Text>
           <Text style={styles.cardSubtitle}>Unsafe Link Detected</Text>
           <Text style={styles.cardDescription}>This link is likely to be suspicious and may lead to a scam website.</Text>
-          <TouchableOpacity style={styles.detailsButton} onPress={() => {}}>
+          <TouchableOpacity style={styles.detailsButton} onPress={() => { }}>
             <Text style={styles.detailsText}>Details {'>>'}</Text>
           </TouchableOpacity>
           <Text style={styles.confidenceText}>Chance of scam website: {conf.toFixed(1)}%</Text>
         </View>
       </ScrollView>
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleGoHome}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
-          <Text style={styles.navIcon}>📚</Text>
-          <Text style={styles.navText}>Learn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleAnalytics}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Stats</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navText}>Forum</Text>
-        </TouchableOpacity>
-      </View>
     </SafeAreaView>
   );
 }
@@ -68,11 +46,5 @@ const styles = StyleSheet.create({
   cardDescription: { color: '#fff', fontSize: 16, textAlign: 'center' },
   detailsButton: { marginTop: 15, alignSelf: 'flex-end' },
   detailsText: { color: '#fff', fontSize: 14, textDecorationLine: 'underline' },
-  bottomNav: { flexDirection: 'row', backgroundColor: '#2a2a2a', paddingVertical: 10, paddingHorizontal: 20, justifyContent: 'space-around' },
-  navItem: { alignItems: 'center' },
-  activeNavItem: { borderBottomWidth: 2, borderBottomColor: '#007AFF' },
-  navIcon: { fontSize: 20, marginBottom: 5, color: '#fff' },
-  navText: { color: '#fff', fontSize: 12 },
-  activeNavText: { color: '#007AFF' },
   confidenceText: { color: '#fff', fontSize: 18, marginTop: 10 },
 }); 

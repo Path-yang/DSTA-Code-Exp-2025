@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, StatusBar, Image, ActivityIndicator, Alert, KeyboardAvoidingView, Platform } from 'react-native';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, StatusBar, Image, ActivityIndicator, Alert, KeyboardAvoidingView, Platform, Keyboard, Animated } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 
 // TODO: Replace with your Claude API key securely loaded from environment or config
@@ -37,6 +37,8 @@ export default function ChatWithExpertsScreen() {
   const [isConnecting, setIsConnecting] = useState(true);
   const [currentExpert, setCurrentExpert] = useState<Expert | null>(null);
   const [shouldRestart, setShouldRestart] = useState(false);
+  const [keyboardHeight, setKeyboardHeight] = useState(0);
+  const keyboardHeightAnim = useRef(new Animated.Value(0)).current;
 
   // Force clear input text on component mount to prevent autofill issues
   useEffect(() => {
@@ -47,6 +49,37 @@ export default function ChatWithExpertsScreen() {
     }, 100);
     return () => clearTimeout(timeoutId);
   }, []);
+
+  // Keyboard event listeners
+  useEffect(() => {
+    const keyboardDidShowListener = Keyboard.addListener('keyboardDidShow', (event) => {
+      const { height } = event.endCoordinates;
+      setKeyboardHeight(height);
+
+      // Animate the input container to move up with slower, smoother timing
+      Animated.timing(keyboardHeightAnim, {
+        toValue: Platform.OS === 'ios' ? 0 : Math.max(0, height - 50),
+        duration: 600, // Even slower animation
+        useNativeDriver: false,
+      }).start();
+    });
+
+    const keyboardDidHideListener = Keyboard.addListener('keyboardDidHide', (event) => {
+      setKeyboardHeight(0);
+
+      // Animate the input container back down with slower, smoother timing
+      Animated.timing(keyboardHeightAnim, {
+        toValue: 0,
+        duration: 600, // Even slower animation
+        useNativeDriver: false,
+      }).start();
+    });
+
+    return () => {
+      keyboardDidShowListener?.remove();
+      keyboardDidHideListener?.remove();
+    };
+  }, [keyboardHeightAnim]);
 
   useEffect(() => {
     // Show connecting screen for 4 seconds, then randomly select and show expert (only for new conversations)
@@ -351,6 +384,10 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
     position: 'relative'
   },
+  chatContainer: {
+    flex: 1,
+    justifyContent: 'space-between'
+  },
   backButton: {
     zIndex: 10,
     position: 'relative'
@@ -372,7 +409,11 @@ const styles = StyleSheet.create({
   botAvatar: { width: 160, height: 160, borderRadius: 80, marginBottom: 20 },
   connectingText: { color: '#fff', fontSize: 18, textAlign: 'center', marginBottom: 20, lineHeight: 24 },
   loadingSpinner: { marginTop: 10 },
-  messagesList: { padding: 20, paddingBottom: 80 },
+  messagesList: {
+    padding: 20,
+    paddingBottom: 20,
+    flexGrow: 1
+  },
   messageContainer: { padding: 12, borderRadius: 8, marginBottom: 10, maxWidth: '80%' },
   userMessage: { backgroundColor: '#007AFF', alignSelf: 'flex-end' },
   expertMessage: { backgroundColor: '#333', alignSelf: 'flex-start' },

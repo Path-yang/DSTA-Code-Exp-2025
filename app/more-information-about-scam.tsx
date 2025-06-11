@@ -19,6 +19,28 @@ export default function MoreInformationAboutScamScreen() {
     readMore: false,
   });
 
+  const iconColors = [
+    '#007AFF', // Blue
+    '#FF3B30', // Red
+    '#34C759', // Green
+    '#AF52DE', // Purple
+    '#FF9500', // Orange
+    '#FF2D92', // Pink
+    '#5AC8FA', // Light Blue
+    '#FFCC02', // Yellow
+    '#FF6B35', // Orange Red
+    '#32D74B', // Mint Green
+    '#64D2FF', // Sky Blue
+    '#BF5AF2', // Violet
+  ];
+
+  let colorIndex = 0;
+  const getNextColor = () => {
+    const color = iconColors[colorIndex % iconColors.length];
+    colorIndex++;
+    return color;
+  };
+
   const toggleSection = (section: keyof SectionState) => {
     setExpandedSections(prev => ({
       ...prev,
@@ -40,9 +62,9 @@ export default function MoreInformationAboutScamScreen() {
     );
   };
 
-  const renderContentItem = (icon: string, title: string, description: string) => (
-    <View style={styles.contentItem}>
-      <FontAwesome name={icon as any} size={20} color="#007AFF" style={styles.contentIcon} />
+  const renderContentItem = (icon: string, title: string, description: string, isFirst: boolean = false, isLast: boolean = false) => (
+    <View style={[styles.contentItem, isFirst && styles.firstContentItem, isLast && styles.lastContentItem]}>
+      <FontAwesome name={icon as any} size={20} color={getNextColor()} style={styles.contentIcon} />
       <View style={styles.contentTextContainer}>
         <Text style={styles.contentTitle}>{title}</Text>
         <Text style={styles.contentDescription}>{description}</Text>
@@ -55,40 +77,40 @@ export default function MoreInformationAboutScamScreen() {
       case 'commonTypes':
         return (
           <View>
-            {renderContentItem('envelope', 'Phishing Scams', 'Fraudulent emails, texts, or websites designed to steal personal information')}
+            {renderContentItem('envelope', 'Phishing Scams', 'Fraudulent emails, texts, or websites designed to steal personal information', true)}
             {renderContentItem('dollar', 'Investment Scams', 'Fake investment opportunities promising unrealistic high returns')}
             {renderContentItem('heart', 'Romance Scams', 'Online dating fraud targeting victims emotionally and financially')}
             {renderContentItem('wrench', 'Tech Support Scams', 'Fake technical support calls claiming your device is infected')}
             {renderContentItem('shopping-cart', 'Shopping Scams', 'Fake online stores selling non-existent or counterfeit products')}
             {renderContentItem('briefcase', 'Job Scams', 'Fake job offers requiring upfront payments or personal information')}
             {renderContentItem('trophy', 'Lottery/Prize Scams', 'Fake winnings requiring fees or taxes to claim prizes')}
-            {renderContentItem('handshake-o', 'Charity Scams', 'Fake charities exploiting disasters or humanitarian causes')}
+            {renderContentItem('handshake-o', 'Charity Scams', 'Fake charities exploiting disasters or humanitarian causes', false, true)}
           </View>
         );
       case 'howToIdentify':
         return (
           <View>
-            {renderContentItem('clock-o', 'Urgent Pressure', 'Scammers create false urgency to rush your decisions')}
+            {renderContentItem('clock-o', 'Urgent Pressure', 'Scammers create false urgency to rush your decisions', true)}
             {renderContentItem('star', 'Too Good to Be True', 'Offers that seem unrealistically beneficial or profitable')}
             {renderContentItem('envelope-o', 'Unsolicited Contact', 'Unexpected calls, emails, or messages from unknown sources')}
             {renderContentItem('lock', 'Personal Info Requests', 'Asking for passwords, SSN, or sensitive bank details')}
             {renderContentItem('edit', 'Poor Grammar/Spelling', 'Many scams contain obvious language and spelling errors')}
             {renderContentItem('link', 'Suspicious Links', 'URLs that don\'t match legitimate websites or look altered')}
             {renderContentItem('credit-card', 'Upfront Payments', 'Requests for money before delivering services or goods')}
-            {renderContentItem('phone', 'Lack of Verification', 'No official contact information or proper credentials')}
+            {renderContentItem('phone', 'Lack of Verification', 'No official contact information or proper credentials', false, true)}
           </View>
         );
       case 'avoidingScams':
         return (
           <View>
-            {renderContentItem('check', 'Verify Independently', 'Always verify offers through official channels and websites')}
+            {renderContentItem('check', 'Verify Independently', 'Always verify offers through official channels and websites', true)}
             {renderContentItem('ban', 'Never Share Personal Info', 'Don\'t give out sensitive information to unknown parties')}
             {renderContentItem('credit-card-alt', 'Use Secure Payment Methods', 'Avoid wire transfers, gift cards, or cryptocurrency payments')}
             {renderContentItem('star-o', 'Check Reviews', 'Research companies and individuals online before engaging')}
             {renderContentItem('lightbulb-o', 'Trust Your Instincts', 'If something feels wrong or suspicious, it probably is')}
             {renderContentItem('refresh', 'Keep Software Updated', 'Use updated antivirus and security software regularly')}
             {renderContentItem('book', 'Educate Yourself', 'Stay informed about current scam tactics and trends')}
-            {renderContentItem('exclamation-triangle', 'Report Suspicious Activity', 'Help others by reporting scams to authorities')}
+            {renderContentItem('exclamation-triangle', 'Report Suspicious Activity', 'Help others by reporting scams to authorities', false, true)}
           </View>
         );
       case 'readMore':
@@ -142,11 +164,9 @@ export default function MoreInformationAboutScamScreen() {
 
         {/* Header */}
         <View style={styles.header}>
-          <View style={styles.headerRow}>
-            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-              <Text style={styles.backButtonText}>{'< Back'}</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <Text style={styles.backButtonText}>{'< Back'}</Text>
+          </TouchableOpacity>
           <Text style={styles.headerTitle}>More Information About Scam</Text>
         </View>
 
@@ -158,7 +178,18 @@ export default function MoreInformationAboutScamScreen() {
                 onPress={() => toggleSection(section.key)}
               >
                 <View style={styles.sectionTitleContainer}>
-                  <FontAwesome name={section.icon as any} size={24} color="#007AFF" style={styles.sectionIcon} />
+                  <FontAwesome
+                    name={section.icon as any}
+                    size={24}
+                    color={
+                      section.key === 'commonTypes' ? '#FFCC02' : // Yellow for Common Types of Scams
+                        section.key === 'howToIdentify' ? '#34C759' : // Green for How To Identify Scam
+                          section.key === 'avoidingScams' ? '#FF3B30' : // Red for Avoiding Scams
+                            section.key === 'readMore' ? '#007AFF' : // Blue for Read More About the Dangers of Scams
+                              getNextColor()
+                    }
+                    style={styles.sectionIcon}
+                  />
                   <Text style={styles.sectionTitle}>{section.title}</Text>
                 </View>
                 <FontAwesome
@@ -195,30 +226,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   header: {
-    paddingTop: 15,
-    paddingHorizontal: 15,
-    paddingBottom: 20,
+    padding: 15,
     backgroundColor: '#000',
-  },
-  headerRow: {
-    flexDirection: 'row',
-    justifyContent: 'flex-start',
-    marginBottom: 10,
+    position: 'relative'
   },
   backButton: {
-    paddingVertical: 5,
-    paddingHorizontal: 0,
+    zIndex: 10,
+    position: 'relative'
   },
   backButtonText: {
     color: '#007AFF',
     fontSize: 16,
   },
   headerTitle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 15,
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 10,
+    paddingVertical: 0,
+    zIndex: 1
   },
   content: {
     paddingHorizontal: 20,
@@ -286,6 +316,14 @@ const styles = StyleSheet.create({
     paddingBottom: 12,
     borderBottomWidth: 1,
     borderBottomColor: '#333',
+  },
+  firstContentItem: {
+    paddingTop: 16,
+  },
+  lastContentItem: {
+    marginBottom: 0,
+    paddingBottom: 0,
+    borderBottomWidth: 0,
   },
   contentIcon: {
     marginRight: 12,

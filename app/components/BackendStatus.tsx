@@ -38,12 +38,12 @@ export default function BackendStatus({ style }: BackendStatusProps) {
 
   const getStatusText = () => {
     if (loading) return 'Checking...';
-    return isConnected ? 'Backend Online' : 'Backend Offline';
+    return isConnected ? 'Backend Online' : 'Demo Mode';
   };
 
   const getStatusIcon = () => {
     if (loading) return '⏳';
-    return isConnected ? '🟢' : '🔴';
+    return isConnected ? '🟢' : '🟡';
   };
 
   return (

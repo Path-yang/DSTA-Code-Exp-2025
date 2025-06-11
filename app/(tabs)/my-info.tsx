@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, Alert } from 'react-native';
+import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, Alert, Image } from 'react-native';
+// import AsyncStorage from '@react-native-async-storage/async-storage'; // disabled due to module issue
+// import * as ImagePicker from 'expo-image-picker'; // disabled due to missing dependency
 import { router } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { useUser } from '../context/UserContext';
 import BackendStatus from '../components/BackendStatus';
 import EnhancedBottomNav from '../../components/EnhancedBottomNav';
+import authService from '../services/authService';
 
 export default function MyInfoScreen() {
   const { user, isLoggedIn, isGuestMode, logout, loading } = useUser();
+  const [profileImage, setProfileImage] = useState<string | null>(null);
   const [userStats, setUserStats] = useState({
     scansCompleted: 0,
     threatsDetected: 0,
@@ -17,6 +21,19 @@ export default function MyInfoScreen() {
   });
 
   useEffect(() => {
+    const loadProfileImage = async () => {
+      try {
+        const profileImage = await authService.getProfileImage();
+        if (profileImage) {
+          setProfileImage(profileImage);
+        }
+      } catch (error) {
+        console.error('Error loading profile image:', error);
+      }
+    };
+    
+    loadProfileImage();
+    
     if (isLoggedIn && !isGuestMode && user?.stats) {
       setUserStats({
         scansCompleted: user.stats.scans_completed,
@@ -63,6 +80,75 @@ export default function MyInfoScreen() {
   const handleForum = () => router.push('/(tabs)/forum');
   const handleMyInfo = () => { }; // Already here
 
+  const pickImage = async () => {
+    Alert.alert(
+      'Change Profile Picture',
+      'Choose how you would like to update your profile picture',
+      [
+        {
+          text: 'Choose Avatar Icon',
+          onPress: () => showAvatarPicker()
+        },
+        {
+          text: 'Enter Image URL',
+          onPress: () => showImageURLInput()
+        },
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        }
+      ]
+    );
+  };
+
+  const showAvatarPicker = () => {
+    const avatarOptions = ['user', 'user-circle', 'user-secret', 'shield', 'star', 'heart', 'diamond', 'crown'];
+    const buttons = avatarOptions.map(icon => ({
+      text: icon,
+      onPress: async () => {
+        setProfileImage(icon);
+        await authService.setProfileImage(icon);
+      }
+    }));
+    buttons.push({
+      text: 'Cancel',
+      onPress: () => {}
+    });
+    
+    Alert.alert(
+      'Select Avatar',
+      'Choose an avatar icon',
+      buttons
+    );
+  };
+
+  const showImageURLInput = () => {
+    Alert.prompt(
+      'Enter Image URL',
+      'Paste a URL to your profile image (must be https://)',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel'
+        },
+        {
+          text: 'Set Image',
+          onPress: async (url) => {
+            if (url && url.startsWith('https://')) {
+              setProfileImage(url);
+              await authService.setProfileImage(url);
+            } else {
+              Alert.alert('Invalid URL', 'Please enter a valid HTTPS URL');
+            }
+          }
+        }
+      ],
+      'plain-text',
+      '',
+      'url'
+    );
+  };
+
   const renderStatCard = (title: string, value: string | number, icon: string) => (
     <View style={styles.statCard}>
       <FontAwesome name={icon as any} size={32} color="#007AFF" style={styles.statIcon} />
@@ -100,13 +186,25 @@ export default function MyInfoScreen() {
 
         {/* Profile Section */}
         <View style={styles.profileSection}>
-          <View style={styles.avatarContainer}>
-            <FontAwesome
-              name={isGuestMode ? 'user' : 'user-circle'}
-              size={40}
-              color="#007AFF"
-            />
-          </View>
+          <TouchableOpacity style={styles.avatarContainer} onPress={pickImage}>
+            {profileImage && !isGuestMode ? (
+              typeof profileImage === 'string' && profileImage.startsWith('http') ? (
+                <Image source={{ uri: profileImage }} style={styles.avatarImage} />
+              ) : (
+                <FontAwesome
+                  name={profileImage as any}
+                  size={80}
+                  color="#007AFF"
+                />
+              )
+            ) : (
+              <FontAwesome
+                name={isGuestMode ? 'user' : 'user-circle'}
+                size={80}
+                color="#007AFF"
+              />
+            )}
+          </TouchableOpacity>
           <Text style={styles.userName}>
             {isGuestMode ? 'Guest User' : user?.name || 'User'}
           </Text>
@@ -254,16 +352,18 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   avatarContainer: {
-    width: 80,
-    height: 80,
-    borderRadius: 40,
-    backgroundColor: '#333',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: '#1a1a1a',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 10,
   },
-  avatarText: {
-    fontSize: 40,
+  avatarImage: {
+    width: 100,
+    height: 100,
+    borderRadius: 50,
   },
   userName: {
     color: '#fff',

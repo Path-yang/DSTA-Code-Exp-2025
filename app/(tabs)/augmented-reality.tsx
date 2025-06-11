@@ -8,10 +8,10 @@ import {
   SafeAreaView,
   Dimensions,
 } from 'react-native';
-import { Camera, CameraView } from 'expo-camera';
+// import { Camera, CameraView } from 'expo-camera'; // disabled due to module issue
 import { router } from 'expo-router';
 import { IconSymbol } from '@/components/ui/IconSymbol';
-import * as MediaLibrary from 'expo-media-library';
+// import * as MediaLibrary from 'expo-media-library'; // disabled due to module issue
 
 interface ScamAlert {
   type: 'high' | 'medium' | 'low';
@@ -20,11 +20,11 @@ interface ScamAlert {
 }
 
 export default function ARScamScanner() {
-  const [hasPermission, setHasPermission] = useState<boolean | null>(null);
+  const [hasPermission, setHasPermission] = useState<boolean | null>(true);
   const [isScanning, setIsScanning] = useState(false);
   const [scamAlerts, setScamAlerts] = useState<ScamAlert[]>([]);
   const [flashMode, setFlashMode] = useState<'off' | 'on'>('off');
-  const cameraRef = useRef<CameraView>(null);
+  // const cameraRef = useRef<CameraView>(null); // disabled
 
   // Scam keywords to detect
   const scamKeywords = {
@@ -50,13 +50,8 @@ export default function ARScamScanner() {
   }, []);
 
   const getCameraPermissions = async () => {
-    try {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      setHasPermission(status === 'granted');
-    } catch (error) {
-      console.error('Error requesting camera permissions:', error);
-      setHasPermission(false);
-    }
+    // Placeholder - camera permission always granted for demo
+    setHasPermission(true);
   };
 
   // Simulate text recognition and scam detection
@@ -112,24 +107,8 @@ export default function ARScamScanner() {
   };
 
   const takePicture = async () => {
-    if (cameraRef.current) {
-      try {
-        const photo = await cameraRef.current.takePictureAsync();
-        if (photo) {
-          // Request media library permission before saving
-          const { status } = await MediaLibrary.requestPermissionsAsync();
-          if (status === 'granted') {
-            await MediaLibrary.saveToLibraryAsync(photo.uri);
-            Alert.alert('Success', 'Photo saved for evidence');
-          } else {
-            Alert.alert('Permission Denied', 'Cannot save photo without media library access');
-          }
-        }
-      } catch (error) {
-        console.error('Error taking picture:', error);
-        Alert.alert('Error', 'Failed to take picture');
-      }
-    }
+    // Placeholder function for demo
+    Alert.alert('Demo Mode', 'Camera functionality disabled in demo mode');
   };
 
   const clearAlerts = () => {
@@ -188,42 +167,7 @@ export default function ARScamScanner() {
 
       {/* Camera View */}
       <View style={styles.cameraContainer}>
-        <CameraView
-          ref={cameraRef}
-          style={styles.camera}
-          facing="back"
-          flash={flashMode}
-        />
-
-        {/* Scanning Overlay - Now positioned absolutely on top of camera */}
-        <View style={styles.overlay}>
-          {/* Scanning Frame */}
-          <View style={styles.scanFrame} />
-
-          {/* Scam Alerts Overlay */}
-          {scamAlerts.map((alert, index) => (
-            <View
-              key={index}
-              style={[
-                styles.alertBubble,
-                styles[`${alert.type}Alert`],
-                {
-                  left: alert.position.x,
-                  top: alert.position.y,
-                },
-              ]}
-            >
-              <Text style={styles.alertText}>{alert.message}</Text>
-            </View>
-          ))}
-
-          {/* Scanning Animation */}
-          {isScanning && (
-            <View style={styles.scanningIndicator}>
-              <Text style={styles.scanningText}>🔍 Analyzing text...</Text>
-            </View>
-          )}
-        </View>
+        {/* Placeholder for camera view */}
       </View>
 
       {/* Instructions */}

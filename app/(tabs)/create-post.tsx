@@ -11,14 +11,18 @@ import {
     Alert,
     ActivityIndicator
 } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
+import forumService from '../services/forumService';
 
 export default function CreatePostScreen() {
     const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [isPosting, setIsPosting] = useState(false);
+
+    const params = useLocalSearchParams();
+    const isVerified = params.verified === 'true';
 
     // Available tags for scam-related posts
     const availableTags = [
@@ -57,27 +61,29 @@ export default function CreatePostScreen() {
         setIsPosting(true);
 
         try {
-            // Simulate API call
-            await new Promise(resolve => setTimeout(resolve, 2000));
-
-            // Here you would typically send the post to your backend
-            console.log('Creating post:', {
+            // Create post using forum service
+            const result = await forumService.createForumPost({
                 title: postTitle,
                 content: postContent,
-                tags: selectedTags
+                tags: selectedTags,
+                isVerified
             });
 
-            // Clear the form entries
-            setPostTitle('');
-            setPostContent('');
-            setSelectedTags([]);
+            if (result.success) {
+                // Clear the form entries
+                setPostTitle('');
+                setPostContent('');
+                setSelectedTags([]);
 
-            // Show success alert and navigate back to forum page
-            Alert.alert(
-                'Success',
-                'Your post has been created successfully!',
-                [{ text: 'OK', onPress: () => router.push('/forum') }]
-            );
+                // Show success alert and navigate back to forum page
+                Alert.alert(
+                    'Success',
+                    'Your post has been created successfully!',
+                    [{ text: 'OK', onPress: () => router.push('/forum') }]
+                );
+            } else {
+                Alert.alert('Error', result.error?.message || 'Failed to create post. Please try again.');
+            }
         } catch (error) {
             Alert.alert('Error', 'Failed to create post. Please try again.');
         } finally {
@@ -254,62 +260,62 @@ const styles = StyleSheet.create({
     tagsContainer: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: 10,
+        marginTop: 5,
     },
     tagOption: {
         backgroundColor: '#1a1a1a',
         borderRadius: 20,
-        paddingHorizontal: 15,
+        paddingHorizontal: 12,
         paddingVertical: 8,
+        margin: 5,
         borderWidth: 1,
         borderColor: '#333',
     },
     selectedTagOption: {
-        backgroundColor: '#007AFF',
-        borderColor: '#007AFF',
+        backgroundColor: '#e74c3c',
+        borderColor: '#e74c3c',
     },
     tagOptionText: {
-        color: '#fff',
+        color: '#aaa',
         fontSize: 14,
     },
     selectedTagOptionText: {
         color: '#fff',
-        fontWeight: '600',
+        fontWeight: 'bold',
     },
     guidelinesSection: {
         backgroundColor: '#1a1a1a',
         borderRadius: 12,
         padding: 15,
-        borderWidth: 1,
-        borderColor: '#333',
+        marginBottom: 20,
     },
     guidelinesTitle: {
         color: '#fff',
         fontSize: 16,
-        fontWeight: '600',
+        fontWeight: 'bold',
         marginBottom: 10,
     },
     guidelinesText: {
         color: '#aaa',
         fontSize: 14,
-        lineHeight: 20,
+        lineHeight: 22,
     },
     bottomSection: {
         paddingHorizontal: 20,
-        paddingVertical: 20,
+        paddingVertical: 15,
         borderTopWidth: 1,
         borderTopColor: '#333',
     },
     createButton: {
-        backgroundColor: '#007AFF',
-        borderRadius: 12,
-        padding: 15,
+        backgroundColor: '#e74c3c',
+        borderRadius: 25,
         flexDirection: 'row',
-        alignItems: 'center',
         justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 15,
     },
     disabledButton: {
-        opacity: 0.6,
+        backgroundColor: '#666',
     },
     createButtonIcon: {
         marginRight: 8,

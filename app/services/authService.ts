@@ -1,6 +1,55 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
+// import AsyncStorage from '@react-native-async-storage/async-storage'; // disabled due to module issue
 
-const API_BASE_URL = 'http://172.20.10.10:8000/api';
+const API_BASE_URL = 'http://192.168.1.112:8001/api';
+const DEMO_MODE = true; // Using demo mode since backend is offline
+
+// In-memory storage as temporary replacement for AsyncStorage
+let memoryStorage: { [key: string]: string } = {};
+
+// Helper functions to replace AsyncStorage
+const getItem = async (key: string): Promise<string | null> => {
+  return memoryStorage[key] || null;
+};
+
+const setItem = async (key: string, value: string): Promise<void> => {
+  memoryStorage[key] = value;
+};
+
+const multiRemove = async (keys: string[]): Promise<void> => {
+  keys.forEach(key => {
+    delete memoryStorage[key];
+  });
+};
+
+// Profile image management
+const setProfileImage = async (imageUrl: string): Promise<void> => {
+  memoryStorage['user_profile_image'] = imageUrl;
+  // Also store in user session data
+  const userData = memoryStorage['user_data'];
+  if (userData) {
+    try {
+      const user = JSON.parse(userData);
+      user.profile_image = imageUrl;
+      memoryStorage['user_data'] = JSON.stringify(user);
+    } catch (e) {
+      console.error('Error updating user data with profile image:', e);
+    }
+  }
+};
+
+const getProfileImage = async (): Promise<string | null> => {
+  return memoryStorage['user_profile_image'] || null;
+};
+
+// Initialize with default profile images for demo users
+const initializeDefaultProfileImages = () => {
+  // Set some default profile images if none exist
+  if (!memoryStorage['user_profile_image']) {
+    const defaultImages = ['user-circle', 'smile-o', 'star', 'heart', 'trophy', 'shield', 'diamond', 'graduation-cap'];
+    const randomImage = defaultImages[Math.floor(Math.random() * defaultImages.length)];
+    memoryStorage['user_profile_image'] = randomImage;
+  }
+};
 
 export interface User {
   id: number;
@@ -37,16 +86,16 @@ export interface AuthResponse {
 
 class AuthService {
   private async getStoredToken(): Promise<string | null> {
-    return await AsyncStorage.getItem('access_token');
+    return await getItem('access_token');
   }
 
   private async storeTokens(access: string, refresh: string): Promise<void> {
-    await AsyncStorage.setItem('access_token', access);
-    await AsyncStorage.setItem('refresh_token', refresh);
+    await setItem('access_token', access);
+    await setItem('refresh_token', refresh);
   }
 
   private async clearTokens(): Promise<void> {
-    await AsyncStorage.multiRemove(['access_token', 'refresh_token', 'user_data']);
+    await multiRemove(['access_token', 'refresh_token', 'user_data']);
   }
 
   private async makeAuthenticatedRequest(
@@ -84,7 +133,7 @@ class AuthService {
 
       if (response.ok) {
         await this.storeTokens(data.access, data.refresh);
-        await AsyncStorage.setItem('user_data', JSON.stringify(data.user));
+        await setItem('user_data', JSON.stringify(data.user));
 
         return {
           success: true,
@@ -102,6 +151,44 @@ class AuthService {
   }
 
   async login(email: string, password: string): Promise<AuthResponse> {
+    // Demo mode - bypass server and return mock user
+    if (DEMO_MODE) {
+      const demoUser: User = {
+        id: 1,
+        email: email,
+        name: email.split('@')[0] || 'Demo User',
+        is_verified: true,
+        created_at: '2024-01-01T00:00:00Z',
+        last_login_at: new Date().toISOString(),
+        stats: {
+          scans_completed: 42,
+          threats_detected: 8,
+          reports_submitted: 3,
+          forum_posts: 5,
+          member_since: '2024-01-01',
+          last_activity: new Date().toISOString()
+        },
+        profile: {
+          phone_number: '+65 9123 4567',
+          date_of_birth: '1990-01-01',
+          location: 'Singapore',
+          avatar: '',
+          notification_preferences: {}
+        }
+      };
+
+      // Store demo tokens and user data
+      await this.storeTokens('demo_access_token', 'demo_refresh_token');
+      await setItem('user_data', JSON.stringify(demoUser));
+
+      return {
+        success: true,
+        user: demoUser,
+        access: 'demo_access_token',
+        refresh: 'demo_refresh_token',
+      };
+    }
+
     try {
       const response = await fetch(`${API_BASE_URL}/auth/login/`, {
         method: 'POST',
@@ -115,7 +202,7 @@ class AuthService {
 
       if (response.ok) {
         await this.storeTokens(data.access, data.refresh);
-        await AsyncStorage.setItem('user_data', JSON.stringify(data.user));
+        await setItem('user_data', JSON.stringify(data.user));
 
         return {
           success: true,
@@ -133,7 +220,13 @@ class AuthService {
 
   async logout(): Promise<boolean> {
     try {
-      const refreshToken = await AsyncStorage.getItem('refresh_token');
+      // Demo mode - just clear tokens without server call
+      if (DEMO_MODE) {
+        await this.clearTokens();
+        return true;
+      }
+
+      const refreshToken = await getItem('refresh_token');
 
       if (refreshToken) {
         await this.makeAuthenticatedRequest('/auth/logout/', {
@@ -153,11 +246,21 @@ class AuthService {
 
   async getUserInfo(): Promise<AuthResponse> {
     try {
+      // Demo mode - return stored demo user
+      if (DEMO_MODE) {
+        const userData = await this.getStoredUserData();
+        if (userData) {
+          return { success: true, user: userData };
+        } else {
+          return { success: false, error: 'No demo user data found' };
+        }
+      }
+
       const response = await this.makeAuthenticatedRequest('/auth/me/');
       const data = await response.json();
 
       if (response.ok) {
-        await AsyncStorage.setItem('user_data', JSON.stringify(data));
+        await setItem('user_data', JSON.stringify(data));
         return { success: true, user: data };
       } else {
         // If token is invalid, try to refresh
@@ -189,7 +292,7 @@ class AuthService {
       const data = await response.json();
 
       if (response.ok) {
-        await AsyncStorage.setItem('user_data', JSON.stringify(data.user));
+        await setItem('user_data', JSON.stringify(data.user));
         return { success: true, user: data.user, message: data.message };
       } else {
         return { success: false, error: data };
@@ -206,6 +309,11 @@ class AuthService {
     forum_posts?: number;
   }): Promise<boolean> {
     try {
+      // Demo mode - just return success without server call
+      if (DEMO_MODE) {
+        return true;
+      }
+
       const response = await this.makeAuthenticatedRequest('/auth/stats/update/', {
         method: 'POST',
         body: JSON.stringify(stats),
@@ -220,7 +328,7 @@ class AuthService {
 
   async refreshToken(): Promise<boolean> {
     try {
-      const refreshToken = await AsyncStorage.getItem('refresh_token');
+      const refreshToken = await getItem('refresh_token');
 
       if (!refreshToken) {
         return false;
@@ -237,7 +345,7 @@ class AuthService {
       const data = await response.json();
 
       if (response.ok) {
-        await AsyncStorage.setItem('access_token', data.access);
+        await setItem('access_token', data.access);
         return true;
       } else {
         await this.clearTokens();
@@ -283,7 +391,7 @@ class AuthService {
 
   async getStoredUserData(): Promise<User | null> {
     try {
-      const userData = await AsyncStorage.getItem('user_data');
+      const userData = await getItem('user_data');
       return userData ? JSON.parse(userData) : null;
     } catch {
       return null;
@@ -292,6 +400,11 @@ class AuthService {
 
   async healthCheck(): Promise<boolean> {
     try {
+      // Demo mode - always healthy
+      if (DEMO_MODE) {
+        return true;
+      }
+      
       const response = await fetch(`${API_BASE_URL}/auth/health/`);
       return response.ok;
     } catch {
@@ -300,4 +413,22 @@ class AuthService {
   }
 }
 
-export default new AuthService(); 
+const authService = new AuthService();
+
+export default {
+  login: authService.login.bind(authService),
+  register: authService.register.bind(authService),
+  logout: authService.logout.bind(authService),
+  getUserInfo: authService.getUserInfo.bind(authService),
+  refreshToken: authService.refreshToken.bind(authService),
+  isTokenValid: authService.isLoggedIn.bind(authService),
+  getStoredUserData: authService.getStoredUserData.bind(authService),
+  updateStats: authService.updateStats.bind(authService),
+  healthCheck: authService.healthCheck.bind(authService),
+  setProfileImage,
+  getProfileImage,
+  initializeDefaultProfileImages,
+  getItem,
+  setItem,
+  multiRemove
+}; 

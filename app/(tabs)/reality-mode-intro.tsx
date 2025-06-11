@@ -1,85 +1,165 @@
-import React from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, ImageBackground, ScrollView } from 'react-native';
-import { router } from 'expo-router';
+import React, { useEffect, useRef, useCallback } from 'react';
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, ImageBackground, ScrollView, Animated, Dimensions } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 
+const { width, height } = Dimensions.get('window');
+const maxRadius = Math.sqrt(width * width + height * height) / 2;
+
 export default function RealityModeIntro() {
+    const circleScale = useRef(new Animated.Value(0)).current;
+    const contentOpacity = useRef(new Animated.Value(0)).current;
+    const exitOverlayOpacity = useRef(new Animated.Value(0)).current;
+    const scrollViewRef = useRef(null);
+
+    useFocusEffect(
+        useCallback(() => {
+            // Reset scroll position to top
+            if (scrollViewRef.current) {
+                scrollViewRef.current.scrollTo({ y: 0, animated: false });
+            }
+
+            // Reset animation values to initial state
+            circleScale.setValue(0);
+            contentOpacity.setValue(0);
+            exitOverlayOpacity.setValue(0);
+
+            // Start the fade-in animation immediately
+            Animated.sequence([
+                Animated.timing(circleScale, {
+                    toValue: 1,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(contentOpacity, {
+                    toValue: 1,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+            ]).start();
+        }, [circleScale, contentOpacity, exitOverlayOpacity])
+    );
+
     const handleStartTraining = () => {
-        router.push('./reality-mode-landing-lvl1');
+        // Trigger exit animation before navigating
+        Animated.timing(exitOverlayOpacity, {
+            toValue: 1,
+            duration: 500,
+            useNativeDriver: true,
+        }).start(() => {
+            // Navigate after animation completes
+            router.push('./reality-mode-landing-lvl1');
+        });
     };
 
     const handleBack = () => {
         router.push('/learn');
     };
 
+
+
     return (
-        <ImageBackground
-            source={require('@/assets/images/reality-wallpaper.png')}
-            style={styles.background}
-        >
-            <SafeAreaView style={styles.container}>
-                <TouchableOpacity onPress={handleBack} style={styles.backButton}>
-                    <Text style={styles.backText}>{'< Back'}</Text>
-                </TouchableOpacity>
+        <View style={styles.background}>
+            {/* Main content - always present */}
+            <ImageBackground
+                source={require('@/assets/images/reality-wallpaper.png')}
+                style={styles.background}
+            >
+                <SafeAreaView style={styles.container}>
+                    <Animated.View style={{ opacity: contentOpacity }}>
 
-                <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-                    <View style={styles.content}>
-                        <Text style={styles.title}>Reality Mode</Text>
-                        <Text style={styles.subtitle}>Immersive Cybersecurity Training</Text>
+                        <ScrollView
+                            ref={scrollViewRef}
+                            contentContainerStyle={styles.scrollContent}
+                            showsVerticalScrollIndicator={false}
+                        >
+                            <View style={styles.content}>
+                                <Text style={styles.title}>Reality Mode</Text>
+                                <Text style={styles.subtitle}>Immersive Cybersecurity Training</Text>
 
-                        <View style={styles.descriptionCard}>
-                            <Text style={styles.description}>
-                                Welcome to Reality Mode! Experience realistic smartphone simulations where you'll encounter
-                                real-world phishing attempts, scam messages, and fraudulent marketplace listings.
-                            </Text>
-                        </View>
+                                <View style={styles.descriptionCard}>
+                                    <Text style={styles.description}>
+                                        Welcome to Reality Mode! Experience realistic smartphone simulations where you'll encounter
+                                        real-world phishing attempts, scam messages, and fraudulent marketplace listings.
+                                    </Text>
+                                </View>
 
-                        <View style={styles.objectiveSection}>
-                            <View style={styles.sectionHeader}>
-                                <FontAwesome name="trophy" size={20} color="#FFD700" />
-                                <Text style={styles.objectiveTitle}>Scoring System</Text>
-                            </View>
-                            <View style={styles.objectiveCard}>
-                                <Text style={styles.objectiveText}>
-                                    • Correctly report threats: +10 points{'\n'}
-                                    • Falling for threats: -10 points{'\n'}
-                                    • Trusting safe sources: +10 points{'\n'}
-                                    • False reporting: -5 points{'\n'}
-                                    • Ignoring threats: 0 points{'\n'}
-                                    • Avoid falling for scams: Stay protected!
-                                </Text>
-                            </View>
-                        </View>
+                                <View style={styles.objectiveSection}>
+                                    <View style={styles.sectionHeader}>
+                                        <FontAwesome name="trophy" size={20} color="#FFD700" />
+                                        <Text style={styles.objectiveTitle}>Scoring System</Text>
+                                    </View>
+                                    <View style={styles.objectiveCard}>
+                                        <Text style={styles.objectiveText}>
+                                            • Correctly report threats: +10 points{'\n'}
+                                            • Falling for threats: -10 points{'\n'}
+                                            • Trusting safe sources: +10 points{'\n'}
+                                            • False reporting: -5 points{'\n'}
+                                            • Ignoring threats: 0 points{'\n'}
+                                            • Avoid falling for scams: Stay protected!
+                                        </Text>
+                                    </View>
+                                </View>
 
-                        <View style={styles.tipsSection}>
-                            <View style={styles.sectionHeader}>
-                                <FontAwesome name="lightbulb-o" size={20} color="#FFA500" />
-                                <Text style={styles.tipsTitle}>Pro Tips</Text>
-                            </View>
-                            <View style={styles.tipsCard}>
-                                <Text style={styles.tip}>• Look for suspicious email addresses and URLs</Text>
-                                <Text style={styles.tip}>• Be wary of urgent language and pressure tactics</Text>
-                                <Text style={styles.tip}>• Check for spelling errors and poor grammar</Text>
-                                <Text style={styles.tip}>• Verify deals that seem too good to be true</Text>
-                                <Text style={styles.tip}>• Trust your instincts - when in doubt, report it!</Text>
-                            </View>
-                        </View>
+                                <View style={styles.tipsSection}>
+                                    <View style={styles.sectionHeader}>
+                                        <FontAwesome name="lightbulb-o" size={20} color="#FFA500" />
+                                        <Text style={styles.tipsTitle}>Pro Tips</Text>
+                                    </View>
+                                    <View style={styles.tipsCard}>
+                                        <Text style={styles.tip}>• Look for suspicious email addresses and URLs</Text>
+                                        <Text style={styles.tip}>• Be wary of urgent language and pressure tactics</Text>
+                                        <Text style={styles.tip}>• Check for spelling errors and poor grammar</Text>
+                                        <Text style={styles.tip}>• Verify deals that seem too good to be true</Text>
+                                        <Text style={styles.tip}>• Trust your instincts - when in doubt, report it!</Text>
+                                    </View>
+                                </View>
 
-                        <TouchableOpacity style={styles.startButton} onPress={handleStartTraining}>
-                            <View style={styles.startButtonContent}>
-                                <FontAwesome name="rocket" size={18} color="#fff" />
-                                <Text style={styles.startButtonText}>Start Training</Text>
+                                <TouchableOpacity style={styles.startButton} onPress={handleStartTraining}>
+                                    <View style={styles.startButtonContent}>
+                                        <FontAwesome name="rocket" size={18} color="#fff" />
+                                        <Text style={styles.startButtonText}>Start Training</Text>
+                                    </View>
+                                </TouchableOpacity>
                             </View>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
-        </ImageBackground>
+                        </ScrollView>
+                    </Animated.View>
+                </SafeAreaView>
+            </ImageBackground>
+
+            {/* Black overlay that fades out */}
+            <Animated.View style={[styles.overlay, {
+                opacity: circleScale.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [1, 0]
+                })
+            }]} pointerEvents="none" />
+
+            {/* Exit overlay that fades in when navigating */}
+            <Animated.View style={[styles.overlay, {
+                opacity: exitOverlayOpacity,
+                zIndex: 60
+            }]} pointerEvents="none" />
+
+            {/* Back button positioned above all layers */}
+            <TouchableOpacity onPress={handleBack} style={styles.backButton}>
+                <Text style={styles.backText}>{'< Back'}</Text>
+            </TouchableOpacity>
+        </View>
     );
 }
 
 const styles = StyleSheet.create({
     background: { flex: 1, resizeMode: 'cover' },
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: '#000',
+        zIndex: 50,
+    },
     container: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.85)',
@@ -88,7 +168,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: 60,
         left: 20,
-        zIndex: 10,
+        zIndex: 100, // Higher z-index to appear above all animation layers
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
         paddingVertical: 8,
         paddingHorizontal: 15,

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, Alert, Linking } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
+import { Stack } from 'expo-router';
 
 interface SectionState {
   commonTypes: boolean;
@@ -129,52 +130,60 @@ export default function MoreInformationAboutScamScreen() {
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
-      <StatusBar barStyle="light-content" backgroundColor="#000" />
+    <>
+      <Stack.Screen
+        options={{
+          animation: 'none',
+          headerShown: false,
+        }}
+      />
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#000" />
 
-      {/* Header */}
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-          <Text style={styles.backButtonText}>{'< Back'}</Text>
-        </TouchableOpacity>
-        <Text style={styles.headerTitle}>More Information About Scam</Text>
-      </View>
+        {/* Header */}
+        <View style={styles.header}>
+          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+            <Text style={styles.backButtonText}>{'< Back'}</Text>
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>More Information About Scam</Text>
+        </View>
 
-      <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        {sections.map((section) => (
-          <View key={section.key} style={styles.sectionContainer}>
-            <TouchableOpacity
-              style={styles.sectionHeader}
-              onPress={() => toggleSection(section.key)}
-            >
-              <View style={styles.sectionTitleContainer}>
-                <FontAwesome name={section.icon as any} size={24} color="#007AFF" style={styles.sectionIcon} />
-                <Text style={styles.sectionTitle}>{section.title}</Text>
-              </View>
-              <FontAwesome
-                name={expandedSections[section.key] ? 'chevron-down' : 'chevron-right'}
-                size={18}
-                color="#007AFF"
-              />
-            </TouchableOpacity>
+        <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
+          {sections.map((section) => (
+            <View key={section.key} style={styles.sectionContainer}>
+              <TouchableOpacity
+                style={styles.sectionHeader}
+                onPress={() => toggleSection(section.key)}
+              >
+                <View style={styles.sectionTitleContainer}>
+                  <FontAwesome name={section.icon as any} size={24} color="#007AFF" style={styles.sectionIcon} />
+                  <Text style={styles.sectionTitle}>{section.title}</Text>
+                </View>
+                <FontAwesome
+                  name={expandedSections[section.key] ? 'chevron-down' : 'chevron-right'}
+                  size={18}
+                  color="#007AFF"
+                />
+              </TouchableOpacity>
 
-            {expandedSections[section.key] && (
-              <View style={styles.sectionContent}>
-                {renderSectionContent(section.key)}
-                {section.hasLink && (
-                  <TouchableOpacity style={styles.linkButton} onPress={handleReadMoreLink}>
-                    <View style={styles.linkButtonContent}>
-                      <FontAwesome name="external-link" size={16} color="#fff" />
-                      <Text style={styles.linkButtonText}>Visit IMDA Website</Text>
-                    </View>
-                  </TouchableOpacity>
-                )}
-              </View>
-            )}
-          </View>
-        ))}
-      </ScrollView>
-    </SafeAreaView>
+              {expandedSections[section.key] && (
+                <View style={styles.sectionContent}>
+                  {renderSectionContent(section.key)}
+                  {section.hasLink && (
+                    <TouchableOpacity style={styles.linkButton} onPress={handleReadMoreLink}>
+                      <View style={styles.linkButtonContent}>
+                        <FontAwesome name="external-link" size={16} color="#fff" />
+                        <Text style={styles.linkButtonText}>Visit IMDA Website</Text>
+                      </View>
+                    </TouchableOpacity>
+                  )}
+                </View>
+              )}
+            </View>
+          ))}
+        </ScrollView>
+      </SafeAreaView>
+    </>
   );
 }
 

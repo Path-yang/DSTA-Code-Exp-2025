@@ -1,9 +1,40 @@
-import React from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, ImageBackground, ScrollView } from 'react-native';
-import { router } from 'expo-router';
+import React, { useRef, useCallback } from 'react';
+import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, ImageBackground, ScrollView, Animated } from 'react-native';
+import { router, useFocusEffect } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 
 export default function RealityModeLanding() {
+    const overlayOpacity = useRef(new Animated.Value(1)).current;
+    const contentOpacity = useRef(new Animated.Value(0)).current;
+    const scrollViewRef = useRef(null);
+
+    useFocusEffect(
+        useCallback(() => {
+            // Reset scroll position to top
+            if (scrollViewRef.current) {
+                scrollViewRef.current.scrollTo({ y: 0, animated: false });
+            }
+
+            // Reset animation values to initial state
+            overlayOpacity.setValue(1);
+            contentOpacity.setValue(0);
+
+            // Start the fade-in animation immediately
+            Animated.sequence([
+                Animated.timing(overlayOpacity, {
+                    toValue: 0,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(contentOpacity, {
+                    toValue: 1,
+                    duration: 500,
+                    useNativeDriver: true,
+                }),
+            ]).start();
+        }, [overlayOpacity, contentOpacity])
+    );
+
     const handleStartMission = () => {
         router.push('./reality-mode');
     };
@@ -22,88 +53,99 @@ export default function RealityModeLanding() {
                     <Text style={styles.backText}>{'< Back'}</Text>
                 </TouchableOpacity>
 
-                <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
-                    <View style={styles.content}>
-                        <View style={styles.titleContainer}>
-                            <FontAwesome name="shield" size={28} color="#4CAF50" />
-                            <Text style={styles.title}>Welcome to Level 1</Text>
+                <Animated.View style={{ flex: 1, opacity: contentOpacity }}>
+                    <ScrollView
+                        ref={scrollViewRef}
+                        contentContainerStyle={styles.scrollContent}
+                        showsVerticalScrollIndicator={false}
+                    >
+                        <View style={styles.content}>
+                            <View style={styles.titleContainer}>
+                                <FontAwesome name="shield" size={28} color="#4CAF50" />
+                                <Text style={styles.title}>Welcome to Level 1</Text>
+                            </View>
+
+                            <View style={styles.storyCard}>
+                                <Text style={styles.story}>
+                                    You've just been recruited as a <Text style={styles.boldText}>Cyber Guardian Trainee</Text>.{'\n\n'}
+                                    <Text style={styles.boldText}>Your mission:</Text> Explore simulated apps — Email, Messages, and a Shopping Platform — to detect online scams.
+                                    Make smart choices: report suspicious items, avoid risky clicks, and trust the right sources.{'\n\n'}
+                                    Some are safe. Some are traps.
+                                </Text>
+                            </View>
+
+                            <View style={styles.featuresSection}>
+                                <View style={styles.featuresTitleContainer}>
+                                    <FontAwesome name="bullseye" size={20} color="#FFD700" />
+                                    <Text style={styles.featuresTitle}>What You'll Practice in this Level</Text>
+                                </View>
+
+                                <View style={styles.feature}>
+                                    <View style={styles.featureIconContainer}>
+                                        <FontAwesome name="envelope" size={24} color="#4CAF50" />
+                                    </View>
+                                    <View style={styles.featureContent}>
+                                        <Text style={styles.featureTitle}>Email Security</Text>
+                                        <Text style={styles.featureDesc}>Identify phishing emails and suspicious links</Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.feature}>
+                                    <View style={styles.featureIconContainer}>
+                                        <FontAwesome name="comments" size={24} color="#2196F3" />
+                                    </View>
+                                    <View style={styles.featureContent}>
+                                        <Text style={styles.featureTitle}>SMS Protection</Text>
+                                        <Text style={styles.featureDesc}>Spot smishing attempts and malicious messages</Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.feature}>
+                                    <View style={styles.featureIconContainer}>
+                                        <FontAwesome name="shopping-cart" size={24} color="#FF9800" />
+                                    </View>
+                                    <View style={styles.featureContent}>
+                                        <Text style={styles.featureTitle}>E-commerce Safety</Text>
+                                        <Text style={styles.featureDesc}>Recognize scam listings and fraudulent sellers</Text>
+                                    </View>
+                                </View>
+
+                                <View style={styles.feature}>
+                                    <View style={styles.featureIconContainer}>
+                                        <FontAwesome name="globe" size={24} color="#9C27B0" />
+                                    </View>
+                                    <View style={styles.featureContent}>
+                                        <Text style={styles.featureTitle}>Web Browsing</Text>
+                                        <Text style={styles.featureDesc}>Navigate suspicious websites safely</Text>
+                                    </View>
+                                </View>
+                            </View>
+
+                            <View style={styles.goalSection}>
+                                <Text style={styles.goal}>
+                                    Score <Text style={styles.targetScore}>70 points</Text> or higher to complete Level 1
+                                </Text>
+                            </View>
+
+                            <View style={styles.hintSection}>
+                                <View style={styles.hintTextContainer}>
+                                    <FontAwesome name="lightbulb-o" size={16} color="#FFC107" />
+                                    <Text style={styles.hint}>Hint: Not every app hides a threat. Choose wisely.</Text>
+                                </View>
+                            </View>
+
+                            <TouchableOpacity style={styles.startButton} onPress={handleStartMission}>
+                                <Text style={styles.startButtonText}>Start Mission</Text>
+                            </TouchableOpacity>
                         </View>
-
-                        <View style={styles.storyCard}>
-                            <Text style={styles.story}>
-                                You've just been recruited as a <Text style={styles.boldText}>Cyber Guardian Trainee</Text>.{'\n\n'}
-                                <Text style={styles.boldText}>Your mission:</Text> Explore simulated apps — Email, Messages, and a Shopping Platform — to detect online scams.
-                                Make smart choices: report suspicious items, avoid risky clicks, and trust the right sources.{'\n\n'}
-                                Some are safe. Some are traps.
-                            </Text>
-                        </View>
-
-                        <View style={styles.featuresSection}>
-                            <View style={styles.featuresTitleContainer}>
-                                <FontAwesome name="bullseye" size={20} color="#FFD700" />
-                                <Text style={styles.featuresTitle}>What You'll Practice in this Level</Text>
-                            </View>
-
-                            <View style={styles.feature}>
-                                <View style={styles.featureIconContainer}>
-                                    <FontAwesome name="envelope" size={24} color="#4CAF50" />
-                                </View>
-                                <View style={styles.featureContent}>
-                                    <Text style={styles.featureTitle}>Email Security</Text>
-                                    <Text style={styles.featureDesc}>Identify phishing emails and suspicious links</Text>
-                                </View>
-                            </View>
-
-                            <View style={styles.feature}>
-                                <View style={styles.featureIconContainer}>
-                                    <FontAwesome name="comments" size={24} color="#2196F3" />
-                                </View>
-                                <View style={styles.featureContent}>
-                                    <Text style={styles.featureTitle}>SMS Protection</Text>
-                                    <Text style={styles.featureDesc}>Spot smishing attempts and malicious messages</Text>
-                                </View>
-                            </View>
-
-                            <View style={styles.feature}>
-                                <View style={styles.featureIconContainer}>
-                                    <FontAwesome name="shopping-cart" size={24} color="#FF9800" />
-                                </View>
-                                <View style={styles.featureContent}>
-                                    <Text style={styles.featureTitle}>E-commerce Safety</Text>
-                                    <Text style={styles.featureDesc}>Recognize scam listings and fraudulent sellers</Text>
-                                </View>
-                            </View>
-
-                            <View style={styles.feature}>
-                                <View style={styles.featureIconContainer}>
-                                    <FontAwesome name="globe" size={24} color="#9C27B0" />
-                                </View>
-                                <View style={styles.featureContent}>
-                                    <Text style={styles.featureTitle}>Web Browsing</Text>
-                                    <Text style={styles.featureDesc}>Navigate suspicious websites safely</Text>
-                                </View>
-                            </View>
-                        </View>
-
-                        <View style={styles.goalSection}>
-                            <Text style={styles.goal}>
-                                Score <Text style={styles.targetScore}>70 points</Text> or higher to complete Level 1
-                            </Text>
-                        </View>
-
-                        <View style={styles.hintSection}>
-                            <View style={styles.hintTextContainer}>
-                                <FontAwesome name="lightbulb-o" size={16} color="#FFC107" />
-                                <Text style={styles.hint}>Hint: Not every app hides a threat. Choose wisely.</Text>
-                            </View>
-                        </View>
-
-                        <TouchableOpacity style={styles.startButton} onPress={handleStartMission}>
-                            <Text style={styles.startButtonText}>Start Mission</Text>
-                        </TouchableOpacity>
-                    </View>
-                </ScrollView>
+                    </ScrollView>
+                </Animated.View>
             </SafeAreaView>
+
+            {/* Black overlay that fades out */}
+            <Animated.View style={[styles.overlay, {
+                opacity: overlayOpacity
+            }]} pointerEvents="none" />
         </ImageBackground>
     );
 }
@@ -266,5 +308,14 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         textAlign: 'center',
+    },
+    overlay: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        backgroundColor: '#000',
+        zIndex: 50,
     },
 }); 

@@ -9,7 +9,10 @@ import {
   SafeAreaView,
   Image,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useUser } from '../context/UserContext';
@@ -90,22 +93,30 @@ export default function HomeScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoidingView}
+      >
+        <ScrollView 
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={false}
+          keyboardShouldPersistTaps="handled"
+        >
+          {/* Logo Section */}
+          <View style={styles.logoContainer}>
+            <View style={styles.logoCircle}>
+              <Image
+                source={require('@/assets/images/sigmashield-logo.jpeg')}
+                style={styles.logoImage}
+                resizeMode="contain"
+              />
+            </View>
+            <Text style={styles.logoText}>SIGMASHIELD</Text>
+            <Text style={styles.logoSubtext}>SCAN BEFORE YOU GET SCAMMED</Text>
+          </View>
 
-      {/* Logo Section */}
-      <View style={styles.logoContainer}>
-        <View style={styles.logoCircle}>
-          <Image
-            source={require('@/assets/images/sigmashield-logo.jpeg')}
-            style={styles.logoImage}
-            resizeMode="contain"
-          />
-        </View>
-        <Text style={styles.logoText}>SIGMASHIELD</Text>
-        <Text style={styles.logoSubtext}>SCAN BEFORE YOU GET SCAMMED</Text>
-      </View>
-
-      {/* Login Form */}
-      <View style={styles.formContainer}>
+          {/* Login Form */}
+          <View style={styles.formContainer}>
         <Text style={styles.label}>Username:</Text>
         <TextInput
           style={styles.input}
@@ -154,9 +165,11 @@ export default function HomeScreen() {
           <TouchableOpacity onPress={handleSignUp}>
             <Text style={styles.signupText}>Sign Up</Text>
           </TouchableOpacity>
+          </View>
         </View>
-      </View>
-    </SafeAreaView>
+      </ScrollView>
+    </KeyboardAvoidingView>
+  </SafeAreaView>
   );
 }
 
@@ -164,6 +177,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#000',
+  },
+  keyboardAvoidingView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
     paddingHorizontal: 30,
   },
   logoContainer: {

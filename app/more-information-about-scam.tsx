@@ -142,9 +142,11 @@ export default function MoreInformationAboutScamScreen() {
 
         {/* Header */}
         <View style={styles.header}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Text style={styles.backButtonText}>{'< Back'}</Text>
-          </TouchableOpacity>
+          <View style={styles.headerRow}>
+            <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+              <Text style={styles.backButtonText}>{'< Back'}</Text>
+            </TouchableOpacity>
+          </View>
           <Text style={styles.headerTitle}>More Information About Scam</Text>
         </View>
 
@@ -193,29 +195,30 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   header: {
-    padding: 15,
+    paddingTop: 15,
+    paddingHorizontal: 15,
+    paddingBottom: 20,
     backgroundColor: '#000',
-    position: 'relative'
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'flex-start',
+    marginBottom: 10,
   },
   backButton: {
-    zIndex: 10,
-    position: 'relative'
+    paddingVertical: 5,
+    paddingHorizontal: 0,
   },
   backButtonText: {
     color: '#007AFF',
     fontSize: 16,
   },
   headerTitle: {
-    position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 15,
     color: '#fff',
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
-    paddingVertical: 0,
-    zIndex: 1
+    marginBottom: 10,
   },
   content: {
     paddingHorizontal: 20,

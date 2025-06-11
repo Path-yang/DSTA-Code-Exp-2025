@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, StatusBar, Image, ActivityIndicator, Alert } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, StatusBar, Image, ActivityIndicator, Alert, KeyboardAvoidingView, Platform } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 
 // TODO: Replace with your Claude API key securely loaded from environment or config
@@ -270,7 +270,12 @@ export default function ChatWithExpertsScreen() {
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Chat with Experts</Text>
       </View>
-      <FlatList
+      <KeyboardAvoidingView 
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        style={styles.keyboardAvoidingView}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+      >
+        <FlatList
         data={messages}
         keyExtractor={(_, index) => index.toString()}
         renderItem={({ item }) => {
@@ -333,12 +338,14 @@ export default function ChatWithExpertsScreen() {
           )}
         </TouchableOpacity>
       </View>
-    </SafeAreaView>
+    </KeyboardAvoidingView>
+  </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
+  keyboardAvoidingView: { flex: 1 },
   header: {
     padding: 15,
     backgroundColor: '#000',

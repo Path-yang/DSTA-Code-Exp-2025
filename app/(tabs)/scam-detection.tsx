@@ -14,6 +14,8 @@ import { router } from 'expo-router';
 import { useUser } from '../context/UserContext';
 import ScamDetector from '../../utils/scamDetection';
 import WebsiteChecker from '../../utils/websiteChecker';
+import { FontAwesome } from '@expo/vector-icons';
+import EnhancedBottomNav from '../../components/EnhancedBottomNav';
 
 interface DetectionResult {
   is_phishing: boolean;
@@ -37,7 +39,7 @@ export default function ScamDetectionScreen() {
       // First check if the website exists
       const websiteCheck = await WebsiteChecker.checkWebsiteExists(urlInput.trim());
       const urlParam = encodeURIComponent(urlInput.trim());
-      
+
       // If website doesn't exist, redirect to not-found page
       if (!websiteCheck.exists) {
         const reasonParam = encodeURIComponent(websiteCheck.reason);
@@ -77,7 +79,19 @@ export default function ScamDetectionScreen() {
     router.push('/(tabs)/report-scam');
   };
 
-
+  const handleReadMore = () => {
+    Alert.alert(
+      "Open IMDA Website",
+      "You'll be redirected to the official IMDA site to learn more about scam prevention.",
+      [
+        { text: "Cancel", style: "cancel" },
+        {
+          text: "Proceed",
+          onPress: () => Linking.openURL('https://www.imda.gov.sg/how-we-can-help/anti-scam-measures#:~:text=Learn%20about%20the%20different%20scam,6pm%2C%20excluding%20Public%20Holidays)')
+        }
+      ]
+    );
+  };
 
   const handleChatForum = () => {
     if (isGuestMode) {
@@ -129,24 +143,20 @@ export default function ScamDetectionScreen() {
 
       {/* Main Content */}
       <View style={styles.content}>
-        {/* AI/ML Model Info Card */}
-        <View style={styles.aiModelCard}>
+        {/* Read More Card */}
+        <TouchableOpacity style={styles.readMoreCard} onPress={handleReadMore}>
           <View style={styles.cardIcon}>
-            <Text style={styles.cardIconText}>🤖</Text>
+            <FontAwesome name="book" size={20} color="#fff" />
           </View>
-          <View style={styles.aiModelContent}>
-            <Text style={styles.aiModelTitle}>AI-Powered Scam Detection</Text>
-            <Text style={styles.aiModelDescription}>
-              Our AI analyzes URLs using advanced pattern recognition, domain verification, content scanning, and real-time threat databases to identify scams with high accuracy. Get instant safety ratings and clear explanations for every detection.
-            </Text>
-          </View>
-        </View>
+          <Text style={styles.cardText}>Read more about the dangers of scams</Text>
+          <Text style={styles.linkText}>Link</Text>
+        </TouchableOpacity>
 
         {/* Scam Detector Section */}
         <View style={styles.detectorSection}>
           <View style={styles.detectorHeader}>
             <View style={styles.warningIcon}>
-              <Text style={styles.warningIconText}>⚠️</Text>
+              <FontAwesome name="exclamation-triangle" size={20} color="#fff" />
             </View>
             <View>
               <Text style={styles.detectorTitle}>Scam detector:</Text>
@@ -172,7 +182,7 @@ export default function ScamDetectionScreen() {
           </View>
         ) : (
           <TouchableOpacity style={styles.detectButton} onPress={handleDetect}>
-            <Text style={styles.detectButtonIcon}>⚠️</Text>
+            <FontAwesome name="exclamation-triangle" size={20} color="#fff" style={styles.detectButtonIcon} />
             <Text style={styles.detectButtonText}>Detect</Text>
           </TouchableOpacity>
         )}
@@ -182,30 +192,30 @@ export default function ScamDetectionScreen() {
         </Text>
 
         <TouchableOpacity style={styles.reportButton} onPress={handleReport}>
-          <Text style={styles.reportButtonIcon}>🚩</Text>
+          <FontAwesome name="flag" size={20} color="#fff" style={styles.reportButtonIcon} />
           <Text style={styles.reportButtonText}>Report</Text>
         </TouchableOpacity>
       </View>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={() => router.push('/scam-detection')}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
-          <Text style={styles.navIcon}>📚</Text>
-          <Text style={styles.navText}>Learn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleStats}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Analytics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleChatForum}>
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navText}>Forum</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Enhanced Bottom Navigation */}
+      <EnhancedBottomNav
+        onTabPress={(tabId) => {
+          switch (tabId) {
+            case 'home':
+              router.push('/scam-detection');
+              break;
+            case 'learn':
+              handleLearn();
+              break;
+            case 'analytics':
+              handleStats();
+              break;
+            case 'forum':
+              handleChatForum();
+              break;
+          }
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -239,29 +249,14 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     justifyContent: 'space-around',
-    paddingBottom: 20,
   },
-  aiModelCard: {
+  readMoreCard: {
     backgroundColor: '#333',
     borderRadius: 12,
-    padding: 18,
-    marginBottom: 15,
+    padding: 15,
+    marginBottom: 20,
     flexDirection: 'row',
-    alignItems: 'flex-start',
-  },
-  aiModelContent: {
-    flex: 1,
-  },
-  aiModelTitle: {
-    color: '#fff',
-    fontSize: 16,
-    fontWeight: 'bold',
-    marginBottom: 5,
-  },
-  aiModelDescription: {
-    color: '#ccc',
-    fontSize: 14,
-    lineHeight: 20,
+    alignItems: 'center',
   },
   cardIcon: {
     width: 40,
@@ -272,15 +267,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginRight: 15,
   },
-  cardIconText: {
-    fontSize: 20,
+  cardText: {
+    color: '#fff',
+    fontSize: 16,
+    flex: 1,
   },
-
+  linkText: {
+    color: '#4a9eff',
+    fontSize: 14,
+  },
   detectorSection: {
     backgroundColor: '#333',
     borderRadius: 12,
-    padding: 18,
-    marginBottom: 15,
+    padding: 15,
+    marginBottom: 20,
   },
   detectorHeader: {
     flexDirection: 'row',
@@ -295,9 +295,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: 15,
-  },
-  warningIconText: {
-    fontSize: 20,
   },
   detectorTitle: {
     color: '#fff',
@@ -322,10 +319,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   detectButtonIcon: {
-    fontSize: 20,
     marginRight: 10,
   },
   detectButtonText: {
@@ -337,7 +333,7 @@ const styles = StyleSheet.create({
     color: '#e74c3c',
     fontSize: 12,
     textAlign: 'center',
-    marginBottom: 10,
+    marginBottom: 15,
   },
   reportButton: {
     backgroundColor: '#f39c12',
@@ -346,10 +342,9 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 5,
+    marginBottom: 20,
   },
   reportButtonIcon: {
-    fontSize: 20,
     marginRight: 10,
   },
   reportButtonText: {
@@ -357,23 +352,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#2a2a2a',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'space-around',
-  },
-  navItem: {
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
-  },
-  navIcon: {
-    fontSize: 20,
-    marginBottom: 5,
-  },
-  navText: {
-    color: '#fff',
-    fontSize: 12,
   },
   logoutButton: {
     padding: 4,
@@ -382,17 +364,5 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 14,
     fontWeight: 'bold',
-  },
-  activeNavItem: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#007AFF',
-  },
-  activeNavText: {
-    color: '#007AFF',
-  },
-  loadingContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
   },
 });

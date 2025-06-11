@@ -3,6 +3,8 @@ import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, Sta
 import { router } from 'expo-router';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import ScamDetector from '../../utils/scamDetection';
+import { FontAwesome } from '@expo/vector-icons';
+import EnhancedBottomNav from '../../components/EnhancedBottomNav';
 
 interface RealTimeData {
   cybersecurityThreats: {
@@ -201,7 +203,7 @@ export default function AnalyticsScreen() {
     // Common threats from CSA advisories
     const threats = [
       'Phishing Campaign',
-      'Ransomware Attack', 
+      'Ransomware Attack',
       'Business Email Compromise',
       'Investment Scam',
       'SMS Phishing',
@@ -462,7 +464,7 @@ export default function AnalyticsScreen() {
           source: 'Crypto Scam Intelligence'
         };
       }
-} catch (error) {
+    } catch (error) {
       // Enhanced fallback with realistic time-based data
       const currentHour = new Date().getHours();
       const currentMinute = new Date().getMinutes();
@@ -653,7 +655,7 @@ export default function AnalyticsScreen() {
     try {
       // Get real analytics from ScamDetector
       const analytics = ScamDetector.generateAnalytics(timeRange);
-      
+
       // Ensure the data matches our interface
       const processedStats: ScamStats = {
         totalScamsDetected: analytics.totalScamsDetected,
@@ -671,7 +673,7 @@ export default function AnalyticsScreen() {
         topTargets: analytics.topTargets,
         preventionStats: analytics.preventionStats
       };
-      
+
       setStats(processedStats);
     } catch (error) {
       console.error('Error fetching analytics:', error);
@@ -801,14 +803,14 @@ export default function AnalyticsScreen() {
           <>
             <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "🌍 Global Cyber Threats", 
-                realTimeData.cybersecurityThreats.totalThreats.toLocaleString(), 
+                "🌍 Global Cyber Threats",
+                realTimeData.cybersecurityThreats.totalThreats.toLocaleString(),
                 `Worldwide • Updated: ${realTimeData.cybersecurityThreats.lastUpdated}`,
                 'warning'
               )}
               {renderRealTimeCard(
-                "🌍 Global Scam Reports", 
-                realTimeData.globalScamStats.reportsToday.toString(), 
+                "🌍 Global Scam Reports",
+                realTimeData.globalScamStats.reportsToday.toString(),
                 "Worldwide reports today",
                 'live',
                 { direction: realTimeData.globalScamStats.trend, percentage: realTimeData.globalScamStats.percentage }
@@ -817,14 +819,14 @@ export default function AnalyticsScreen() {
 
             <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "🇸🇬 Singapore Police Reports", 
-                realTimeData.singaporeData.policeReports.toString(), 
+                "🇸🇬 Singapore Police Reports",
+                realTimeData.singaporeData.policeReports.toString(),
                 "Local reports today",
                 'info'
               )}
               {renderRealTimeCard(
-                "🌍 Global Crypto Scams", 
-                realTimeData.cryptoScams?.totalLoss || "N/A", 
+                "🌍 Global Crypto Scams",
+                realTimeData.cryptoScams?.totalLoss || "N/A",
                 `${realTimeData.cryptoScams?.reported || 0} reports worldwide today`,
                 'warning'
               )}
@@ -849,13 +851,13 @@ export default function AnalyticsScreen() {
 
         {/* Time Range Selector */}
         <View style={styles.toggleContainer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.toggle, timeRange === 'week' && styles.toggleActive]}
             onPress={() => setTimeRange('week')}
           >
             <Text style={[styles.toggleText, timeRange === 'week' && styles.toggleTextActive]}>Week</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.toggle, timeRange === 'month' && styles.toggleActive]}
             onPress={() => setTimeRange('month')}
           >
@@ -867,26 +869,26 @@ export default function AnalyticsScreen() {
         <Text style={styles.sectionTitle}>📊 Overview</Text>
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🔴 Scams Detected", 
-            stats?.totalScamsDetected.toLocaleString() || "0", 
+            "🔴 Scams Detected",
+            stats?.totalScamsDetected.toLocaleString() || "0",
             `Local detections this ${timeRange}`
           )}
           {renderStatCard(
-            "🛡️ Threats Blocked", 
-            stats?.totalBlocked.toString() || "0", 
+            "🛡️ Threats Blocked",
+            stats?.totalBlocked.toString() || "0",
             "Automatically blocked"
           )}
         </View>
 
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🎯 Accuracy", 
-            (stats?.accuracy.toString() || "0") + "%", 
+            "🎯 Accuracy",
+            (stats?.accuracy.toString() || "0") + "%",
             "Model performance"
           )}
           {renderStatCard(
-            "📝 User Reports", 
-            stats?.totalScamsReported.toString() || "0", 
+            "📝 User Reports",
+            stats?.totalScamsReported.toString() || "0",
             "Community reports"
           )}
         </View>
@@ -923,8 +925,8 @@ export default function AnalyticsScreen() {
         <Text style={styles.sectionTitle}>📈 Recent Trend</Text>
         <View style={styles.trendCard}>
           <Text style={styles.trendText}>
-            {stats?.recentTrends.direction === 'up' ? '↗️ Increasing' : 
-             stats?.recentTrends.direction === 'down' ? '↘️ Decreasing' : '→ Stable'}
+            {stats?.recentTrends.direction === 'up' ? '↗️ Increasing' :
+              stats?.recentTrends.direction === 'down' ? '↘️ Decreasing' : '→ Stable'}
           </Text>
           <Text style={styles.trendPercentage}>
             {stats?.recentTrends.percentage}% change
@@ -954,25 +956,25 @@ export default function AnalyticsScreen() {
 
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={handleGoHome}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
-          <Text style={styles.navIcon}>📚</Text>
-          <Text style={styles.navText}>Learn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleAnalytics}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>Analytics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navText}>Forum</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Enhanced Bottom Navigation */}
+      <EnhancedBottomNav
+        onTabPress={(tabId) => {
+          switch (tabId) {
+            case 'home':
+              handleGoHome();
+              break;
+            case 'learn':
+              handleLearn();
+              break;
+            case 'analytics':
+              handleAnalytics();
+              break;
+            case 'forum':
+              handleForum();
+              break;
+          }
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -1276,32 +1278,7 @@ const styles = StyleSheet.create({
     color: '#007AFF',
     fontSize: 16,
   },
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#2a2a2a',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'space-around',
-  },
-  navItem: {
-    alignItems: 'center',
-  },
-  activeNavItem: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#007AFF',
-  },
-  navIcon: {
-    fontSize: 20,
-    marginBottom: 5,
-    color: '#fff',
-  },
-  navText: {
-    color: '#fff',
-    fontSize: 12,
-  },
-  activeNavText: {
-    color: '#007AFF',
-  },
+
   preventionGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',

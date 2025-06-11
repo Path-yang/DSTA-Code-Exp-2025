@@ -1,7 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar } from 'react-native';
 import { router } from 'expo-router';
-import { IconSymbol } from '@/components/ui/IconSymbol';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function CommonTypesOfScamScreen() {
     const handleBack = () => router.push('/learn');
@@ -41,19 +41,19 @@ export default function CommonTypesOfScamScreen() {
             </ScrollView>
             <View style={styles.bottomNav}>
                 <TouchableOpacity style={styles.navItem} onPress={handleGoHome}>
-                    <Text style={styles.navIcon}>🏠</Text>
+                    <FontAwesome name="home" size={20} color="#fff" style={styles.navIcon} />
                     <Text style={styles.navText}>Home</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleLearn}>
-                    <Text style={[styles.navIcon, styles.activeNavText]}>📚</Text>
+                    <FontAwesome name="book" size={20} color="#007AFF" style={styles.navIcon} />
                     <Text style={[styles.navText, styles.activeNavText]}>Learn</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.navItem} onPress={handleAnalytics}>
-                    <Text style={styles.navIcon}>📊</Text>
-                    <Text style={styles.navText}>Stats</Text>
+                    <FontAwesome name="bar-chart" size={20} color="#fff" style={styles.navIcon} />
+                    <Text style={styles.navText}>Analytics</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-                    <Text style={styles.navIcon}>💬</Text>
+                    <FontAwesome name="comments" size={20} color="#fff" style={styles.navIcon} />
                     <Text style={styles.navText}>Forum</Text>
                 </TouchableOpacity>
             </View>
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
     bottomNav: { flexDirection: 'row', backgroundColor: '#2a2a2a', paddingVertical: 10, paddingHorizontal: 20, justifyContent: 'space-around' },
     navItem: { alignItems: 'center' },
     activeNavItem: { borderBottomWidth: 2, borderBottomColor: '#007AFF' },
-    navIcon: { fontSize: 20, marginBottom: 5, color: '#fff' },
+    navIcon: { marginBottom: 5 },
     navText: { color: '#fff', fontSize: 12 },
     activeNavText: { color: '#007AFF' },
 }); 

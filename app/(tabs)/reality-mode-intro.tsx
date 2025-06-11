@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, ImageBackground, ScrollView } from 'react-native';
 import { router } from 'expo-router';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function RealityModeIntro() {
     const handleStartTraining = () => {
@@ -34,7 +35,10 @@ export default function RealityModeIntro() {
                         </View>
 
                         <View style={styles.objectiveSection}>
-                            <Text style={styles.objectiveTitle}>🏆 Scoring System</Text>
+                            <View style={styles.sectionHeader}>
+                                <FontAwesome name="trophy" size={20} color="#FFD700" />
+                                <Text style={styles.objectiveTitle}>Scoring System</Text>
+                            </View>
                             <View style={styles.objectiveCard}>
                                 <Text style={styles.objectiveText}>
                                     • Correctly report threats: +10 points{'\n'}
@@ -48,7 +52,10 @@ export default function RealityModeIntro() {
                         </View>
 
                         <View style={styles.tipsSection}>
-                            <Text style={styles.tipsTitle}>💡 Pro Tips</Text>
+                            <View style={styles.sectionHeader}>
+                                <FontAwesome name="lightbulb-o" size={20} color="#FFA500" />
+                                <Text style={styles.tipsTitle}>Pro Tips</Text>
+                            </View>
                             <View style={styles.tipsCard}>
                                 <Text style={styles.tip}>• Look for suspicious email addresses and URLs</Text>
                                 <Text style={styles.tip}>• Be wary of urgent language and pressure tactics</Text>
@@ -59,7 +66,10 @@ export default function RealityModeIntro() {
                         </View>
 
                         <TouchableOpacity style={styles.startButton} onPress={handleStartTraining}>
-                            <Text style={styles.startButtonText}>🚀 Start Training</Text>
+                            <View style={styles.startButtonContent}>
+                                <FontAwesome name="rocket" size={18} color="#fff" />
+                                <Text style={styles.startButtonText}>Start Training</Text>
+                            </View>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
@@ -173,11 +183,18 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         width: '100%',
     },
+    sectionHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 15,
+        gap: 10,
+    },
     objectiveTitle: {
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        marginBottom: 15,
+        marginBottom: 0,
         textAlign: 'center',
     },
     objectiveCard: {
@@ -204,7 +221,7 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold',
         color: '#333',
-        marginBottom: 15,
+        marginBottom: 0,
         textAlign: 'center',
     },
     tipsCard: {
@@ -230,6 +247,12 @@ const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 3 },
         shadowOpacity: 0.3,
         shadowRadius: 5,
+    },
+    startButtonContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 10,
     },
     startButtonText: {
         color: '#fff',

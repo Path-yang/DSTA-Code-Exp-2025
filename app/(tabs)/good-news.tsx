@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, StatusBar, ScrollView } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { FontAwesome } from '@expo/vector-icons';
 
 export const options = { headerShown: false };
 
@@ -17,34 +18,34 @@ export default function GoodNewsScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-      <View style={[styles.header, { justifyContent: 'flex-start', paddingVertical: 15 }] }>
+      <View style={[styles.header, { justifyContent: 'flex-start', paddingVertical: 15 }]}>
         <TouchableOpacity onPress={handleBack} style={styles.backButton}>
           <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
         <Text style={[styles.title, { marginLeft: 10 }]}>Your Results</Text>
       </View>
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={[styles.card, { backgroundColor: '#27ae60' }]}>  
+        <View style={[styles.card, { backgroundColor: '#27ae60' }]}>
           <Text style={styles.cardTitle}>Good news!</Text>
           <Text style={styles.cardSubtitle}>The link you&apos;ve entered is verified and safe to access.</Text>
           <Text style={styles.confidenceText}>Chance of scam website: {conf.toFixed(1)}%</Text>
         </View>
       </ScrollView>
       <View style={styles.bottomNav}>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleGoHome}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
+        <TouchableOpacity style={styles.navItem} onPress={handleGoHome}>
+          <FontAwesome name="home" size={20} color="#fff" style={styles.navIcon} />
+          <Text style={styles.navText}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
-          <Text style={styles.navIcon}>📚</Text>
+          <FontAwesome name="book" size={20} color="#fff" style={styles.navIcon} />
           <Text style={styles.navText}>Learn</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleAnalytics}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Stats</Text>
+          <FontAwesome name="bar-chart" size={20} color="#fff" style={styles.navIcon} />
+          <Text style={styles.navText}>Analytics</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
+          <FontAwesome name="comments" size={20} color="#fff" style={styles.navIcon} />
           <Text style={styles.navText}>Forum</Text>
         </TouchableOpacity>
       </View>
@@ -65,7 +66,7 @@ const styles = StyleSheet.create({
   bottomNav: { flexDirection: 'row', backgroundColor: '#2a2a2a', paddingVertical: 10, paddingHorizontal: 20, justifyContent: 'space-around' },
   navItem: { alignItems: 'center' },
   activeNavItem: { borderBottomWidth: 2, borderBottomColor: '#007AFF' },
-  navIcon: { fontSize: 20, marginBottom: 5, color: '#fff' },
+  navIcon: { marginBottom: 5 },
   navText: { color: '#fff', fontSize: 12 },
   activeNavText: { color: '#007AFF' },
   confidenceText: { color: '#fff', fontSize: 18, marginTop: 10 },

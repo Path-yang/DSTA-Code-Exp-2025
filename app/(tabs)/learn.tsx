@@ -2,6 +2,8 @@ import React from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar } from 'react-native';
 import { router } from 'expo-router';
 import { IconSymbol } from '@/components/ui/IconSymbol';
+import { FontAwesome } from '@expo/vector-icons';
+import EnhancedBottomNav from '../../components/EnhancedBottomNav';
 
 export default function LearnScreen() {
   const handleGoHome = () => router.push('/scam-detection');
@@ -45,24 +47,24 @@ export default function LearnScreen() {
           <Text style={styles.helpButtonText}>Click Here If you need HELP</Text>
         </TouchableOpacity>
       </ScrollView>
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={handleGoHome}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleLearn}>
-          <Text style={styles.navIcon}>📚</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>Learn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleAnalytics}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Analytics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navText}>Forum</Text>
-        </TouchableOpacity>
-      </View>
+      <EnhancedBottomNav
+        onTabPress={(tabId) => {
+          switch (tabId) {
+            case 'home':
+              handleGoHome();
+              break;
+            case 'learn':
+              handleLearn();
+              break;
+            case 'analytics':
+              handleAnalytics();
+              break;
+            case 'forum':
+              handleForum();
+              break;
+          }
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -121,29 +123,9 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#2a2a2a',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'space-around',
-  },
-  navItem: {
-    alignItems: 'center',
-  },
-  activeNavItem: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#007AFF',
-  },
-  navIcon: {
-    fontSize: 20,
-    marginBottom: 5,
-  },
-  navText: {
-    color: '#fff',
+  preventionLabel: {
+    color: '#aaa',
     fontSize: 12,
-  },
-  activeNavText: {
-    color: '#007AFF',
+    textAlign: 'center',
   },
 }); 

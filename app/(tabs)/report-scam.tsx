@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import { router } from 'expo-router';
 import { useUser } from '../context/UserContext';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function ReportScamScreen() {
   const [urlInput, setUrlInput] = useState('');
@@ -21,8 +22,8 @@ export default function ReportScamScreen() {
       Alert.alert(
         'Thank you!',
         'Your report has been submitted and will help protect the community.',
-        [{ 
-          text: 'OK', 
+        [{
+          text: 'OK',
           onPress: () => {
             setUrlInput('');
             router.push('/scam-detection');
@@ -74,7 +75,7 @@ export default function ReportScamScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerTop}>
@@ -139,19 +140,19 @@ export default function ReportScamScreen() {
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleGoHome}>
-          <Text style={styles.navIcon}>🏠</Text>
+          <FontAwesome name="home" size={20} color="#007AFF" style={styles.navIcon} />
           <Text style={[styles.navText, styles.activeNavText]}>Home</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
-          <Text style={styles.navIcon}>📚</Text>
+          <FontAwesome name="book" size={20} color="#fff" style={styles.navIcon} />
           <Text style={styles.navText}>Learn</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleStats}>
-          <Text style={styles.navIcon}>📊</Text>
+          <FontAwesome name="bar-chart" size={20} color="#fff" style={styles.navIcon} />
           <Text style={styles.navText}>Analytics</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
+          <FontAwesome name="comments" size={20} color="#fff" style={styles.navIcon} />
           <Text style={styles.navText}>Forum</Text>
         </TouchableOpacity>
       </View>
@@ -306,7 +307,6 @@ const styles = StyleSheet.create({
     color: '#007AFF',
   },
   navIcon: {
-    fontSize: 20,
     marginBottom: 5,
   },
 });

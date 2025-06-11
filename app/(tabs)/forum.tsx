@@ -11,6 +11,9 @@ import {
   Image,
 } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
+import { IconSymbol } from '@/components/ui/IconSymbol';
+import { FontAwesome } from '@expo/vector-icons';
+import EnhancedBottomNav from '../../components/EnhancedBottomNav';
 
 interface ForumPost {
   id: string;
@@ -31,24 +34,24 @@ const mockPosts: ForumPost[] = [
     title: 'How This WhatsApp Scam Drained $10,000 From an NUS Student\'s Bank Account – And How You Can Avoid It',
     description: '',
     author: 'Alex Chen',
-    avatar: '👨‍💼',
+    avatar: 'user',
     tags: ['finance', 'scam', 'cybersecurity'],
     views: '651,324 Views',
     likes: '36,6545 Likes',
     comments: '56 comments',
-    image: '🔒'
+    image: 'lock'
   },
   {
     id: '2',
     title: 'The Instagram Giveaway Trap That Cost Influencers Their Accounts – What You Need to Know',
     description: 'Fake contests, cloned accounts, and how scammers exploit your followers...',
     author: 'Sarah Kim',
-    avatar: '👩‍💻',
+    avatar: 'user',
     tags: ['social media', 'phishing', 'scam'],
     views: '244,564 Views',
     likes: '10,920 Likes',
     comments: '184 comments',
-    image: '⚠️'
+    image: 'exclamation-triangle'
   }
 ];
 
@@ -59,24 +62,24 @@ const mockVerifiedPosts: ForumPost[] = [
     title: 'Govt Portal Phishing Attack Analysis',
     description: 'Community breakdown of the recent phishing scam targeting govt portals.',
     author: 'Hunter A',
-    avatar: '🕵️‍♂️',
+    avatar: 'user-secret',
     tags: ['phishing', 'government', 'alert'],
     views: '1,234 Views',
     likes: '123 Likes',
     comments: '45 comments',
-    image: '🛡️'
+    image: 'shield'
   },
   {
     id: 'v2',
     title: 'Payment App OTP Scam Detailed Report',
     description: "Scammers are requesting OTPs via SMS. Here's how to spot and prevent it.",
     author: 'Hunter B',
-    avatar: '🕵️‍♀️',
+    avatar: 'user-secret',
     tags: ['payment', 'OTP', 'scam'],
     views: '987 Views',
     likes: '76 Likes',
     comments: '32 comments',
-    image: '⚠️'
+    image: 'exclamation-triangle'
   }
 ];
 
@@ -132,7 +135,7 @@ export default function ForumScreen() {
             <View style={styles.headerContent}>
               <Text style={styles.headerTitle}>Verified Scam Hunter Community</Text>
               <TouchableOpacity onPress={() => setForumType('news')} style={styles.selectionButton}>
-                <Text style={styles.selectionButtonIcon}>📰</Text>
+                <FontAwesome name="newspaper-o" size={20} color="#fff" />
               </TouchableOpacity>
             </View>
           </View>
@@ -142,26 +145,38 @@ export default function ForumScreen() {
                 <View style={styles.postHeader}>
                   <View style={styles.postImageContainer}>
                     <View style={styles.postImage}>
-                      <Text style={styles.postImageText}>{post.image}</Text>
+                      <FontAwesome name={post.image as any} size={24} color="#fff" />
                     </View>
                   </View>
                   <Text style={styles.postTitle}>{post.title}</Text>
-                  <View style={styles.postAuthor}><Text style={styles.authorAvatar}>{post.avatar}</Text></View>
+                  <View style={styles.postAuthor}><FontAwesome name={post.avatar as any} size={20} color="#fff" /></View>
                 </View>
                 {post.description ? <Text style={styles.postDescription}>{post.description}</Text> : null}
-                <View style={styles.tagsContainer}>{post.tags.map((tag,i)=><View key={i} style={styles.tag}><Text style={styles.tagText}>{tag}</Text></View>)}</View>
+                <View style={styles.tagsContainer}>{post.tags.map((tag, i) => <View key={i} style={styles.tag}><Text style={styles.tagText}>{tag}</Text></View>)}</View>
                 <View style={styles.postStats}><Text style={styles.statText}>{post.views}</Text><Text style={styles.statText}>{post.likes}</Text><Text style={styles.statText}>{post.comments}</Text></View>
               </View>
             ))}
           </ScrollView>
         </View>
-        {/* Bottom Navigation same as above */}
-        <View style={styles.bottomNav}>
-          <TouchableOpacity style={styles.navItem} onPress={handleHome}><Text style={styles.navIcon}>🏠</Text><Text style={styles.navText}>Home</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.navItem} onPress={handleLearn}><Text style={styles.navIcon}>📚</Text><Text style={styles.navText}>Learn</Text></TouchableOpacity>
-          <TouchableOpacity style={styles.navItem} onPress={handleStats}><Text style={styles.navIcon}>📊</Text><Text style={styles.navText}>Analytics</Text></TouchableOpacity>
-          <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleForum}><Text style={styles.navIcon}>💬</Text><Text style={[styles.navText, styles.activeNavText]}>Forum</Text></TouchableOpacity>
-        </View>
+        {/* Enhanced Bottom Navigation */}
+        <EnhancedBottomNav
+          onTabPress={(tabId) => {
+            switch (tabId) {
+              case 'home':
+                handleHome();
+                break;
+              case 'learn':
+                handleLearn();
+                break;
+              case 'analytics':
+                handleStats();
+                break;
+              case 'forum':
+                handleForum();
+                break;
+            }
+          }}
+        />
       </SafeAreaView>
     );
   }
@@ -175,7 +190,7 @@ export default function ForumScreen() {
           <View style={styles.headerContent}>
             <Text style={styles.headerTitle}>News Forum</Text>
             <TouchableOpacity onPress={() => setForumType('verified')} style={styles.selectionButton}>
-              <Text style={styles.selectionButtonIcon}>🛡️</Text>
+              <FontAwesome name="shield" size={20} color="#fff" />
             </TouchableOpacity>
           </View>
         </View>
@@ -183,7 +198,7 @@ export default function ForumScreen() {
         {/* Search and Profile Bar */}
         <View style={styles.topBar}>
           <View style={styles.searchContainer}>
-            <Text style={styles.searchIcon}>🔍</Text>
+            <FontAwesome name="search" size={18} color="#666" style={styles.searchIcon} />
             <TextInput
               style={styles.searchInput}
               value={searchText}
@@ -193,21 +208,21 @@ export default function ForumScreen() {
             />
           </View>
           <TouchableOpacity style={styles.chatIcon}>
-            <Text style={styles.chatIconText}>💬</Text>
+            <FontAwesome name="comments" size={20} color="#fff" />
           </TouchableOpacity>
           <TouchableOpacity style={styles.notificationIcon}>
-            <Text style={styles.notificationIconText}>🔔</Text>
+            <FontAwesome name="bell" size={20} color="#fff" />
             <View style={styles.notificationBadge} />
           </TouchableOpacity>
           <TouchableOpacity style={styles.profileIcon}>
-            <Text style={styles.profileIconText}>👨‍💼</Text>
+            <FontAwesome name="user" size={20} color="#fff" />
           </TouchableOpacity>
         </View>
 
         {/* Create Post Section */}
         <View style={styles.createPostContainer}>
           <View style={styles.createPostAvatar}>
-            <Text style={styles.createPostAvatarText}>👨‍💼</Text>
+            <FontAwesome name="user" size={20} color="#fff" />
           </View>
           <TextInput
             style={styles.createPostInput}
@@ -228,7 +243,7 @@ export default function ForumScreen() {
               <View style={styles.postHeader}>
                 <View style={styles.postImageContainer}>
                   <View style={styles.postImage}>
-                    <Text style={styles.postImageText}>{post.image}</Text>
+                    <FontAwesome name={post.image as any} size={24} color="#fff" />
                     {post.id === '1' && (
                       <View style={styles.scamBadge}>
                         <Text style={styles.scamBadgeText}>SCAM</Text>
@@ -243,7 +258,7 @@ export default function ForumScreen() {
                 </View>
                 <Text style={styles.postTitle}>{post.title}</Text>
                 <View style={styles.postAuthor}>
-                  <Text style={styles.authorAvatar}>{post.avatar}</Text>
+                  <FontAwesome name={post.avatar as any} size={20} color="#fff" />
                 </View>
               </View>
               {post.description ? (
@@ -266,25 +281,25 @@ export default function ForumScreen() {
         </ScrollView>
       </View>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={handleHome}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
-          <Text style={styles.navIcon}>📚</Text>
-          <Text style={styles.navText}>Learn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleStats}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Analytics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>Forum</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Enhanced Bottom Navigation */}
+      <EnhancedBottomNav
+        onTabPress={(tabId) => {
+          switch (tabId) {
+            case 'home':
+              handleHome();
+              break;
+            case 'learn':
+              handleLearn();
+              break;
+            case 'analytics':
+              handleStats();
+              break;
+            case 'forum':
+              handleForum();
+              break;
+          }
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -327,7 +342,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   searchIcon: {
-    fontSize: 18,
     marginRight: 10,
   },
   searchInput: {
@@ -440,6 +454,7 @@ const styles = StyleSheet.create({
   },
   postImageText: {
     fontSize: 24,
+    textAlign: 'center',
   },
   scamBadge: {
     position: 'absolute',
@@ -522,31 +537,6 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     color: '#666',
     fontSize: 12,
-  },
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#2a2a2a',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'space-around',
-  },
-  navItem: {
-    alignItems: 'center',
-  },
-  navIcon: {
-    fontSize: 20,
-    marginBottom: 5,
-  },
-  navText: {
-    color: '#fff',
-    fontSize: 12,
-  },
-  activeNavItem: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#007AFF',
-  },
-  activeNavText: {
-    color: '#007AFF',
   },
   selectionContainer: {
     flexDirection: 'row',

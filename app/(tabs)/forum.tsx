@@ -27,6 +27,7 @@ export default function ForumScreen() {
 
   // Forum view state: selector, news, or verified community
   const [forumType, setForumType] = useState<'news' | 'verified' | 'my-posts'>('news');
+  const [previousForumType, setPreviousForumType] = useState<'news' | 'verified'>('news');
   const [searchText, setSearchText] = useState('');
   const [postText, setPostText] = useState('');
   
@@ -100,6 +101,17 @@ export default function ForumScreen() {
 
   // Render main post image (left side)
   const renderMainPostImage = (post: ForumPost) => {
+    // Check if user provided an image URL
+    if (post.image_url && post.image_url.startsWith('https://')) {
+      return (
+        <Image
+          source={{ uri: post.image_url }}
+          style={{ width: 60, height: 60, borderRadius: 8 }}
+          resizeMode="cover"
+        />
+      );
+    }
+    
     // News Forum posts (id 2 = Instagram, id 3 = Car Rental)
     if (post.id === 2) {
       return (
@@ -241,6 +253,7 @@ export default function ForumScreen() {
   const handleForum = () => {
     // Already in forum tab: reset to news
     setForumType('news');
+    setPreviousForumType('news');
   };
 
   const handleMyInfo = () => {
@@ -263,8 +276,8 @@ export default function ForumScreen() {
             try {
               const success = await forumService.deleteForumPost(postId);
               if (success) {
-                // Update user posts list
-                setUserPosts(prevPosts => prevPosts.filter(post => post.id !== postId));
+                // Refresh all forum data to ensure post is removed from all views
+                await fetchPosts();
                 Alert.alert('Success', 'Post deleted successfully');
               } else {
                 Alert.alert('Error', 'Failed to delete post');
@@ -283,7 +296,7 @@ export default function ForumScreen() {
       const result = await forumService.likeForumPostWithValidation(postId);
       if (result.success) {
         // Refresh posts to show updated like count
-        fetchPosts();
+        await fetchPosts();
       } else if (result.alreadyLiked) {
         Alert.alert('Already Liked', 'You have already liked this post');
       } else {
@@ -315,11 +328,11 @@ export default function ForumScreen() {
         await forumService.initializeForumWithSamplePosts();
         
         // Load posts based on forum type
-        const posts = await forumService.getForumPosts(forumType === 'verified');
         if (forumType === 'my-posts') {
           const myPosts = await forumService.getUserPosts();
           setUserPosts(myPosts);
         } else {
+          const posts = await forumService.getForumPosts(forumType === 'verified');
           setUserPosts(posts);
         }
       } catch (error) {
@@ -342,8 +355,8 @@ export default function ForumScreen() {
           <View style={styles.header}>
             <View style={styles.headerContent}>
               <Text style={styles.headerTitle}>My Posts</Text>
-              <TouchableOpacity onPress={() => setForumType('news')} style={styles.selectionButton}>
-                <FontAwesome name="newspaper-o" size={20} color="#fff" />
+              <TouchableOpacity onPress={() => setForumType(previousForumType)} style={styles.selectionButton}>
+                <FontAwesome name={previousForumType === 'verified' ? "shield" : "newspaper-o"} size={20} color="#fff" />
               </TouchableOpacity>
             </View>
           </View>
@@ -383,6 +396,15 @@ export default function ForumScreen() {
                     </TouchableOpacity>
                   </View>
                   {post.content ? <Text style={styles.postDescription}>{post.content}</Text> : null}
+                  {post.image_url && post.image_url.startsWith('https://') ? (
+                    <View style={styles.postImageSection}>
+                      <Image
+                        source={{ uri: post.image_url }}
+                        style={styles.postContentImage}
+                        resizeMode="cover"
+                      />
+                    </View>
+                  ) : null}
                   <View style={styles.tagsContainer}>
                     {post.tags.map((tag: string, i: number) => (
                       <View key={i} style={styles.tag}>
@@ -449,10 +471,10 @@ export default function ForumScreen() {
             <View style={styles.headerContent}>
               <Text style={styles.headerTitle}>Verified Scam Hunter Community</Text>
               <View style={styles.headerButtons}>
-                <TouchableOpacity onPress={() => setForumType('news')} style={styles.selectionButton}>
+                <TouchableOpacity onPress={() => { setPreviousForumType('verified'); setForumType('news'); }} style={styles.selectionButton}>
                   <FontAwesome name="newspaper-o" size={20} color="#fff" />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => setForumType('my-posts')} style={[styles.selectionButton, styles.myPostsButton]}>
+                <TouchableOpacity onPress={() => { setPreviousForumType('verified'); setForumType('my-posts'); }} style={[styles.selectionButton, styles.myPostsButton]}>
                   <FontAwesome name="edit" size={18} color="#8B4513" />
                 </TouchableOpacity>
               </View>
@@ -610,12 +632,12 @@ export default function ForumScreen() {
           <View style={styles.headerContent}>
             <Text style={styles.headerTitle}>News Forum</Text>
             <View style={styles.headerButtons}>
-              <TouchableOpacity onPress={() => setForumType('verified')} style={styles.selectionButton}>
-                <FontAwesome name="shield" size={20} color="#fff" />
-              </TouchableOpacity>
-              <TouchableOpacity onPress={() => setForumType('my-posts')} style={[styles.selectionButton, styles.myPostsButton]}>
-                <FontAwesome name="edit" size={18} color="#8B4513" />
-              </TouchableOpacity>
+                              <TouchableOpacity onPress={() => { setPreviousForumType('news'); setForumType('verified'); }} style={styles.selectionButton}>
+                  <FontAwesome name="shield" size={20} color="#fff" />
+                </TouchableOpacity>
+                <TouchableOpacity onPress={() => { setPreviousForumType('news'); setForumType('my-posts'); }} style={[styles.selectionButton, styles.myPostsButton]}>
+                  <FontAwesome name="edit" size={18} color="#8B4513" />
+                </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -1068,5 +1090,14 @@ const styles = StyleSheet.create({
   },
   deleteButton: {
     padding: 8,
+  },
+  postImageSection: {
+    marginLeft: 72,
+    marginBottom: 12,
+  },
+  postContentImage: {
+    width: '100%',
+    height: 200,
+    borderRadius: 8,
   },
 }); 

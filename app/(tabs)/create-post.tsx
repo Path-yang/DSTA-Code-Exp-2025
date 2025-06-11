@@ -18,6 +18,7 @@ import forumService from '../services/forumService';
 export default function CreatePostScreen() {
     const [postTitle, setPostTitle] = useState('');
     const [postContent, setPostContent] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
     const [isPosting, setIsPosting] = useState(false);
 
@@ -65,6 +66,7 @@ export default function CreatePostScreen() {
             const result = await forumService.createForumPost({
                 title: postTitle,
                 content: postContent,
+                image_url: imageUrl.trim() || undefined,
                 tags: selectedTags,
                 isVerified
             });
@@ -73,6 +75,7 @@ export default function CreatePostScreen() {
                 // Clear the form entries
                 setPostTitle('');
                 setPostContent('');
+                setImageUrl('');
                 setSelectedTags([]);
 
                 // Show success alert and navigate back to forum page
@@ -133,6 +136,22 @@ export default function CreatePostScreen() {
                         maxLength={500}
                     />
                     <Text style={styles.charCount}>{postContent.length}/500</Text>
+                </View>
+
+                {/* Image URL */}
+                <View style={styles.inputSection}>
+                    <Text style={styles.label}>Image URL (Optional)</Text>
+                    <TextInput
+                        style={styles.titleInput}
+                        value={imageUrl}
+                        onChangeText={setImageUrl}
+                        placeholder="https://example.com/image.jpg"
+                        placeholderTextColor="#666"
+                        autoCapitalize="none"
+                        autoCorrect={false}
+                        keyboardType="url"
+                    />
+                    <Text style={styles.helperText}>Add an image URL to include a visual with your post</Text>
                 </View>
 
                 {/* Tags Selection */}
@@ -256,6 +275,12 @@ const styles = StyleSheet.create({
         fontSize: 12,
         textAlign: 'right',
         marginTop: 5,
+    },
+    helperText: {
+        fontSize: 12,
+        color: '#888',
+        marginTop: 4,
+        fontStyle: 'italic',
     },
     tagsContainer: {
         flexDirection: 'row',

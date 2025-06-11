@@ -22,6 +22,7 @@ export interface ForumPost {
   author_avatar: string;
   title: string;
   content: string;
+  image_url?: string;
   tags: string[];
   created_at: string;
   updated_at: string;
@@ -57,6 +58,7 @@ class ForumService {
   async createForumPost(data: {
     title: string;
     content: string;
+    image_url?: string;
     tags: string[];
     isVerified?: boolean;
   }): Promise<{ success: boolean; post?: ForumPost; error?: any }> {
@@ -74,6 +76,7 @@ class ForumService {
         author_avatar: user.profile.avatar || '',
         title: data.title,
         content: data.content,
+        image_url: data.image_url,
         tags: data.tags,
         created_at: new Date().toISOString(),
         updated_at: new Date().toISOString(),

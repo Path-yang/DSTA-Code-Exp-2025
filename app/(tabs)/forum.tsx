@@ -12,7 +12,7 @@ import {
   Alert,
   ActivityIndicator
 } from 'react-native';
-import { router, useFocusEffect } from 'expo-router';
+import { router, useFocusEffect, useLocalSearchParams } from 'expo-router';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import { FontAwesome } from '@expo/vector-icons';
 import EnhancedBottomNav from '../../components/EnhancedBottomNav';
@@ -25,8 +25,18 @@ export default function ForumScreen() {
   const { user } = useUser();
   const userId = user?.id;
 
+  // Get URL parameters
+  const params = useLocalSearchParams();
+  
+  // Determine initial forum type from URL parameter
+  const getInitialForumType = (): 'news' | 'verified' | 'my-posts' => {
+    if (params.type === 'verified') return 'verified';
+    if (params.type === 'my-posts') return 'my-posts';
+    return 'news';
+  };
+
   // Forum view state: selector, news, or verified community
-  const [forumType, setForumType] = useState<'news' | 'verified' | 'my-posts'>('news');
+  const [forumType, setForumType] = useState<'news' | 'verified' | 'my-posts'>(getInitialForumType());
   const [previousForumType, setPreviousForumType] = useState<'news' | 'verified'>('news');
   const [searchText, setSearchText] = useState('');
   const [postText, setPostText] = useState('');
@@ -67,12 +77,13 @@ export default function ForumScreen() {
     }
   }, []);
 
-  // Reset to news forum and fetch posts when screen gains focus
+  // Update forum type from URL parameters and fetch posts when screen gains focus
   useFocusEffect(
     useCallback(() => {
-      setForumType('news');
+      const initialType = getInitialForumType();
+      setForumType(initialType);
       fetchPosts();
-    }, [fetchPosts])
+    }, [fetchPosts, params.type])
   );
 
   // Filter posts based on search text

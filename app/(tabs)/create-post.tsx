@@ -32,7 +32,11 @@ export default function CreatePostScreen() {
     ];
 
     const handleBack = () => {
-        router.push('/forum');
+        if (isVerified) {
+            router.push('/forum?type=verified');
+        } else {
+            router.push('/forum?type=news');
+        }
     };
 
     const toggleTag = (tag: string) => {
@@ -82,7 +86,13 @@ export default function CreatePostScreen() {
                 Alert.alert(
                     'Success',
                     'Your post has been created successfully!',
-                    [{ text: 'OK', onPress: () => router.push('/forum') }]
+                    [{ text: 'OK', onPress: () => {
+                        if (isVerified) {
+                            router.push('/forum?type=verified');
+                        } else {
+                            router.push('/forum?type=news');
+                        }
+                    }}]
                 );
             } else {
                 Alert.alert('Error', result.error?.message || 'Failed to create post. Please try again.');

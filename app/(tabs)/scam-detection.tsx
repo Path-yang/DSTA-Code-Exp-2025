@@ -77,19 +77,7 @@ export default function ScamDetectionScreen() {
     router.push('/(tabs)/report-scam');
   };
 
-  const handleReadMore = () => {
-    Alert.alert(
-      "Open IMDA Website",
-      "You'll be redirected to the official IMDA site to learn more about scam prevention.",
-      [
-        { text: "Cancel", style: "cancel" },
-        {
-          text: "Proceed",
-          onPress: () => Linking.openURL('https://www.imda.gov.sg/how-we-can-help/anti-scam-measures#:~:text=Learn%20about%20the%20different%20scam,6pm%2C%20excluding%20Public%20Holidays)')
-        }
-      ]
-    );
-  };
+
 
   const handleChatForum = () => {
     if (isGuestMode) {
@@ -141,14 +129,18 @@ export default function ScamDetectionScreen() {
 
       {/* Main Content */}
       <View style={styles.content}>
-        {/* Read More Card */}
-        <TouchableOpacity style={styles.readMoreCard} onPress={handleReadMore}>
+        {/* AI/ML Model Info Card */}
+        <View style={styles.aiModelCard}>
           <View style={styles.cardIcon}>
-            <Text style={styles.cardIconText}>📚</Text>
+            <Text style={styles.cardIconText}>🤖</Text>
           </View>
-          <Text style={styles.cardText}>Read more about the dangers of scams</Text>
-          <Text style={styles.linkText}>Link</Text>
-        </TouchableOpacity>
+          <View style={styles.aiModelContent}>
+            <Text style={styles.aiModelTitle}>AI-Powered Scam Detection</Text>
+            <Text style={styles.aiModelDescription}>
+              Our advanced machine learning model analyzes URLs using pattern recognition, keyword detection, and behavioral analysis to identify potential scams with high accuracy.
+            </Text>
+          </View>
+        </View>
 
         {/* Scam Detector Section */}
         <View style={styles.detectorSection}>
@@ -248,13 +240,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     justifyContent: 'space-around',
   },
-  readMoreCard: {
+  aiModelCard: {
     backgroundColor: '#333',
     borderRadius: 12,
     padding: 15,
     marginBottom: 20,
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+  },
+  aiModelContent: {
+    flex: 1,
+  },
+  aiModelTitle: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 5,
+  },
+  aiModelDescription: {
+    color: '#ccc',
+    fontSize: 14,
+    lineHeight: 20,
   },
   cardIcon: {
     width: 40,
@@ -268,15 +274,7 @@ const styles = StyleSheet.create({
   cardIconText: {
     fontSize: 20,
   },
-  cardText: {
-    color: '#fff',
-    fontSize: 16,
-    flex: 1,
-  },
-  linkText: {
-    color: '#4a9eff',
-    fontSize: 14,
-  },
+
   detectorSection: {
     backgroundColor: '#333',
     borderRadius: 12,

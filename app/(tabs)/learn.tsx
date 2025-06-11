@@ -12,12 +12,10 @@ export default function LearnScreen() {
   const topics = [
     { label: 'Webinars', route: '/webinars' },
     { label: 'Chat with Experts', route: '/chat-with-experts' },
-    { label: 'Common Types of Scam', route: '/common-types-of-scam' },
-    { label: 'How To Identify Scam', route: '/how-to-identify-scams' },
-    { label: 'Avoiding Scams', route: '/avoiding-scams' },
     { label: 'Victim Recovery Toolkit', route: '/victim-recovery-toolkit' },
     { label: 'Augmented Reality', route: '/augmented-reality' },
     { label: 'Reality Mode', route: '/reality-mode-intro' },
+    { label: 'More Information About Scam', route: '/more-information-about-scam' },
   ];
 
   return (

@@ -27,7 +27,7 @@ export default function ForumScreen() {
 
   // Get URL parameters
   const params = useLocalSearchParams();
-  
+
   // Determine initial forum type from URL parameter
   const getInitialForumType = (): 'news' | 'verified' | 'my-posts' => {
     if (params.type === 'verified') return 'verified';
@@ -40,7 +40,7 @@ export default function ForumScreen() {
   const [previousForumType, setPreviousForumType] = useState<'news' | 'verified'>('news');
   const [searchText, setSearchText] = useState('');
   const [postText, setPostText] = useState('');
-  
+
   // Posts state
   const [isLoading, setIsLoading] = useState(true);
   const [regularPosts, setRegularPosts] = useState<ForumPost[]>([]);
@@ -54,19 +54,19 @@ export default function ForumScreen() {
     try {
       // Initialize sample posts if needed
       await forumService.initializeForumWithSamplePosts();
-      
+
       // Fetch regular posts
       const regular = await forumService.getForumPosts(false);
       setRegularPosts(regular);
-      
+
       // Fetch verified posts
       const verified = await forumService.getForumPosts(true);
       setVerifiedPosts(verified);
-      
+
       // Fetch user's posts
       const userPostsData = await forumService.getUserPosts();
       setUserPosts(userPostsData);
-      
+
       // Get user's profile image
       const profileImg = await forumService.getUserProfileImage();
       setUserProfileImage(profileImg);
@@ -89,7 +89,7 @@ export default function ForumScreen() {
   // Filter posts based on search text
   const filterPosts = (posts: ForumPost[]) => {
     if (!searchText.trim()) return posts;
-    return posts.filter(post => 
+    return posts.filter(post =>
       post.title.toLowerCase().includes(searchText.toLowerCase()) ||
       post.content.toLowerCase().includes(searchText.toLowerCase()) ||
       post.tags.some((tag: string) => tag.toLowerCase().includes(searchText.toLowerCase()))
@@ -103,7 +103,7 @@ export default function ForumScreen() {
     const diffInMs = now.getTime() - postDate.getTime();
     const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
     const diffInDays = Math.floor(diffInHours / 24);
-    
+
     if (diffInHours < 1) return 'Just now';
     if (diffInHours < 24) return `${diffInHours}h ago`;
     if (diffInDays < 7) return `${diffInDays}d ago`;
@@ -122,7 +122,7 @@ export default function ForumScreen() {
         />
       );
     }
-    
+
     // News Forum posts (id 2 = Instagram, id 3 = Car Rental)
     if (post.id === 2) {
       return (
@@ -161,10 +161,10 @@ export default function ForumScreen() {
     } else {
       // Default for other posts
       return (
-        <FontAwesome 
-          name="file-text" 
-          size={30} 
-          color="#666" 
+        <FontAwesome
+          name="file-text"
+          size={30}
+          color="#555"
         />
       );
     }
@@ -173,7 +173,7 @@ export default function ForumScreen() {
   // Render user avatar for posts (right side - profile pictures)
   const renderPostAvatar = (post: ForumPost) => {
     const isCurrentUserPost = post.author_id === userId;
-    
+
     if (isCurrentUserPost && userProfileImage) {
       // Show user's profile image for their own posts
       if (userProfileImage.startsWith('https://')) {
@@ -186,15 +186,15 @@ export default function ForumScreen() {
         );
       } else {
         return (
-          <FontAwesome 
-            name={userProfileImage as any} 
-            size={20} 
-            color="#fff" 
+          <FontAwesome
+            name={userProfileImage as any}
+            size={20}
+            color="#fff"
           />
         );
       }
     }
-    
+
     // Use Instagram logo for Instagram Official (post id 2)
     if (post.id === 2) {
       return (
@@ -233,10 +233,10 @@ export default function ForumScreen() {
       );
     } else {
       return (
-        <FontAwesome 
-          name={typeof post.author_avatar === 'string' && post.author_avatar.length > 2 ? post.author_avatar as any : 'user'} 
-          size={24} 
-          color="#fff" 
+        <FontAwesome
+          name={typeof post.author_avatar === 'string' && post.author_avatar.length > 2 ? post.author_avatar as any : 'user'}
+          size={24}
+          color="#fff"
         />
       );
     }
@@ -330,14 +330,14 @@ export default function ForumScreen() {
       try {
         // Initialize default profile images if none exist
         authService.initializeDefaultProfileImages();
-        
+
         // Load user's profile image
         const profileImage = await forumService.getUserProfileImage();
         setUserProfileImage(profileImage);
-        
+
         // Initialize forum with sample posts
         await forumService.initializeForumWithSamplePosts();
-        
+
         // Load posts based on forum type
         if (forumType === 'my-posts') {
           const myPosts = await forumService.getUserPosts();
@@ -367,11 +367,11 @@ export default function ForumScreen() {
             <View style={styles.headerContent}>
               <Text style={styles.headerTitle}>My Posts</Text>
               <TouchableOpacity onPress={() => setForumType(previousForumType)} style={styles.selectionButton}>
-                <FontAwesome name={previousForumType === 'verified' ? "shield" : "newspaper-o"} size={20} color="#fff" />
+                <FontAwesome name={previousForumType === 'verified' ? "globe" : "newspaper-o"} size={20} color="#fff" />
               </TouchableOpacity>
             </View>
           </View>
-          
+
           {isLoading ? (
             <View style={styles.loadingContainer}>
               <ActivityIndicator size="large" color="#e74c3c" />
@@ -381,7 +381,7 @@ export default function ForumScreen() {
             <View style={styles.emptyContainer}>
               <FontAwesome name="file-text-o" size={60} color="#333" />
               <Text style={styles.emptyText}>You haven't created any posts yet</Text>
-              <TouchableOpacity 
+              <TouchableOpacity
                 style={styles.createEmptyButton}
                 onPress={() => handleCreatePost()}
               >
@@ -399,7 +399,7 @@ export default function ForumScreen() {
                       </View>
                     </View>
                     <Text style={styles.postTitle}>{post.title}</Text>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                       style={styles.deleteButton}
                       onPress={() => post.id && handleDeletePost(post.id)}
                     >
@@ -425,10 +425,10 @@ export default function ForumScreen() {
                   </View>
                   <View style={styles.postStats}>
                     <View style={styles.statItem}>
-                      <FontAwesome name="eye" size={14} color="#666" />
+                      <FontAwesome name="eye" size={14} color="#aaa" />
                       <Text style={styles.statText}>{post.views || 0}</Text>
                     </View>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                       style={styles.statItem}
                       onPress={() => post.id && handleLikePost(post.id)}
                     >
@@ -436,7 +436,7 @@ export default function ForumScreen() {
                       <Text style={styles.statText}>{post.likes || 0}</Text>
                     </TouchableOpacity>
                     <View style={styles.statItem}>
-                      <FontAwesome name="comment" size={14} color="#666" />
+                      <FontAwesome name="comment-o" size={14} color="#aaa" />
                       <Text style={styles.statText}>{post.comments_count || 0}</Text>
                     </View>
                   </View>
@@ -480,13 +480,10 @@ export default function ForumScreen() {
           {/* Header */}
           <View style={styles.header}>
             <View style={styles.headerContent}>
-              <Text style={styles.headerTitle}>Verified Scam Hunter Community</Text>
+              <Text style={styles.headerTitle}>Scam Hunter Community</Text>
               <View style={styles.headerButtons}>
                 <TouchableOpacity onPress={() => { setPreviousForumType('verified'); setForumType('news'); }} style={styles.selectionButton}>
                   <FontAwesome name="newspaper-o" size={20} color="#fff" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { setPreviousForumType('verified'); setForumType('my-posts'); }} style={[styles.selectionButton, styles.myPostsButton]}>
-                  <FontAwesome name="edit" size={18} color="#8B4513" />
                 </TouchableOpacity>
               </View>
             </View>
@@ -495,7 +492,7 @@ export default function ForumScreen() {
           {/* Search and Profile Bar */}
           <View style={styles.topBar}>
             <View style={styles.searchContainer}>
-              <FontAwesome name="search" size={18} color="#666" style={styles.searchIcon} />
+              <FontAwesome name="search" size={18} color="#aaa" style={styles.searchIcon} />
               <TextInput
                 style={styles.searchInput}
                 value={searchText}
@@ -512,15 +509,15 @@ export default function ForumScreen() {
             <TouchableOpacity style={styles.chatIcon}>
               <FontAwesome name="comments" size={20} color="#fff" />
             </TouchableOpacity>
-                      <TouchableOpacity style={styles.notificationIcon}>
-            <FontAwesome name="bell" size={20} color="#fff" />
-            <View style={styles.notificationBadge} />
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.notificationIcon}>
+              <FontAwesome name="bell" size={20} color="#fff" />
+              <View style={styles.notificationBadge} />
+            </TouchableOpacity>
           </View>
 
           {/* Create Post Section */}
           <View style={styles.createPostContainer}>
-            <View style={styles.createPostAvatar}>
+            <TouchableOpacity style={styles.createPostAvatar} onPress={handleMyInfo}>
               {userProfileImage ? (
                 userProfileImage.startsWith('https://') ? (
                   <Image
@@ -534,7 +531,7 @@ export default function ForumScreen() {
               ) : (
                 <FontAwesome name="user" size={28} color="#fff" />
               )}
-            </View>
+            </TouchableOpacity>
             <TextInput
               style={styles.createPostInput}
               value={postText}
@@ -548,8 +545,8 @@ export default function ForumScreen() {
               secureTextEntry={false}
               multiline={true}
             />
-            <TouchableOpacity style={styles.createPostButton} onPress={() => handleCreatePost(true)}>
-              <Text style={styles.createPostButtonText}>Create Post</Text>
+            <TouchableOpacity onPress={() => { setPreviousForumType('verified'); setForumType('my-posts'); }} style={[styles.selectionButton, styles.myPostsButton]}>
+              <FontAwesome name="edit" size={18} color="#fff" />
             </TouchableOpacity>
           </View>
 
@@ -586,10 +583,10 @@ export default function ForumScreen() {
                   </View>
                   <View style={styles.postStats}>
                     <View style={styles.statItem}>
-                      <FontAwesome name="eye" size={14} color="#666" />
+                      <FontAwesome name="eye" size={14} color="#aaa" />
                       <Text style={styles.statText}>{post.views || 0}</Text>
                     </View>
-                    <TouchableOpacity 
+                    <TouchableOpacity
                       style={styles.statItem}
                       onPress={() => post.id && handleLikePost(post.id)}
                     >
@@ -597,7 +594,7 @@ export default function ForumScreen() {
                       <Text style={styles.statText}>{post.likes || 0}</Text>
                     </TouchableOpacity>
                     <View style={styles.statItem}>
-                      <FontAwesome name="comment" size={14} color="#666" />
+                      <FontAwesome name="comment-o" size={14} color="#aaa" />
                       <Text style={styles.statText}>{post.comments_count || 0}</Text>
                     </View>
                   </View>
@@ -629,10 +626,18 @@ export default function ForumScreen() {
             }
           }}
         />
+
+        {/* Floating Action Button */}
+        <TouchableOpacity
+          style={styles.fab}
+          onPress={() => handleCreatePost(true)}
+        >
+          <FontAwesome name="plus" size={24} color="#fff" />
+        </TouchableOpacity>
       </SafeAreaView>
     );
   }
-  
+
   // Default: existing News Forum UI
   return (
     <SafeAreaView style={styles.container}>
@@ -643,12 +648,9 @@ export default function ForumScreen() {
           <View style={styles.headerContent}>
             <Text style={styles.headerTitle}>News Forum</Text>
             <View style={styles.headerButtons}>
-                              <TouchableOpacity onPress={() => { setPreviousForumType('news'); setForumType('verified'); }} style={styles.selectionButton}>
-                  <FontAwesome name="shield" size={20} color="#fff" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={() => { setPreviousForumType('news'); setForumType('my-posts'); }} style={[styles.selectionButton, styles.myPostsButton]}>
-                  <FontAwesome name="edit" size={18} color="#8B4513" />
-                </TouchableOpacity>
+              <TouchableOpacity onPress={() => { setPreviousForumType('news'); setForumType('verified'); }} style={styles.selectionButton}>
+                <FontAwesome name="globe" size={20} color="#fff" />
+              </TouchableOpacity>
             </View>
           </View>
         </View>
@@ -656,7 +658,7 @@ export default function ForumScreen() {
         {/* Search and Profile Bar */}
         <View style={styles.topBar}>
           <View style={styles.searchContainer}>
-            <FontAwesome name="search" size={18} color="#666" style={styles.searchIcon} />
+            <FontAwesome name="search" size={18} color="#aaa" style={styles.searchIcon} />
             <TextInput
               style={styles.searchInput}
               value={searchText}
@@ -681,7 +683,7 @@ export default function ForumScreen() {
 
         {/* Create Post Section */}
         <View style={styles.createPostContainer}>
-          <View style={styles.createPostAvatar}>
+          <TouchableOpacity style={styles.createPostAvatar} onPress={handleMyInfo}>
             {userProfileImage ? (
               userProfileImage.startsWith('https://') ? (
                 <Image
@@ -695,7 +697,7 @@ export default function ForumScreen() {
             ) : (
               <FontAwesome name="user" size={28} color="#fff" />
             )}
-          </View>
+          </TouchableOpacity>
           <TextInput
             style={styles.createPostInput}
             value={postText}
@@ -709,8 +711,8 @@ export default function ForumScreen() {
             secureTextEntry={false}
             multiline={true}
           />
-          <TouchableOpacity style={styles.createPostButton} onPress={() => handleCreatePost()}>
-            <Text style={styles.createPostButtonText}>Create Post</Text>
+          <TouchableOpacity onPress={() => { setPreviousForumType('news'); setForumType('my-posts'); }} style={[styles.selectionButton, styles.myPostsButton]}>
+            <FontAwesome name="edit" size={18} color="#fff" />
           </TouchableOpacity>
         </View>
 
@@ -747,10 +749,10 @@ export default function ForumScreen() {
                 </View>
                 <View style={styles.postStats}>
                   <View style={styles.statItem}>
-                    <FontAwesome name="eye" size={14} color="#666" />
+                    <FontAwesome name="eye" size={14} color="#aaa" />
                     <Text style={styles.statText}>{post.views || 0}</Text>
                   </View>
-                  <TouchableOpacity 
+                  <TouchableOpacity
                     style={styles.statItem}
                     onPress={() => post.id && handleLikePost(post.id)}
                   >
@@ -758,7 +760,7 @@ export default function ForumScreen() {
                     <Text style={styles.statText}>{post.likes || 0}</Text>
                   </TouchableOpacity>
                   <View style={styles.statItem}>
-                    <FontAwesome name="comment" size={14} color="#666" />
+                    <FontAwesome name="comment-o" size={14} color="#aaa" />
                     <Text style={styles.statText}>{post.comments_count || 0}</Text>
                   </View>
                 </View>
@@ -790,7 +792,15 @@ export default function ForumScreen() {
           }
         }}
       />
-    </SafeAreaView>
+
+      {/* Floating Action Button */}
+      <TouchableOpacity
+        style={styles.fab}
+        onPress={() => handleCreatePost()}
+      >
+        <FontAwesome name="plus" size={24} color="#fff" />
+      </TouchableOpacity>
+    </SafeAreaView >
   );
 }
 
@@ -887,7 +897,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   createPostAvatar: {
-    backgroundColor: '#8B4513',
+    backgroundColor: '#1a1a1a',
     borderRadius: 20,
     width: 40,
     height: 40,
@@ -899,7 +909,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
   },
   createPostInput: {
-    flex: 1,
+    width: 200,
     color: '#666',
     fontSize: 16,
     backgroundColor: '#333',
@@ -979,7 +989,7 @@ const styles = StyleSheet.create({
   postAuthor: {
     width: 32,
     height: 32,
-    backgroundColor: '#8B4513',
+    backgroundColor: '#1a1a1a',
     borderRadius: 16,
     justifyContent: 'center',
     alignItems: 'center',
@@ -987,7 +997,7 @@ const styles = StyleSheet.create({
   authorAvatar: {
     width: 32,
     height: 32,
-    backgroundColor: '#8B4513',
+    backgroundColor: '#1a1a1a',
     borderRadius: 16,
     textAlign: 'center',
     lineHeight: 32,
@@ -1110,5 +1120,24 @@ const styles = StyleSheet.create({
     width: '100%',
     height: 200,
     borderRadius: 8,
+  },
+  fab: {
+    position: 'absolute',
+    bottom: 130,
+    right: 15,
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: '#e74c3c',
+    justifyContent: 'center',
+    alignItems: 'center',
+    elevation: 8,
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
 }); 

@@ -28,6 +28,7 @@ export default function RootLayout() {
           <Stack.Screen name="unknown" options={{ headerShown: false }} />
           <Stack.Screen name="good-news" options={{ headerShown: false }} />
           <Stack.Screen name="reality-mode" options={{ headerShown: false }} />
+          <Stack.Screen name="more-information-about-scam" options={{ headerShown: false }} />
           <Stack.Screen name="+not-found" />
         </Stack>
         <StatusBar style="auto" />

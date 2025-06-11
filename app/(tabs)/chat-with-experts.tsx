@@ -3,7 +3,7 @@ import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleS
 import { router, useFocusEffect } from 'expo-router';
 
   // TODO: Replace with your Claude API key securely loaded from environment or config
-  const CLAUDE_API_KEY = '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';
+  const CLAUDE_API_KEY = process.env.EXPO_PUBLIC_CLAUDE_API_KEY || 'your-api-key-here';
 
 type Expert = {
   name: string;
@@ -117,12 +117,18 @@ export default function ChatWithExpertsScreen() {
       // Try Claude API first, fallback to contextual responses if it fails
       try {
         // Prepare messages for Claude Messages API
-        const claudeMessages = updatedMessages
-          .filter(m => m.text.trim())
-          .map(m => ({
-            role: m.sender === 'user' ? 'user' : 'assistant',
-            content: m.text
-          }));
+        // Skip the initial welcome message and only include actual conversation
+        const conversationMessages = updatedMessages.filter(m => 
+          m.text.trim() && 
+          m.text !== 'Welcome to Cybersecurity Experts Chat! How can we help you today?'
+        );
+        
+        const claudeMessages = conversationMessages.map(m => ({
+          role: m.sender === 'user' ? 'user' : 'assistant',
+          content: m.text
+        }));
+        
+        console.log('Calling Claude API with messages:', claudeMessages);
         
         // Call Claude Messages API
         const response = await fetch('https://api.anthropic.com/v1/messages', {
@@ -140,15 +146,21 @@ export default function ChatWithExpertsScreen() {
           })
         });
         
+        console.log('Claude API response status:', response.status);
+        
         if (!response.ok) {
-          throw new Error(`Claude API ${response.status}`);
+          const errorText = await response.text();
+          console.log('Claude API error response:', errorText);
+          throw new Error(`Claude API ${response.status}: ${errorText}`);
         }
         
         const data = await response.json();
+        console.log('Claude API response data:', data);
         const aiText = data.content?.[0]?.text?.trim() || 'Sorry, I could not understand.';
         setMessages(prev => [...prev, { sender: 'expert' as const, text: aiText }]);
       } catch (apiError) {
-        console.log('Claude API failed, using fallback responses');
+        console.log('Claude API failed:', apiError);
+        console.log('Using fallback responses');
         // Fallback to contextual responses
         await new Promise(resolve => setTimeout(resolve, 1500));
         
@@ -156,6 +168,19 @@ export default function ChatWithExpertsScreen() {
           const message = userMessage.toLowerCase();
           const expertName = expert?.name || 'I';
           const org = expert?.organization || 'cybersecurity';
+          
+          // Handle inappropriate language
+          const inappropriateWords = ['fuck', 'shit', 'nigga', 'bitch', 'asshole', 'damn', 'crap'];
+          const containsInappropriateLanguage = inappropriateWords.some(word => message.includes(word));
+          
+          if (containsInappropriateLanguage) {
+            const responses = [
+              `I understand you might be frustrated, but let's keep our conversation professional. How can I help you with cybersecurity matters?`,
+              `I'm here to help with cybersecurity questions in a professional manner. What security concerns can I assist you with?`,
+              `Let's focus on cybersecurity topics. I'm ${expertName}${org !== 'cybersecurity' ? ` from ${org}` : ''} and I'm here to help keep you safe online. What would you like to know?`
+            ];
+            return responses[Math.floor(Math.random() * responses.length)];
+          }
           
           if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
             return `Hello! I am ${expertName}, a cybersecurity expert${org !== 'cybersecurity' ? ` from ${org}` : ''}. How can I help you stay safe online today?`;

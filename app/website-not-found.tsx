@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, StatusBar } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -8,17 +8,10 @@ export default function WebsiteNotFound() {
   const displayUrl = Array.isArray(url) ? url[0] : url || 'unknown';
   const displayReason = Array.isArray(reason) ? reason[0] : reason || 'Website does not exist';
 
-  const handleBackHome = () => {
-    router.replace('/');
-  };
-
-  const handleTryAgain = () => {
-    router.back();
-  };
-
   return (
-    <View style={styles.container}>
-      <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="light-content" backgroundColor="#000000" />
+      <View style={styles.safeArea}>
         {/* Header */}
         <View style={styles.header}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
@@ -80,32 +73,20 @@ export default function WebsiteNotFound() {
               <Text style={styles.recommendationText}>• Contact the organization if you need support</Text>
             </View>
           </View>
-
-          {/* Action Buttons */}
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.primaryButton} onPress={handleTryAgain}>
-              <Ionicons name="refresh" size={20} color="#ffffff" />
-              <Text style={styles.primaryButtonText}>Try Again</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity style={styles.secondaryButton} onPress={handleBackHome}>
-              <Ionicons name="home" size={20} color="#9ca3af" />
-              <Text style={styles.secondaryButtonText}>Back to Home</Text>
-            </TouchableOpacity>
-          </View>
         </ScrollView>
-      </SafeAreaView>
-    </View>
+      </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#1a1a1a',
+    backgroundColor: '#000000',
   },
   safeArea: {
     flex: 1,
+    backgroundColor: '#000000',
   },
   header: {
     flexDirection: 'row',
@@ -138,8 +119,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(75, 85, 99, 0.8)',
     borderRadius: 16,
     padding: 24,
-    marginTop: 20,
-    marginBottom: 20,
+    margin: 20,
+    flex: 1,
     borderWidth: 1,
     borderColor: 'rgba(156, 163, 175, 0.3)',
   },
@@ -223,41 +204,5 @@ const styles = StyleSheet.create({
     color: '#d1d5db',
     fontSize: 14,
     marginBottom: 4,
-  },
-  buttonContainer: {
-    marginBottom: 40,
-  },
-  primaryButton: {
-    backgroundColor: '#6b7280',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    marginBottom: 12,
-  },
-  primaryButtonText: {
-    color: '#ffffff',
-    fontSize: 16,
-    fontWeight: '600',
-    marginLeft: 8,
-  },
-  secondaryButton: {
-    backgroundColor: 'transparent',
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: 'rgba(156, 163, 175, 0.5)',
-  },
-  secondaryButtonText: {
-    color: '#9ca3af',
-    fontSize: 16,
-    fontWeight: '500',
-    marginLeft: 8,
   },
 }); 

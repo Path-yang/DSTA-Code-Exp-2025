@@ -50,8 +50,13 @@ export default function ARScamScanner() {
   }, []);
 
   const getCameraPermissions = async () => {
-    const { status } = await Camera.requestCameraPermissionsAsync();
-    setHasPermission(status === 'granted');
+    try {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      setHasPermission(status === 'granted');
+    } catch (error) {
+      console.error('Error requesting camera permissions:', error);
+      setHasPermission(false);
+    }
   };
 
   // Simulate text recognition and scam detection
@@ -111,11 +116,17 @@ export default function ARScamScanner() {
       try {
         const photo = await cameraRef.current.takePictureAsync();
         if (photo) {
-          // Save to gallery
-          await MediaLibrary.saveToLibraryAsync(photo.uri);
-          Alert.alert('Success', 'Photo saved for evidence');
+          // Request media library permission before saving
+          const { status } = await MediaLibrary.requestPermissionsAsync();
+          if (status === 'granted') {
+            await MediaLibrary.saveToLibraryAsync(photo.uri);
+            Alert.alert('Success', 'Photo saved for evidence');
+          } else {
+            Alert.alert('Permission Denied', 'Cannot save photo without media library access');
+          }
         }
       } catch (error) {
+        console.error('Error taking picture:', error);
         Alert.alert('Error', 'Failed to take picture');
       }
     }
@@ -183,37 +194,37 @@ export default function ARScamScanner() {
           style={styles.camera}
           facing="back"
           flash={flashMode}
-        >
-          {/* Scanning Overlay */}
-          <View style={styles.overlay}>
-            {/* Scanning Frame */}
-            <View style={styles.scanFrame} />
-            
-            {/* Scam Alerts Overlay */}
-            {scamAlerts.map((alert, index) => (
-              <View
-                key={index}
-                style={[
-                  styles.alertBubble,
-                  styles[`${alert.type}Alert`],
-                  {
-                    left: alert.position.x,
-                    top: alert.position.y,
-                  },
-                ]}
-              >
-                <Text style={styles.alertText}>{alert.message}</Text>
-              </View>
-            ))}
+        />
+        
+        {/* Scanning Overlay - Now positioned absolutely on top of camera */}
+        <View style={styles.overlay}>
+          {/* Scanning Frame */}
+          <View style={styles.scanFrame} />
+          
+          {/* Scam Alerts Overlay */}
+          {scamAlerts.map((alert, index) => (
+            <View
+              key={index}
+              style={[
+                styles.alertBubble,
+                styles[`${alert.type}Alert`],
+                {
+                  left: alert.position.x,
+                  top: alert.position.y,
+                },
+              ]}
+            >
+              <Text style={styles.alertText}>{alert.message}</Text>
+            </View>
+          ))}
 
-            {/* Scanning Animation */}
-            {isScanning && (
-              <View style={styles.scanningIndicator}>
-                <Text style={styles.scanningText}>🔍 Analyzing text...</Text>
-              </View>
-            )}
-          </View>
-        </CameraView>
+          {/* Scanning Animation */}
+          {isScanning && (
+            <View style={styles.scanningIndicator}>
+              <Text style={styles.scanningText}>🔍 Analyzing text...</Text>
+            </View>
+          )}
+        </View>
       </View>
 
       {/* Instructions */}
@@ -344,7 +355,11 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   overlay: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: 'transparent',
   },
   scanFrame: {

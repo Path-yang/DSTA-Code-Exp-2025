@@ -110,9 +110,11 @@ export default function MyInfoScreen() {
           <Text style={styles.userEmail}>
             {isGuestMode ? 'Not logged in' : user?.email || 'user@example.com'}
           </Text>
-          <Text style={styles.memberSince}>
-            Member since: {userStats.memberSince}
-          </Text>
+          {!isGuestMode && (
+            <Text style={styles.memberSince}>
+              Member since: {userStats.memberSince}
+            </Text>
+          )}
         </View>
 
         {/* Guest Stats Section */}

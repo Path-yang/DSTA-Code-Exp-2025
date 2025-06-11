@@ -98,11 +98,7 @@ export default function ForumScreen() {
   );
 
   const handleCreatePost = () => {
-    if (postText.trim()) {
-      console.log('Creating post:', postText);
-      setPostText('');
-      // Here you would typically send the post to your backend
-    }
+    router.push('/create-post');
   };
 
   const handleHome = () => {
@@ -261,17 +257,22 @@ export default function ForumScreen() {
               <View style={styles.postHeader}>
                 <View style={styles.postImageContainer}>
                   <View style={styles.postImage}>
-                    <FontAwesome name={post.image as any} size={24} color="#fff" />
-                    {post.id === '1' && (
-                      <View style={styles.scamBadge}>
-                        <Text style={styles.scamBadgeText}>SCAM</Text>
-                      </View>
+                    {post.id === '1' ? (
+                      <Image
+                        source={require('../../assets/images/whatsapp-scam.png')}
+                        style={styles.postImageAsset}
+                        resizeMode="cover"
+                      />
+                    ) : post.id === '2' ? (
+                      <Image
+                        source={require('../../assets/images/instagram-giveaway.png')}
+                        style={styles.postImageAsset}
+                        resizeMode="cover"
+                      />
+                    ) : (
+                      <FontAwesome name={post.image as any} size={24} color="#fff" />
                     )}
-                    {post.id === '2' && (
-                      <View style={styles.scamAlertBadge}>
-                        <Text style={styles.scamAlertBadgeText}>SCAM ALERT</Text>
-                      </View>
-                    )}
+
                   </View>
                 </View>
                 <Text style={styles.postTitle}>{post.title}</Text>
@@ -472,6 +473,12 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
+    overflow: 'hidden',
+  },
+  postImageAsset: {
+    width: 60,
+    height: 60,
+    borderRadius: 8,
   },
   postImageText: {
     fontSize: 24,
@@ -479,12 +486,13 @@ const styles = StyleSheet.create({
   },
   scamBadge: {
     position: 'absolute',
-    top: -5,
-    left: -5,
+    top: 5,
+    left: 5,
     backgroundColor: '#27ae60',
     borderRadius: 8,
     paddingHorizontal: 6,
     paddingVertical: 2,
+    zIndex: 1,
   },
   scamBadgeText: {
     color: '#fff',
@@ -493,12 +501,14 @@ const styles = StyleSheet.create({
   },
   scamAlertBadge: {
     position: 'absolute',
-    top: -5,
-    left: -8,
+    top: '50%',
+    left: '50%',
+    transform: [{ translateX: -30 }, { translateY: -29.9 }],
     backgroundColor: '#e74c3c',
     borderRadius: 8,
     paddingHorizontal: 5,
     paddingVertical: 2,
+    zIndex: 1,
   },
   scamAlertBadgeText: {
     color: '#fff',

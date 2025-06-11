@@ -765,7 +765,7 @@ export default function AnalyticsScreen() {
     <View style={[styles.realTimeCard, status === 'warning' ? styles.warningCard : status === 'info' ? styles.infoCard : styles.liveCard]}>
       <View style={styles.cardTitleContainer}>
         {icon}
-        <Text style={styles.realTimeTitle}>{title}</Text>
+      <Text style={styles.realTimeTitle}>{title}</Text>
       </View>
       <View style={[styles.statusIndicator, status === 'live' ? styles.liveIndicator : status === 'warning' ? styles.warningIndicator : styles.infoIndicator]}>
         <Text style={styles.statusText}>{status === 'live' ? '● LIVE' : status === 'warning' ? '⚠ ALERT' : 'ℹ INFO'}</Text>
@@ -992,10 +992,10 @@ export default function AnalyticsScreen() {
               size={18}
               color={stats?.recentTrends.direction === 'up' ? '#e74c3c' : stats?.recentTrends.direction === 'down' ? '#27ae60' : '#95a5a6'}
             />
-            <Text style={styles.trendText}>
+          <Text style={styles.trendText}>
               {stats?.recentTrends.direction === 'up' ? 'Increasing' :
                 stats?.recentTrends.direction === 'down' ? 'Decreasing' : 'Stable'}
-            </Text>
+          </Text>
           </View>
           <Text style={styles.trendPercentage}>
             {stats?.recentTrends.percentage}% change
@@ -1005,7 +1005,7 @@ export default function AnalyticsScreen() {
         {/* Prevention Statistics */}
         <View style={styles.sectionTitleContainer}>
           <FontAwesome name="shield" size={16} color="#4CAF50" />
-          <Text style={styles.sectionTitle}>Prevention Impact</Text>
+        <Text style={styles.sectionTitle}>Prevention Impact</Text>
         </View>
         <View style={styles.preventionGrid}>
           <View style={styles.preventionCard}>

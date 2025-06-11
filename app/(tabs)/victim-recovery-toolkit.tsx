@@ -91,11 +91,9 @@ export default function VictimRecoveryToolkit() {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleGoBack}>
+        <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
           <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.titleContainer}>
         <Text style={styles.headerTitle}>Recovery Toolkit</Text>
       </View>
 
@@ -241,21 +239,27 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: '#000',
+    position: 'relative',
+  },
+  backButton: {
+    zIndex: 10,
+    position: 'relative',
   },
   backText: {
     color: '#007AFF',
     fontSize: 16,
   },
-  titleContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 10,
-    backgroundColor: '#000',
-  },
   headerTitle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 15,
     fontSize: 20,
     fontWeight: 'bold',
     color: '#FFFFFF',
     textAlign: 'center',
+    paddingVertical: 0,
+    zIndex: 1,
   },
   scrollView: {
     flex: 1,

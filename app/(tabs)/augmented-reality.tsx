@@ -170,9 +170,10 @@ export default function ARScamScanner() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push('/learn')}>
+        <TouchableOpacity onPress={() => router.push('/learn')} style={styles.backButton}>
           <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
+        <Text style={styles.headerTitle}>AR Scam Scanner</Text>
         <TouchableOpacity
           onPress={() => setFlashMode(flashMode === 'off' ? 'on' : 'off')}
           style={styles.flashButton}
@@ -183,11 +184,6 @@ export default function ARScamScanner() {
             color="#FFFFFF"
           />
         </TouchableOpacity>
-      </View>
-
-      {/* Title */}
-      <View style={styles.titleContainer}>
-        <Text style={styles.headerTitle}>AR Scam Scanner</Text>
       </View>
 
       {/* Camera View */}
@@ -326,30 +322,37 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   header: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    position: 'relative',
+  },
+  backButton: {
+    zIndex: 10,
+    position: 'relative',
   },
   backText: {
     color: '#007AFF',
     fontSize: 16,
   },
-  titleContainer: {
-    paddingHorizontal: 20,
-    paddingBottom: 10,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
-    alignItems: 'center',
-  },
   headerTitle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 15,
     color: '#FFFFFF',
     fontSize: 20,
     fontWeight: 'bold',
     textAlign: 'center',
+    paddingVertical: 0,
+    zIndex: 1,
   },
   flashButton: {
+    position: 'absolute',
+    right: 20,
+    top: 15,
     padding: 8,
+    zIndex: 10,
   },
   cameraContainer: {
     flex: 1,

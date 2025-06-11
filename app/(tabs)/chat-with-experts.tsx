@@ -37,7 +37,7 @@ export default function ChatWithExpertsScreen() {
   const [isConnecting, setIsConnecting] = useState(true);
   const [currentExpert, setCurrentExpert] = useState<Expert | null>(null);
   const [shouldRestart, setShouldRestart] = useState(false);
-  
+
   // Force clear input text on component mount to prevent autofill issues
   useEffect(() => {
     setInputText('');
@@ -242,11 +242,9 @@ export default function ChatWithExpertsScreen() {
       <SafeAreaView style={styles.container}>
         <StatusBar barStyle="light-content" backgroundColor="#000" />
         <View style={styles.header}>
-          <TouchableOpacity onPress={handleBackPress}>
+          <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
             <Text style={styles.backText}>{'< Back'}</Text>
           </TouchableOpacity>
-        </View>
-        <View style={styles.titleContainer}>
           <Text style={styles.headerTitle}>Chat with Experts</Text>
         </View>
         <View style={styles.connectingContainer}>
@@ -267,11 +265,9 @@ export default function ChatWithExpertsScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleBackPress}>
+        <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
           <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.titleContainer}>
         <Text style={styles.headerTitle}>Chat with Experts</Text>
       </View>
       <FlatList
@@ -343,10 +339,28 @@ export default function ChatWithExpertsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
-  header: { padding: 15, backgroundColor: '#000' },
+  header: {
+    padding: 15,
+    backgroundColor: '#000',
+    position: 'relative'
+  },
+  backButton: {
+    zIndex: 10,
+    position: 'relative'
+  },
   backText: { color: '#007AFF', fontSize: 16 },
-  titleContainer: { paddingHorizontal: 20, paddingBottom: 10, backgroundColor: '#000' },
-  headerTitle: { color: '#fff', fontSize: 20, fontWeight: 'bold', textAlign: 'center' },
+  headerTitle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 15,
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingVertical: 0,
+    zIndex: 1
+  },
   connectingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
   botAvatar: { width: 160, height: 160, borderRadius: 80, marginBottom: 20 },
   connectingText: { color: '#fff', fontSize: 18, textAlign: 'center', marginBottom: 20, lineHeight: 24 },

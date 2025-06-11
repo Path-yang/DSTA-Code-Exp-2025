@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, Alert, Linking } from 'react-native';
+import { FontAwesome } from '@expo/vector-icons';
 import { router } from 'expo-router';
 
 interface SectionState {
@@ -40,7 +41,7 @@ export default function MoreInformationAboutScamScreen() {
 
   const renderContentItem = (icon: string, title: string, description: string) => (
     <View style={styles.contentItem}>
-      <Text style={styles.contentIcon}>{icon}</Text>
+      <FontAwesome name={icon as any} size={20} color="#007AFF" style={styles.contentIcon} />
       <View style={styles.contentTextContainer}>
         <Text style={styles.contentTitle}>{title}</Text>
         <Text style={styles.contentDescription}>{description}</Text>
@@ -53,40 +54,40 @@ export default function MoreInformationAboutScamScreen() {
       case 'commonTypes':
         return (
           <View>
-            {renderContentItem('🎣', 'Phishing Scams', 'Fraudulent emails, texts, or websites designed to steal personal information')}
-            {renderContentItem('💰', 'Investment Scams', 'Fake investment opportunities promising unrealistic high returns')}
-            {renderContentItem('💕', 'Romance Scams', 'Online dating fraud targeting victims emotionally and financially')}
-            {renderContentItem('🔧', 'Tech Support Scams', 'Fake technical support calls claiming your device is infected')}
-            {renderContentItem('🛒', 'Shopping Scams', 'Fake online stores selling non-existent or counterfeit products')}
-            {renderContentItem('💼', 'Job Scams', 'Fake job offers requiring upfront payments or personal information')}
-            {renderContentItem('🎰', 'Lottery/Prize Scams', 'Fake winnings requiring fees or taxes to claim prizes')}
-            {renderContentItem('🤲', 'Charity Scams', 'Fake charities exploiting disasters or humanitarian causes')}
+            {renderContentItem('envelope', 'Phishing Scams', 'Fraudulent emails, texts, or websites designed to steal personal information')}
+            {renderContentItem('dollar', 'Investment Scams', 'Fake investment opportunities promising unrealistic high returns')}
+            {renderContentItem('heart', 'Romance Scams', 'Online dating fraud targeting victims emotionally and financially')}
+            {renderContentItem('wrench', 'Tech Support Scams', 'Fake technical support calls claiming your device is infected')}
+            {renderContentItem('shopping-cart', 'Shopping Scams', 'Fake online stores selling non-existent or counterfeit products')}
+            {renderContentItem('briefcase', 'Job Scams', 'Fake job offers requiring upfront payments or personal information')}
+            {renderContentItem('trophy', 'Lottery/Prize Scams', 'Fake winnings requiring fees or taxes to claim prizes')}
+            {renderContentItem('handshake-o', 'Charity Scams', 'Fake charities exploiting disasters or humanitarian causes')}
           </View>
         );
       case 'howToIdentify':
         return (
           <View>
-            {renderContentItem('⏰', 'Urgent Pressure', 'Scammers create false urgency to rush your decisions')}
-            {renderContentItem('🌟', 'Too Good to Be True', 'Offers that seem unrealistically beneficial or profitable')}
-            {renderContentItem('📧', 'Unsolicited Contact', 'Unexpected calls, emails, or messages from unknown sources')}
-            {renderContentItem('🔐', 'Personal Info Requests', 'Asking for passwords, SSN, or sensitive bank details')}
-            {renderContentItem('✍️', 'Poor Grammar/Spelling', 'Many scams contain obvious language and spelling errors')}
-            {renderContentItem('🔗', 'Suspicious Links', 'URLs that don\'t match legitimate websites or look altered')}
-            {renderContentItem('💳', 'Upfront Payments', 'Requests for money before delivering services or goods')}
-            {renderContentItem('📞', 'Lack of Verification', 'No official contact information or proper credentials')}
+            {renderContentItem('clock-o', 'Urgent Pressure', 'Scammers create false urgency to rush your decisions')}
+            {renderContentItem('star', 'Too Good to Be True', 'Offers that seem unrealistically beneficial or profitable')}
+            {renderContentItem('envelope-o', 'Unsolicited Contact', 'Unexpected calls, emails, or messages from unknown sources')}
+            {renderContentItem('lock', 'Personal Info Requests', 'Asking for passwords, SSN, or sensitive bank details')}
+            {renderContentItem('edit', 'Poor Grammar/Spelling', 'Many scams contain obvious language and spelling errors')}
+            {renderContentItem('link', 'Suspicious Links', 'URLs that don\'t match legitimate websites or look altered')}
+            {renderContentItem('credit-card', 'Upfront Payments', 'Requests for money before delivering services or goods')}
+            {renderContentItem('phone', 'Lack of Verification', 'No official contact information or proper credentials')}
           </View>
         );
       case 'avoidingScams':
         return (
           <View>
-            {renderContentItem('✅', 'Verify Independently', 'Always verify offers through official channels and websites')}
-            {renderContentItem('🚫', 'Never Share Personal Info', 'Don\'t give out sensitive information to unknown parties')}
-            {renderContentItem('💳', 'Use Secure Payment Methods', 'Avoid wire transfers, gift cards, or cryptocurrency payments')}
-            {renderContentItem('⭐', 'Check Reviews', 'Research companies and individuals online before engaging')}
-            {renderContentItem('🤔', 'Trust Your Instincts', 'If something feels wrong or suspicious, it probably is')}
-            {renderContentItem('🔄', 'Keep Software Updated', 'Use updated antivirus and security software regularly')}
-            {renderContentItem('📚', 'Educate Yourself', 'Stay informed about current scam tactics and trends')}
-            {renderContentItem('🚨', 'Report Suspicious Activity', 'Help others by reporting scams to authorities')}
+            {renderContentItem('check', 'Verify Independently', 'Always verify offers through official channels and websites')}
+            {renderContentItem('ban', 'Never Share Personal Info', 'Don\'t give out sensitive information to unknown parties')}
+            {renderContentItem('credit-card-alt', 'Use Secure Payment Methods', 'Avoid wire transfers, gift cards, or cryptocurrency payments')}
+            {renderContentItem('star-o', 'Check Reviews', 'Research companies and individuals online before engaging')}
+            {renderContentItem('lightbulb-o', 'Trust Your Instincts', 'If something feels wrong or suspicious, it probably is')}
+            {renderContentItem('refresh', 'Keep Software Updated', 'Use updated antivirus and security software regularly')}
+            {renderContentItem('book', 'Educate Yourself', 'Stay informed about current scam tactics and trends')}
+            {renderContentItem('exclamation-triangle', 'Report Suspicious Activity', 'Help others by reporting scams to authorities')}
           </View>
         );
       case 'readMore':
@@ -104,25 +105,25 @@ export default function MoreInformationAboutScamScreen() {
     {
       key: 'commonTypes' as keyof SectionState,
       title: 'Common Types of Scams',
-      icon: '⚠️',
+      icon: 'exclamation-triangle',
       hasLink: false
     },
     {
       key: 'howToIdentify' as keyof SectionState,
       title: 'How To Identify Scam',
-      icon: '🔍',
+      icon: 'search',
       hasLink: false
     },
     {
       key: 'avoidingScams' as keyof SectionState,
       title: 'Avoiding Scams',
-      icon: '🛡️',
+      icon: 'shield',
       hasLink: false
     },
     {
       key: 'readMore' as keyof SectionState,
       title: 'Read More About the Dangers of Scams',
-      icon: '📚',
+      icon: 'book',
       hasLink: true
     }
   ];
@@ -130,15 +131,13 @@ export default function MoreInformationAboutScamScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-      
+
       {/* Header */}
       <View style={styles.header}>
-        <View style={styles.headerRow}>
-          <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Text style={styles.backButtonText}>{'< Back'}</Text>
-          </TouchableOpacity>
-          <Text style={styles.headerTitle}>More Information About Scam</Text>
-        </View>
+        <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
+          <Text style={styles.backButtonText}>{'< Back'}</Text>
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>More Information About Scam</Text>
       </View>
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
@@ -149,20 +148,25 @@ export default function MoreInformationAboutScamScreen() {
               onPress={() => toggleSection(section.key)}
             >
               <View style={styles.sectionTitleContainer}>
-                <Text style={styles.sectionIcon}>{section.icon}</Text>
+                <FontAwesome name={section.icon as any} size={24} color="#007AFF" style={styles.sectionIcon} />
                 <Text style={styles.sectionTitle}>{section.title}</Text>
               </View>
-              <Text style={styles.expandIcon}>
-                {expandedSections[section.key] ? '▼' : '▶'}
-              </Text>
+              <FontAwesome
+                name={expandedSections[section.key] ? 'chevron-down' : 'chevron-right'}
+                size={18}
+                color="#007AFF"
+              />
             </TouchableOpacity>
-            
+
             {expandedSections[section.key] && (
               <View style={styles.sectionContent}>
                 {renderSectionContent(section.key)}
                 {section.hasLink && (
                   <TouchableOpacity style={styles.linkButton} onPress={handleReadMoreLink}>
-                    <Text style={styles.linkButtonText}>🔗 Visit IMDA Website</Text>
+                    <View style={styles.linkButtonContent}>
+                      <FontAwesome name="external-link" size={16} color="#fff" />
+                      <Text style={styles.linkButtonText}>Visit IMDA Website</Text>
+                    </View>
                   </TouchableOpacity>
                 )}
               </View>
@@ -180,26 +184,29 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   header: {
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-  },
-  headerRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
+    padding: 15,
+    backgroundColor: '#000',
+    position: 'relative'
   },
   backButton: {
-    marginRight: 15,
+    zIndex: 10,
+    position: 'relative'
   },
   backButtonText: {
     color: '#007AFF',
     fontSize: 16,
   },
   headerTitle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 15,
     color: '#fff',
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    flex: 1,
+    textAlign: 'center',
+    paddingVertical: 0,
+    zIndex: 1
   },
   content: {
     paddingHorizontal: 20,
@@ -223,7 +230,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   sectionIcon: {
-    fontSize: 24,
     marginRight: 12,
   },
   sectionTitle: {
@@ -232,10 +238,7 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     flex: 1,
   },
-  expandIcon: {
-    color: '#007AFF',
-    fontSize: 18,
-  },
+
   sectionContent: {
     padding: 20,
     paddingTop: 0,
@@ -254,10 +257,15 @@ const styles = StyleSheet.create({
     marginTop: 15,
     alignItems: 'center',
   },
+  linkButtonContent: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   linkButtonText: {
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+    marginLeft: 8,
   },
   contentItem: {
     flexDirection: 'row',
@@ -268,7 +276,6 @@ const styles = StyleSheet.create({
     borderBottomColor: '#333',
   },
   contentIcon: {
-    fontSize: 20,
     marginRight: 12,
     marginTop: 2,
   },

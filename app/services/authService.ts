@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_BASE_URL = 'http://localhost:8000/api';
+const API_BASE_URL = 'http://10.51.5.189:8000/api';
 
 export interface User {
   id: number;
@@ -50,11 +50,11 @@ class AuthService {
   }
 
   private async makeAuthenticatedRequest(
-    endpoint: string, 
+    endpoint: string,
     options: RequestInit = {}
   ): Promise<Response> {
     const token = await this.getStoredToken();
-    
+
     return fetch(`${API_BASE_URL}${endpoint}`, {
       ...options,
       headers: {
@@ -85,7 +85,7 @@ class AuthService {
       if (response.ok) {
         await this.storeTokens(data.access, data.refresh);
         await AsyncStorage.setItem('user_data', JSON.stringify(data.user));
-        
+
         return {
           success: true,
           user: data.user,
@@ -116,7 +116,7 @@ class AuthService {
       if (response.ok) {
         await this.storeTokens(data.access, data.refresh);
         await AsyncStorage.setItem('user_data', JSON.stringify(data.user));
-        
+
         return {
           success: true,
           user: data.user,
@@ -134,14 +134,14 @@ class AuthService {
   async logout(): Promise<boolean> {
     try {
       const refreshToken = await AsyncStorage.getItem('refresh_token');
-      
+
       if (refreshToken) {
         await this.makeAuthenticatedRequest('/auth/logout/', {
           method: 'POST',
           body: JSON.stringify({ refresh_token: refreshToken }),
         });
       }
-      
+
       await this.clearTokens();
       return true;
     } catch (error) {
@@ -221,7 +221,7 @@ class AuthService {
   async refreshToken(): Promise<boolean> {
     try {
       const refreshToken = await AsyncStorage.getItem('refresh_token');
-      
+
       if (!refreshToken) {
         return false;
       }

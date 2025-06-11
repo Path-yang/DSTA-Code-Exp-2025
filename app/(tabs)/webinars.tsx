@@ -40,12 +40,10 @@ export default function WebinarsScreen() {
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleBack}>
+        <TouchableOpacity onPress={handleBack} style={styles.backButton}>
           <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
-      </View>
-      <View style={styles.titleContainer}>
-        <Text style={styles.headerTitle}>Webinars by cybersecurity experts</Text>
+        <Text style={styles.headerTitle}>Webinars by cybersecurity{'\n'}experts</Text>
       </View>
       <ScrollView
         contentContainerStyle={styles.content}
@@ -104,10 +102,30 @@ export default function WebinarsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
-  header: { paddingHorizontal: 20, paddingVertical: 15 },
+  header: {
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    paddingBottom: 30,
+    position: 'relative',
+    backgroundColor: '#000'
+  },
+  backButton: {
+    zIndex: 10,
+    position: 'relative'
+  },
   backText: { color: '#007AFF', fontSize: 16 },
-  titleContainer: { paddingHorizontal: 20, paddingBottom: 10 },
-  headerTitle: { color: '#fff', fontSize: 20, fontWeight: 'bold', textAlign: 'center' },
+  headerTitle: {
+    position: 'absolute',
+    left: 0,
+    right: 0,
+    top: 15,
+    color: '#fff',
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    paddingVertical: 0,
+    zIndex: 1
+  },
   content: { paddingHorizontal: 20, paddingBottom: 200 },
   description: { color: '#aaa', fontSize: 16, textAlign: 'center', marginTop: 20 },
   bottomNav: { flexDirection: 'row', backgroundColor: '#2a2a2a', paddingVertical: 10, paddingHorizontal: 20, justifyContent: 'space-around' },

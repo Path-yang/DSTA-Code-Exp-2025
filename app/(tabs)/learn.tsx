@@ -17,7 +17,10 @@ export default function LearnScreen() {
     { label: 'Avoiding Scams', route: '/avoiding-scams' },
     { label: 'Victim Recovery Toolkit', route: '/victim-recovery-toolkit' },
     { label: 'Augmented Reality', route: '/augmented-reality' },
+<<<<<<< Updated upstream
     { label: 'Reality Mode', route: '/reality-mode-intro' },
+=======
+>>>>>>> Stashed changes
   ];
 
   return (

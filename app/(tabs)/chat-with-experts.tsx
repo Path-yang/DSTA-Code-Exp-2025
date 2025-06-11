@@ -37,6 +37,11 @@ export default function ChatWithExpertsScreen() {
   const [isConnecting, setIsConnecting] = useState(true);
   const [currentExpert, setCurrentExpert] = useState<Expert | null>(null);
   const [shouldRestart, setShouldRestart] = useState(false);
+  
+  // Force clear input text on component mount to prevent autofill issues
+  useEffect(() => {
+    setInputText('');
+  }, []);
 
   useEffect(() => {
     // Show connecting screen for 4 seconds, then randomly select and show expert (only for new conversations)
@@ -288,17 +293,23 @@ export default function ChatWithExpertsScreen() {
       />
       <View style={styles.inputContainer}>
         <TextInput
+          key="chat-input-field"
           style={styles.input}
           placeholder="Type your message..."
           placeholderTextColor="#aaa"
           value={inputText}
           onChangeText={setInputText}
           autoComplete="off"
-          autoCorrect={false}
-          autoCapitalize="none"
-          textContentType="none"
-          secureTextEntry={false}
-          keyboardType="default"
+          autoCorrect={true}
+          autoCapitalize="sentences"
+          textContentType={undefined}
+          passwordRules=""
+          enablesReturnKeyAutomatically={false}
+          returnKeyType="send"
+          blurOnSubmit={false}
+          clearTextOnFocus={false}
+          selectTextOnFocus={false}
+          onSubmitEditing={sendMessage}
         />
         <TouchableOpacity style={styles.sendButton} onPress={sendMessage} disabled={isGenerating}>
           {isGenerating ? (

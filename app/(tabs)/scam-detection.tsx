@@ -137,19 +137,7 @@ export default function ScamDetectionScreen() {
           <View style={styles.aiModelContent}>
             <Text style={styles.aiModelTitle}>AI-Powered Scam Detection</Text>
             <Text style={styles.aiModelDescription}>
-              Our sophisticated AI system employs multiple detection layers to protect you from scams:
-              
-              • **Domain Analysis**: Examines URL structures, suspicious redirects, and domain age to identify fraudulent websites
-              
-              • **Content Scanning**: Uses natural language processing to detect phishing keywords, urgent language patterns, and deceptive claims commonly used in scams
-              
-              • **Visual Recognition**: Analyzes website layouts and design elements that mimic legitimate brands or services
-              
-              • **Behavioral Patterns**: Identifies suspicious user flows like immediate payment requests, personal data harvesting, and fake verification processes
-              
-              • **Real-time Database**: Cross-references against continuously updated databases of known scam sites, reported URLs, and threat intelligence feeds
-              
-              • **Risk Scoring**: Combines all factors into a comprehensive risk assessment, providing you with clear safety ratings and detailed explanations for each detection.
+              Our AI analyzes URLs using advanced pattern recognition, domain verification, content scanning, and real-time threat databases to identify scams with high accuracy. Get instant safety ratings and clear explanations for every detection.
             </Text>
           </View>
         </View>
@@ -250,8 +238,8 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
-    justifyContent: 'space-between',
-    paddingBottom: 10,
+    justifyContent: 'space-around',
+    paddingBottom: 20,
   },
   aiModelCard: {
     backgroundColor: '#333',

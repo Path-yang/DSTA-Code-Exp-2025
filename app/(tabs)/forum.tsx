@@ -124,6 +124,10 @@ export default function ForumScreen() {
     setForumType('news');
   };
 
+  const handleMyInfo = () => {
+    router.push('/(tabs)/my-info');
+  };
+
   // Render Verified Scam Hunter Community
   if (forumType === 'verified') {
     return (
@@ -173,6 +177,9 @@ export default function ForumScreen() {
                 break;
               case 'forum':
                 handleForum();
+                break;
+              case 'myInfo':
+                handleMyInfo();
                 break;
             }
           }}
@@ -296,6 +303,9 @@ export default function ForumScreen() {
               break;
             case 'forum':
               handleForum();
+              break;
+            case 'myInfo':
+              handleMyInfo();
               break;
           }
         }}

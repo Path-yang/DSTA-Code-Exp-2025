@@ -38,51 +38,91 @@ export default function MoreInformationAboutScamScreen() {
     );
   };
 
+  const renderContentItem = (icon: string, title: string, description: string) => (
+    <View style={styles.contentItem}>
+      <Text style={styles.contentIcon}>{icon}</Text>
+      <View style={styles.contentTextContainer}>
+        <Text style={styles.contentTitle}>{title}</Text>
+        <Text style={styles.contentDescription}>{description}</Text>
+      </View>
+    </View>
+  );
+
+  const renderSectionContent = (sectionKey: keyof SectionState) => {
+    switch (sectionKey) {
+      case 'commonTypes':
+        return (
+          <View>
+            {renderContentItem('🎣', 'Phishing Scams', 'Fraudulent emails, texts, or websites designed to steal personal information')}
+            {renderContentItem('💰', 'Investment Scams', 'Fake investment opportunities promising unrealistic high returns')}
+            {renderContentItem('💕', 'Romance Scams', 'Online dating fraud targeting victims emotionally and financially')}
+            {renderContentItem('🔧', 'Tech Support Scams', 'Fake technical support calls claiming your device is infected')}
+            {renderContentItem('🛒', 'Shopping Scams', 'Fake online stores selling non-existent or counterfeit products')}
+            {renderContentItem('💼', 'Job Scams', 'Fake job offers requiring upfront payments or personal information')}
+            {renderContentItem('🎰', 'Lottery/Prize Scams', 'Fake winnings requiring fees or taxes to claim prizes')}
+            {renderContentItem('🤲', 'Charity Scams', 'Fake charities exploiting disasters or humanitarian causes')}
+          </View>
+        );
+      case 'howToIdentify':
+        return (
+          <View>
+            {renderContentItem('⏰', 'Urgent Pressure', 'Scammers create false urgency to rush your decisions')}
+            {renderContentItem('🌟', 'Too Good to Be True', 'Offers that seem unrealistically beneficial or profitable')}
+            {renderContentItem('📧', 'Unsolicited Contact', 'Unexpected calls, emails, or messages from unknown sources')}
+            {renderContentItem('🔐', 'Personal Info Requests', 'Asking for passwords, SSN, or sensitive bank details')}
+            {renderContentItem('✍️', 'Poor Grammar/Spelling', 'Many scams contain obvious language and spelling errors')}
+            {renderContentItem('🔗', 'Suspicious Links', 'URLs that don\'t match legitimate websites or look altered')}
+            {renderContentItem('💳', 'Upfront Payments', 'Requests for money before delivering services or goods')}
+            {renderContentItem('📞', 'Lack of Verification', 'No official contact information or proper credentials')}
+          </View>
+        );
+      case 'avoidingScams':
+        return (
+          <View>
+            {renderContentItem('✅', 'Verify Independently', 'Always verify offers through official channels and websites')}
+            {renderContentItem('🚫', 'Never Share Personal Info', 'Don\'t give out sensitive information to unknown parties')}
+            {renderContentItem('💳', 'Use Secure Payment Methods', 'Avoid wire transfers, gift cards, or cryptocurrency payments')}
+            {renderContentItem('⭐', 'Check Reviews', 'Research companies and individuals online before engaging')}
+            {renderContentItem('🤔', 'Trust Your Instincts', 'If something feels wrong or suspicious, it probably is')}
+            {renderContentItem('🔄', 'Keep Software Updated', 'Use updated antivirus and security software regularly')}
+            {renderContentItem('📚', 'Educate Yourself', 'Stay informed about current scam tactics and trends')}
+            {renderContentItem('🚨', 'Report Suspicious Activity', 'Help others by reporting scams to authorities')}
+          </View>
+        );
+      case 'readMore':
+        return (
+          <Text style={styles.sectionText}>
+            Get comprehensive information about scam prevention and protection from the official IMDA website.
+          </Text>
+        );
+      default:
+        return null;
+    }
+  };
+
   const sections = [
     {
       key: 'commonTypes' as keyof SectionState,
       title: 'Common Types of Scams',
       icon: '⚠️',
-      content: `• **Phishing Scams**: Fraudulent emails, texts, or websites designed to steal personal information
-• **Investment Scams**: Fake investment opportunities promising high returns
-• **Romance Scams**: Online dating fraud targeting victims emotionally
-• **Tech Support Scams**: Fake technical support calls claiming your device is infected
-• **Shopping Scams**: Fake online stores selling non-existent products
-• **Job Scams**: Fake job offers requiring upfront payments
-• **Lottery/Prize Scams**: Fake winnings requiring fees to claim prizes
-• **Charity Scams**: Fake charities exploiting disasters or causes`
+      hasLink: false
     },
     {
       key: 'howToIdentify' as keyof SectionState,
       title: 'How To Identify Scam',
       icon: '🔍',
-      content: `• **Urgent Pressure**: Scammers create false urgency to rush decisions
-• **Too Good to Be True**: Offers that seem unrealistically beneficial
-• **Unsolicited Contact**: Unexpected calls, emails, or messages
-• **Request for Personal Info**: Asking for passwords, SSN, or bank details
-• **Poor Grammar/Spelling**: Many scams contain obvious language errors
-• **Suspicious Links**: URLs that don't match legitimate websites
-• **Upfront Payments**: Requests for money before services/goods
-• **Lack of Verification**: No official contact information or credentials`
+      hasLink: false
     },
     {
       key: 'avoidingScams' as keyof SectionState,
       title: 'Avoiding Scams',
       icon: '🛡️',
-      content: `• **Verify Independently**: Always verify offers through official channels
-• **Never Share Personal Info**: Don't give out sensitive information
-• **Use Secure Payment Methods**: Avoid wire transfers or gift cards
-• **Check Reviews**: Research companies and individuals online
-• **Trust Your Instincts**: If something feels wrong, it probably is
-• **Keep Software Updated**: Use updated antivirus and security software
-• **Educate Yourself**: Stay informed about current scam tactics
-• **Report Suspicious Activity**: Help others by reporting scams to authorities`
+      hasLink: false
     },
     {
       key: 'readMore' as keyof SectionState,
       title: 'Read More About the Dangers of Scams',
       icon: '📚',
-      content: 'Get comprehensive information about scam prevention and protection from the official IMDA website.',
       hasLink: true
     }
   ];
@@ -95,7 +135,7 @@ export default function MoreInformationAboutScamScreen() {
       <View style={styles.header}>
         <View style={styles.headerRow}>
           <TouchableOpacity onPress={() => router.back()} style={styles.backButton}>
-            <Text style={styles.backButtonText}>← Back</Text>
+            <Text style={styles.backButtonText}>{'< Back'}</Text>
           </TouchableOpacity>
           <Text style={styles.headerTitle}>More Information About Scam</Text>
         </View>
@@ -119,7 +159,7 @@ export default function MoreInformationAboutScamScreen() {
             
             {expandedSections[section.key] && (
               <View style={styles.sectionContent}>
-                <Text style={styles.sectionText}>{section.content}</Text>
+                {renderSectionContent(section.key)}
                 {section.hasLink && (
                   <TouchableOpacity style={styles.linkButton} onPress={handleReadMoreLink}>
                     <Text style={styles.linkButtonText}>🔗 Visit IMDA Website</Text>
@@ -142,8 +182,6 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 20,
     paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderBottomColor: '#333',
   },
   headerRow: {
     flexDirection: 'row',
@@ -220,5 +258,32 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 16,
     fontWeight: '600',
+  },
+  contentItem: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    marginBottom: 16,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#333',
+  },
+  contentIcon: {
+    fontSize: 20,
+    marginRight: 12,
+    marginTop: 2,
+  },
+  contentTextContainer: {
+    flex: 1,
+  },
+  contentTitle: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 4,
+  },
+  contentDescription: {
+    color: '#ccc',
+    fontSize: 14,
+    lineHeight: 20,
   },
 }); 

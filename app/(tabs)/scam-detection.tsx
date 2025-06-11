@@ -29,7 +29,7 @@ export default function ScamDetectionScreen() {
   const [result, setResult] = useState<DetectionResult | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { isGuestMode, logout } = useUser();
+  const { isLoggedIn, isGuestMode, logout, updateStats } = useUser();
 
   const handleDetect = async () => {
     if (!urlInput.trim()) return;
@@ -54,6 +54,18 @@ export default function ScamDetectionScreen() {
       const actualRiskScore = riskScore || confidence || 0;
 
       console.log(`🔍 Analyzed URL: ${urlInput.trim()} → Risk Score: ${actualRiskScore}%`);
+
+      // Update user stats if logged in
+      if (isLoggedIn && !isGuestMode) {
+        try {
+          await updateStats({
+            scans_completed: 1,
+            threats_detected: actualRiskScore >= 51 ? 1 : 0
+          });
+        } catch (error) {
+          console.error('Failed to update stats:', error);
+        }
+      }
 
       // Route based on risk score, not classification
       if (actualRiskScore >= 51) {
@@ -119,9 +131,23 @@ export default function ScamDetectionScreen() {
     router.push('/learn');
   };
 
+  const handleMyInfo = () => {
+    router.push('/(tabs)/my-info');
+  };
+
   const handleLogout = () => {
-    logout();
-    router.replace('/');
+    if (isLoggedIn || isGuestMode) {
+      logout();
+    } else {
+      // Not logged in, go to login page
+      router.push('/');
+    }
+  };
+
+  const getLogoutButtonText = () => {
+    if (isLoggedIn) return 'Logout';
+    if (isGuestMode) return 'Login';
+    return 'Login';
   };
 
   return (
@@ -132,9 +158,6 @@ export default function ScamDetectionScreen() {
       <View style={styles.header}>
         <View style={styles.headerTop}>
           <Text style={styles.headerTitle}>Scam Detection</Text>
-          <TouchableOpacity onPress={handleLogout} style={styles.logoutButton}>
-            <Text style={styles.logoutText}>{isGuestMode ? 'Login' : 'Logout'}</Text>
-          </TouchableOpacity>
         </View>
         <Text style={styles.headerSubtitle}>
           Need help deciphering if somebody is trying to scam you? Paste suspicious messages or links and let our AI and community flag the risks — fast, free, and secure.
@@ -187,14 +210,14 @@ export default function ScamDetectionScreen() {
           </TouchableOpacity>
         )}
 
-        <Text style={styles.warningText}>
-          Please remain vigilant... Do not be the next victim
-        </Text>
-
         <TouchableOpacity style={styles.reportButton} onPress={handleReport}>
           <FontAwesome name="flag" size={20} color="#fff" style={styles.reportButtonIcon} />
           <Text style={styles.reportButtonText}>Report</Text>
         </TouchableOpacity>
+
+        <Text style={styles.warningText}>
+          Please remain vigilant... Do not be the next victim
+        </Text>
       </View>
 
       {/* Enhanced Bottom Navigation */}
@@ -331,7 +354,7 @@ const styles = StyleSheet.create({
   },
   warningText: {
     color: '#e74c3c',
-    fontSize: 12,
+    fontSize: 14,
     textAlign: 'center',
     marginBottom: 15,
   },

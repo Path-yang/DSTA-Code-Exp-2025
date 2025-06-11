@@ -25,6 +25,13 @@ export default function RootLayout() {
         <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+            <Stack.Screen name="website-not-found" options={{ headerShown: false }} />
+            <Stack.Screen name="scam-alert" options={{ headerShown: false }} />
+            <Stack.Screen name="unknown" options={{ headerShown: false }} />
+            <Stack.Screen name="good-news" options={{ headerShown: false }} />
+            <Stack.Screen name="reality-mode" options={{ headerShown: false }} />
+            <Stack.Screen name="more-information-about-scam" options={{ headerShown: false }} />
+            <Stack.Screen name="(tabs)/register" options={{ headerShown: false }} />
             <Stack.Screen name="+not-found" />
           </Stack>
           <StatusBar style="auto" />

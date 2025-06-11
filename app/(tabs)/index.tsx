@@ -7,27 +7,62 @@ import {
   StyleSheet,
   StatusBar,
   SafeAreaView,
-  Image
+  Image,
+  Alert,
+  ActivityIndicator
 } from 'react-native';
 import { useRouter } from 'expo-router';
 import { useUser } from '../context/UserContext';
 
 export default function HomeScreen() {
-  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const router = useRouter();
-  const { login, loginAsGuest } = useUser();
+  const { login, loginAsGuest, register, loading } = useUser();
 
-  const handleLogin = () => {
-    console.log('Login pressed:', { username, password });
-    login();
-    router.push('/scam-detection');
+  const handleLogin = async () => {
+    if (!email.trim() || !password.trim()) {
+      Alert.alert('Error', 'Please fill in both email and password');
+      return;
+    }
+
+    try {
+      setIsLoading(true);
+      const result = await login(email.trim(), password);
+
+      if (result.success) {
+        Alert.alert('Success', 'Login successful!', [
+          { text: 'OK', onPress: () => router.push('/scam-detection') }
+        ]);
+      } else {
+        let errorMessage = 'Login failed';
+        
+        if (result.error) {
+          if (typeof result.error === 'string') {
+            errorMessage = result.error;
+          } else if (result.error.non_field_errors) {
+            errorMessage = result.error.non_field_errors[0];
+          } else if (result.error.detail) {
+            errorMessage = result.error.detail;
+          } else {
+            errorMessage = 'Invalid email or password';
+          }
+        }
+
+        Alert.alert('Login Failed', errorMessage);
+      }
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'An unexpected error occurred');
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleSignUp = () => {
     console.log('Sign Up pressed');
-    // We'll add sign up navigation later
+    router.push('/(tabs)/register');
   };
   
   const handleGuestMode = () => {
@@ -35,6 +70,22 @@ export default function HomeScreen() {
     loginAsGuest();
     router.push('/scam-detection');
   };
+
+  const handleForgotPassword = () => {
+    Alert.alert('Forgot Password', 'Password reset functionality will be available soon!');
+  };
+
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <StatusBar barStyle="light-content" backgroundColor="#1a1a1a" />
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#fff" />
+          <Text style={styles.loadingText}>Loading...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -58,11 +109,13 @@ export default function HomeScreen() {
         <Text style={styles.label}>Username:</Text>
         <TextInput
           style={styles.input}
-          value={username}
-          onChangeText={setUsername}
-          placeholder=""
+          value={email}
+          onChangeText={setEmail}
+          placeholder="Enter your email"
           placeholderTextColor="#666"
           autoCapitalize="none"
+          keyboardType="email-address"
+          autoComplete="email"
         />
 
         <Text style={styles.label}>Password:</Text>
@@ -70,17 +123,26 @@ export default function HomeScreen() {
           style={styles.input}
           value={password}
           onChangeText={setPassword}
-          placeholder=""
+          placeholder="Enter your password"
           placeholderTextColor="#666"
           secureTextEntry
+          autoComplete="password"
         />
 
-        <TouchableOpacity style={styles.forgotPassword}>
+        <TouchableOpacity style={styles.forgotPassword} onPress={handleForgotPassword}>
           <Text style={styles.forgotPasswordText}>Forget Password?</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-          <Text style={styles.loginButtonText}>LOGIN</Text>
+        <TouchableOpacity 
+          style={[styles.loginButton, isLoading && styles.disabledButton]} 
+          onPress={handleLogin}
+          disabled={isLoading}
+        >
+          {isLoading ? (
+            <ActivityIndicator size="small" color="#000" />
+          ) : (
+            <Text style={styles.loginButtonText}>LOGIN</Text>
+          )}
         </TouchableOpacity>
 
         <TouchableOpacity style={styles.guestButton} onPress={handleGuestMode}>
@@ -204,5 +266,18 @@ const styles = StyleSheet.create({
   logoImage: {
     width: 300,
     height: 200,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    color: '#fff',
+    fontSize: 18,
+    marginTop: 20,
+  },
+  disabledButton: {
+    backgroundColor: '#888',
   },
 });

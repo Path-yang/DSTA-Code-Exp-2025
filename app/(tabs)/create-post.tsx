@@ -67,6 +67,12 @@ export default function CreatePostScreen() {
                 tags: selectedTags
             });
 
+            // Clear the form entries
+            setPostTitle('');
+            setPostContent('');
+            setSelectedTags([]);
+
+            // Show success alert and navigate back to forum page
             Alert.alert(
                 'Success',
                 'Your post has been created successfully!',

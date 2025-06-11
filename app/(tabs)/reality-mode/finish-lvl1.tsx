@@ -12,8 +12,8 @@ export default function FinishLevel1() {
     };
 
     const handleContinue = () => {
-        // For now, just go back to reality mode intro
-        router.push('/reality-mode-intro');
+        // Navigate back to reality mode index page
+        router.push('/reality-mode');
     };
 
     return (

@@ -156,10 +156,6 @@ export default function ScamDetectionScreen() {
   };
 
   const handleMyInfo = () => {
-    if (isGuestMode) {
-      showLoginPrompt('My Info');
-      return;
-    }
     router.push('/(tabs)/my-info');
   };
 

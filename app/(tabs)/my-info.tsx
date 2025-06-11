@@ -115,6 +115,19 @@ export default function MyInfoScreen() {
           </Text>
         </View>
 
+        {/* Guest Stats Section */}
+        {isGuestMode && (
+          <View style={styles.statsSection}>
+            <Text style={styles.sectionTitle}>📊 Guest Activity</Text>
+            <View style={styles.statsGrid}>
+              {renderStatCard('Scans Completed', 'Login to track', '🔍')}
+              {renderStatCard('Threats Detected', 'Login to track', '⚠️')}
+              {renderStatCard('Reports Submitted', 'Login to track', '🚩')}
+              {renderStatCard('Forum Posts', 'Login to track', '💬')}
+            </View>
+          </View>
+        )}
+
         {/* Authentication Section */}
         {isGuestMode ? (
           <View style={styles.authSection}>
@@ -122,11 +135,9 @@ export default function MyInfoScreen() {
             <Text style={styles.authSubtitle}>
               Sign up to access advanced features, save your scan history, and participate in community discussions.
             </Text>
-            <TouchableOpacity style={styles.primaryButton} onPress={handleRegister}>
-              <Text style={styles.primaryButtonText}>Create Account</Text>
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.secondaryButton} onPress={handleLogin}>
-              <Text style={styles.secondaryButtonText}>Login to Existing Account</Text>
+            <TouchableOpacity style={styles.guestLoginButton} onPress={handleLogin}>
+              <Text style={styles.guestLoginIcon}>🔑</Text>
+              <Text style={styles.guestLoginText}>Login to Your Account</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -375,5 +386,22 @@ const styles = StyleSheet.create({
 
   backendStatus: {
     marginRight: 10,
+  },
+  guestLoginButton: {
+    backgroundColor: '#666',
+    borderRadius: 12,
+    padding: 15,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  guestLoginIcon: {
+    fontSize: 20,
+    marginRight: 10,
+  },
+  guestLoginText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
   },
 }); 

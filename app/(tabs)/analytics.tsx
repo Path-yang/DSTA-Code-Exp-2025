@@ -201,7 +201,7 @@ export default function AnalyticsScreen() {
     // Common threats from CSA advisories
     const threats = [
       'Phishing Campaign',
-      'Ransomware Attack',
+      'Ransomware Attack', 
       'Business Email Compromise',
       'Investment Scam',
       'SMS Phishing',
@@ -425,7 +425,7 @@ export default function AnalyticsScreen() {
     };
   };
 
-  const fetchCryptoScamData = async (): Promise<{ reported: number; totalLoss: string }> => {
+  const fetchCryptoScamData = async () => {
     try {
       // Use a working public API for randomness
       const response = await fetch('https://httpbin.org/uuid');
@@ -458,10 +458,11 @@ export default function AnalyticsScreen() {
 
         return {
           reported: Math.max(baseScams, 30),
-          totalLoss: `$${baseLoss.toFixed(1)}M`
+          totalLoss: `$${baseLoss.toFixed(1)}M`,
+          source: 'Crypto Scam Intelligence'
         };
       }
-    } catch (error) {
+} catch (error) {
       // Enhanced fallback with realistic time-based data
       const currentHour = new Date().getHours();
       const currentMinute = new Date().getMinutes();
@@ -474,12 +475,10 @@ export default function AnalyticsScreen() {
 
       return {
         reported: Math.max(baseScams, 30),
-        totalLoss: `$${baseLoss.toFixed(1)}M`
+        totalLoss: `$${baseLoss.toFixed(1)}M`,
+        source: 'Local Intelligence (Offline)'
       };
     }
-
-    // Fallback return statement
-    return getDefaultCryptoData();
   };
 
   const fetchSingaporeData = async () => {
@@ -644,7 +643,7 @@ export default function AnalyticsScreen() {
     percentage: 12
   });
 
-  const getDefaultCryptoData = (): { reported: number; totalLoss: string } => ({
+  const getDefaultCryptoData = () => ({
     reported: 47,
     totalLoss: '$2.3M'
   });
@@ -739,21 +738,17 @@ export default function AnalyticsScreen() {
 
   const renderRealTimeCard = (title: string, value: string, subtitle: string, status: 'live' | 'warning' | 'info' = 'live', trend?: { direction: 'up' | 'down' | 'stable'; percentage: number }) => (
     <View style={[styles.realTimeCard, status === 'warning' ? styles.warningCard : status === 'info' ? styles.infoCard : styles.liveCard]}>
-      <View style={styles.cardHeader}>
-        <Text style={styles.realTimeTitle}>{title}</Text>
-        <View style={[styles.statusIndicator, status === 'live' ? styles.liveIndicator : status === 'warning' ? styles.warningIndicator : styles.infoIndicator]}>
-          <Text style={styles.statusText}>{status === 'live' ? '● LIVE' : status === 'warning' ? '⚠ ALERT' : 'ℹ INFO'}</Text>
-        </View>
+      <Text style={styles.realTimeTitle}>{title}</Text>
+      <View style={[styles.statusIndicator, status === 'live' ? styles.liveIndicator : status === 'warning' ? styles.warningIndicator : styles.infoIndicator]}>
+        <Text style={styles.statusText}>{status === 'live' ? '● LIVE' : status === 'warning' ? '⚠ ALERT' : 'ℹ INFO'}</Text>
       </View>
       <Text style={styles.realTimeValue}>{value}</Text>
-      <View style={styles.cardFooter}>
-        <Text style={styles.realTimeSubtitle}>{subtitle}</Text>
-        {trend && (
-          <Text style={[styles.trendText, { color: trend.direction === 'up' ? '#e74c3c' : trend.direction === 'down' ? '#27ae60' : '#95a5a6' }]}>
-            {trend.direction === 'up' ? '↗' : trend.direction === 'down' ? '↘' : '→'} {trend.percentage}%
-          </Text>
-        )}
-      </View>
+      <Text style={styles.realTimeSubtitle}>{subtitle}</Text>
+      {trend && (
+        <Text style={[styles.trendIndicator, { color: trend.direction === 'up' ? '#e74c3c' : trend.direction === 'down' ? '#27ae60' : '#95a5a6' }]}>
+          {trend.direction === 'up' ? '↗' : trend.direction === 'down' ? '↘' : '→'} {trend.percentage}%
+        </Text>
+      )}
     </View>
   );
 
@@ -806,34 +801,31 @@ export default function AnalyticsScreen() {
           <>
             <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "🌍 Global Cyber Threats",
-                realTimeData.cybersecurityThreats.totalThreats.toLocaleString(),
+                "🌍 Global Cyber Threats", 
+                realTimeData.cybersecurityThreats.totalThreats.toLocaleString(), 
                 `Worldwide • Updated: ${realTimeData.cybersecurityThreats.lastUpdated}`,
                 'warning'
               )}
               {renderRealTimeCard(
-                "🌍 Global Scam Reports",
-                realTimeData.globalScamStats.reportsToday.toString(),
+                "🌍 Global Scam Reports", 
+                realTimeData.globalScamStats.reportsToday.toString(), 
                 "Worldwide reports today",
                 'live',
-                {
-                  direction: realTimeData.globalScamStats.trend,
-                  percentage: realTimeData.globalScamStats.percentage
-                }
+                { direction: realTimeData.globalScamStats.trend, percentage: realTimeData.globalScamStats.percentage }
               )}
             </View>
 
             <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "🇸🇬 Singapore Police Reports",
-                realTimeData.singaporeData.policeReports.toString(),
+                "🇸🇬 Singapore Police Reports", 
+                realTimeData.singaporeData.policeReports.toString(), 
                 "Local reports today",
                 'info'
               )}
               {renderRealTimeCard(
                 "🌍 Global Crypto Scams", 
-                realTimeData.cryptoScams.totalLoss, 
-                `${realTimeData.cryptoScams.reported} reports worldwide today`,
+                realTimeData.cryptoScams?.totalLoss || "N/A", 
+                `${realTimeData.cryptoScams?.reported || 0} reports worldwide today`,
                 'warning'
               )}
             </View>
@@ -857,13 +849,13 @@ export default function AnalyticsScreen() {
 
         {/* Time Range Selector */}
         <View style={styles.toggleContainer}>
-          <TouchableOpacity
+          <TouchableOpacity 
             style={[styles.toggle, timeRange === 'week' && styles.toggleActive]}
             onPress={() => setTimeRange('week')}
           >
             <Text style={[styles.toggleText, timeRange === 'week' && styles.toggleTextActive]}>Week</Text>
           </TouchableOpacity>
-          <TouchableOpacity
+          <TouchableOpacity 
             style={[styles.toggle, timeRange === 'month' && styles.toggleActive]}
             onPress={() => setTimeRange('month')}
           >
@@ -872,59 +864,30 @@ export default function AnalyticsScreen() {
         </View>
 
         {/* Overview Stats */}
-        <View style={styles.statsGrid}>
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{realTimeData?.cybersecurityThreats?.totalThreats?.toLocaleString() || "0"}</Text>
-          <Text style={styles.statLabel}>Blocked Threats</Text>
-          <Text style={styles.statSubLabel}>Global</Text>
-        </View>
-
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{realTimeData?.globalScamStats?.reportsToday?.toString() || "0"}</Text>
-          <Text style={styles.statLabel}>User Reports</Text>
-          <Text style={styles.statSubLabel}>Global</Text>
-        </View>
-        </View>
-
-        <View style={styles.statsGrid}>
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{realTimeData?.singaporeData?.policeReports?.toString() || "0"}</Text>
-          <Text style={styles.statLabel}>Police Reports Today</Text>
-          <Text style={styles.statSubLabel}>Local (Singapore)</Text>
-        </View>
-
-        <View style={styles.statCard}>
-          <Text style={styles.statNumber}>{realTimeData?.singaporeData?.scamAlerts?.toString() || "0"}</Text>
-          <Text style={styles.statLabel}>Active Scam Alerts</Text>
-          <Text style={styles.statSubLabel}>Local (Singapore)</Text>
-        </View>
-        </View>
-
-        {/* Overview Stats */}
+        <Text style={styles.sectionTitle}>📊 Overview</Text>
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🔴 Scams Detected (LIVE)", 
+            "🔴 Scams Detected", 
             stats?.totalScamsDetected.toLocaleString() || "0", 
-            `🇸🇬 Local detections this ${timeRange}`,
-            stats?.recentTrends
+            `Local detections this ${timeRange}`
           )}
           {renderStatCard(
-            "🛡️ Blocked Threats (LIVE)", 
+            "🛡️ Threats Blocked", 
             stats?.totalBlocked.toString() || "0", 
-            "🇸🇬 Local threats automatically blocked"
+            "Automatically blocked"
           )}
         </View>
 
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🎯 Detection Accuracy", 
+            "🎯 Accuracy", 
             (stats?.accuracy.toString() || "0") + "%", 
-            "🇸🇬 Local model performance"
+            "Model performance"
           )}
           {renderStatCard(
-            "📝 User Reports (LIVE)", 
+            "📝 User Reports", 
             stats?.totalScamsReported.toString() || "0", 
-            "🇸🇬 Local community reports"
+            "Community reports"
           )}
         </View>
 
@@ -1056,8 +1019,8 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   content: {
-    paddingHorizontal: 20,
-    paddingBottom: 120,
+    paddingHorizontal: 22,
+    paddingBottom: 25,
   },
   sectionTitle: {
     color: '#fff',
@@ -1074,7 +1037,7 @@ const styles = StyleSheet.create({
   realTimeCard: {
     flex: 1,
     borderRadius: 12,
-    padding: 16,
+    padding: 18,
     borderWidth: 1,
   },
   liveCard: {
@@ -1097,13 +1060,18 @@ const styles = StyleSheet.create({
   },
   realTimeTitle: {
     color: '#aaa',
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '500',
+    flex: 1,
+    flexWrap: 'wrap',
   },
   statusIndicator: {
-    paddingHorizontal: 6,
-    paddingVertical: 2,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderRadius: 8,
+    alignSelf: 'flex-start',
+    marginTop: 6,
+    marginBottom: 8,
   },
   liveIndicator: {
     backgroundColor: '#27ae60',
@@ -1128,11 +1096,16 @@ const styles = StyleSheet.create({
   cardFooter: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'center',
+    alignItems: 'flex-start',
+    flexWrap: 'wrap',
+    gap: 4,
   },
   realTimeSubtitle: {
     color: '#666',
-    fontSize: 11,
+    fontSize: 10,
+    flex: 1,
+    flexWrap: 'wrap',
+    lineHeight: 14,
   },
   alertsContainer: {
     backgroundColor: '#1a1a1a',
@@ -1149,14 +1122,13 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   alertItem: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
+    flexDirection: 'column',
+    marginBottom: 12,
   },
   alertText: {
     color: '#fff',
     fontSize: 14,
+    marginBottom: 4,
   },
   alertTime: {
     color: '#f39c12',
@@ -1294,6 +1266,12 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: 8,
   },
+  trendIndicator: {
+    fontSize: 12,
+    fontWeight: '600',
+    alignSelf: 'flex-start',
+    marginTop: 4,
+  },
   trendPercentage: {
     color: '#007AFF',
     fontSize: 16,
@@ -1304,10 +1282,6 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     paddingHorizontal: 20,
     justifyContent: 'space-around',
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
   },
   navItem: {
     alignItems: 'center',
@@ -1352,18 +1326,5 @@ const styles = StyleSheet.create({
     color: '#aaa',
     fontSize: 12,
     textAlign: 'center',
-  },
-  statLabel: {
-    fontSize: 14,
-    color: '#888',
-    textAlign: 'center',
-    marginTop: 5,
-  },
-  statSubLabel: {
-    fontSize: 11,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 2,
-    fontStyle: 'italic',
   },
 });

@@ -40,6 +40,17 @@ const SUSPICIOUS_DOMAINS = [
   'cutt.ly', 'rb.gy', 'is.gd', 'v.gd', 'tiny.cc', 'shorturl.at'
 ];
 
+// Malicious patterns that should trigger high risk scores
+const MALICIOUS_PATTERNS = [
+  'malware', 'virus', 'phishing', 'ransomware', 'trojan', 'keylogger',
+  'identity-theft', 'credit-card-theft', 'bank-fraud', 'crypto-scam',
+  'fake-antivirus', 'tech-support-scam', 'romance-scam', 'lottery-scam',
+  'inheritance-scam', 'advance-fee', 'work-from-home-scam', 'pyramid-scheme',
+  'ponzi', 'get-rich-quick', 'miracle-cure', 'weight-loss-scam',
+  'click-here-win', 'urgent-verify', 'account-suspended', 'security-alert',
+  'claim-prize', 'congratulations-winner', 'free-money', 'bitcoin-generator'
+];
+
 // High-risk TLDs (based on abuse.ch data)
 const HIGH_RISK_TLDS = [
   '.tk', '.ml', '.ga', '.cf', '.click', '.download', '.zip', '.work',
@@ -217,9 +228,9 @@ class ScamDetector {
     else if (MEDIUM_RISK_TLDS.some(tld => domain.endsWith(tld))) {
       baseScore = 20 + seededRandomInt(seed + 3, 0, 18); // 20-37
     }
-    // High risk TLDs
+    // High risk TLDs - more aggressive to ensure red results
     else if (HIGH_RISK_TLDS.some(tld => domain.endsWith(tld))) {
-      baseScore = 40 + seededRandomInt(seed + 4, 0, 20); // 40-59
+      baseScore = 50 + seededRandomInt(seed + 4, 5, 25); // 55-74 (guaranteed 51+ for red)
     }
     // Unknown/unusual TLDs (should be suspicious)
     else {
@@ -354,6 +365,25 @@ class ScamDetector {
       totalRisk += 25 + seededRandomInt(seed + 12, 0, 10); // 25-34
       warnings.push('Possible character substitution attack');
       breakdown.homograph = 25 + seededRandomInt(seed + 13, 0, 10);
+    }
+
+    // Feature 12: Malicious pattern detection (very high risk)
+    const maliciousPatterns = MALICIOUS_PATTERNS.filter(pattern => 
+      fullUrl.includes(pattern) || domain.includes(pattern)
+    );
+    if (maliciousPatterns.length > 0) {
+      const maliciousRisk = 45 + maliciousPatterns.length * 15; // 45+ based on pattern count - more aggressive
+      totalRisk += Math.min(maliciousRisk, 60);
+      warnings.push(`Contains malicious patterns: ${maliciousPatterns.join(', ')}`);
+      breakdown.maliciousPatterns = Math.min(maliciousRisk, 60);
+    }
+
+    // Feature 13: Typosquatting detection for major brands
+    const typosquatting = this.detectTyposquatting(domain);
+    if (typosquatting) {
+      totalRisk += 50; // Very high risk for typosquatting
+      warnings.push(`Possible typosquatting of ${typosquatting}`);
+      breakdown.typosquatting = 50;
     }
 
     return {
@@ -566,6 +596,35 @@ class ScamDetector {
       }
     }
     return matrix[str2.length][str1.length];
+  }
+
+  static detectTyposquatting(domain) {
+    // Common typosquatting patterns for major brands
+    const typosquattingPatterns = [
+      // Common misspellings
+      { original: 'google', variations: ['googl', 'gogle', 'goggle', 'goolge', 'googel', 'googlee'] },
+      { original: 'facebook', variations: ['facbook', 'facebok', 'facebbok', 'fecebook', 'faceboook'] },
+      { original: 'amazon', variations: ['amazn', 'amzon', 'amazone', 'amazom', 'amazonn'] },
+      { original: 'microsoft', variations: ['mircosoft', 'microsofy', 'micorosoft', 'micr0soft'] },
+      { original: 'paypal', variations: ['payp4l', 'paypall', 'paypaI', 'papyal', 'payp4I'] },
+      { original: 'apple', variations: ['appel', 'aple', 'aplle', 'app1e', 'appIe'] },
+      { original: 'youtube', variations: ['youtub', 'youtubе', 'youtbe', 'yutube', 'youtubee'] },
+      { original: 'twitter', variations: ['twiter', 'twittr', 'twittеr', 'twitteer'] },
+      { original: 'instagram', variations: ['instagr4m', 'instаgram', 'instagrm', 'instаgrаm'] },
+      { original: 'linkedin', variations: ['linkdin', 'linkedn', 'linkеdin', 'linkedinn'] },
+      { original: 'ebay', variations: ['еbay', 'ebаy', 'ebayy', '3bay'] },
+      { original: 'netflix', variations: ['netf1ix', 'netfIix', 'nеtflix', 'netflixx'] }
+    ];
+
+    for (const pattern of typosquattingPatterns) {
+      for (const variation of pattern.variations) {
+        if (domain.includes(variation)) {
+          return pattern.original;
+        }
+      }
+    }
+
+    return null;
   }
 
   // Enhanced analytics with more realistic threat distribution

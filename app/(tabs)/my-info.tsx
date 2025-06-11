@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, Alert, Image } from 'react-native';
 // import AsyncStorage from '@react-native-async-storage/async-storage'; // disabled due to module issue
 // import * as ImagePicker from 'expo-image-picker'; // disabled due to missing dependency
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
 import { FontAwesome } from '@expo/vector-icons';
 import { useUser } from '../context/UserContext';
 import BackendStatus from '../components/BackendStatus';
@@ -20,20 +20,37 @@ export default function MyInfoScreen() {
     memberSince: 'Guest User'
   });
 
-  useEffect(() => {
-    const loadProfileImage = async () => {
-      try {
-        const profileImage = await authService.getProfileImage();
-        if (profileImage) {
-          setProfileImage(profileImage);
-        }
-      } catch (error) {
-        console.error('Error loading profile image:', error);
+  const loadProfileImage = useCallback(async () => {
+    try {
+      let profileImage = await authService.getProfileImage();
+      console.log('My-info loaded profile image:', profileImage);
+      
+      if (!profileImage) {
+        // If no profile image, try to initialize default
+        await authService.initializeDefaultProfileImages();
+        profileImage = await authService.getProfileImage();
+        console.log('My-info initialized profile image:', profileImage);
       }
-    };
-    
-    loadProfileImage();
-    
+      
+      if (profileImage) {
+        setProfileImage(profileImage);
+      }
+    } catch (error) {
+      console.error('Error loading profile image:', error);
+    }
+  }, []);
+
+  // Load profile image when screen gains focus
+  useFocusEffect(
+    useCallback(() => {
+      const loadData = async () => {
+        await loadProfileImage();
+      };
+      loadData();
+    }, [loadProfileImage])
+  );
+
+  useEffect(() => {
     if (isLoggedIn && !isGuestMode && user?.stats) {
       setUserStats({
         scansCompleted: user.stats.scans_completed,
@@ -105,9 +122,9 @@ export default function MyInfoScreen() {
     const avatarOptions = ['user', 'user-circle', 'user-secret', 'shield', 'star', 'heart', 'diamond', 'crown'];
     const buttons = avatarOptions.map(icon => ({
       text: icon,
-      onPress: async () => {
+      onPress: () => {
         setProfileImage(icon);
-        await authService.setProfileImage(icon);
+        authService.setProfileImage(icon);
       }
     }));
     buttons.push({
@@ -133,10 +150,10 @@ export default function MyInfoScreen() {
         },
         {
           text: 'Set Image',
-          onPress: async (url) => {
+          onPress: (url) => {
             if (url && url.startsWith('https://')) {
               setProfileImage(url);
-              await authService.setProfileImage(url);
+              authService.setProfileImage(url);
             } else {
               Alert.alert('Invalid URL', 'Please enter a valid HTTPS URL');
             }

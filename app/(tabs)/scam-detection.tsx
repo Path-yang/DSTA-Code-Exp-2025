@@ -65,7 +65,14 @@ export default function ScamDetectionScreen() {
       const urlParam = encodeURIComponent(inputToProcess);
 
       // If website doesn't exist, redirect to not-found page
-      if (!websiteCheck.exists) {
+      // EXCEPTION: Allow testing of malicious patterns even if site doesn't exist
+      const isTestingMaliciousPattern = inputToProcess.includes('malware') || 
+        inputToProcess.includes('virus') || inputToProcess.includes('phishing') ||
+        inputToProcess.includes('scam') || inputToProcess.includes('fake') ||
+        inputToProcess.endsWith('.tk') || inputToProcess.endsWith('.ml') || 
+        inputToProcess.endsWith('.ga') || inputToProcess.endsWith('.cf');
+        
+      if (!websiteCheck.exists && !isTestingMaliciousPattern) {
         const reasonParam = encodeURIComponent(websiteCheck.reason);
         router.push(`/website-not-found?url=${urlParam}&reason=${reasonParam}` as any);
         setLoading(false);
@@ -92,12 +99,15 @@ export default function ScamDetectionScreen() {
       }
 
       // Route based on risk score, not classification
+      const explanationParam = encodeURIComponent(JSON.stringify(result.details || []));
+      const sourcesParam = encodeURIComponent(JSON.stringify(result.sources || {}));
+      
       if (actualRiskScore >= 51) {
         // HIGH RISK - Dangerous/Phishing (51-100%)
-        router.push(`/scam-alert?confidence=${actualRiskScore}&url=${urlParam}` as any);
+        router.push(`/scam-alert?confidence=${actualRiskScore}&url=${urlParam}&details=${explanationParam}&sources=${sourcesParam}` as any);
       } else if (actualRiskScore >= 31) {
         // MEDIUM RISK - Unknown/Suspicious (31-50%)
-        router.push(`/unknown?confidence=${actualRiskScore}&url=${urlParam}` as any);
+        router.push(`/unknown?confidence=${actualRiskScore}&url=${urlParam}&details=${explanationParam}&sources=${sourcesParam}` as any);
       } else {
         // LOW RISK - Safe (0-30%)
         router.push(`/good-news?confidence=${actualRiskScore}&url=${urlParam}` as any);

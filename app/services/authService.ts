@@ -1,9 +1,9 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage'; // disabled due to module issue
 
 const API_BASE_URL = 'http://192.168.1.112:8001/api';
-const DEMO_MODE = true; // Using demo mode since backend is offline
+const DEMO_MODE = false; // Using real backend
 
-// In-memory storage as temporary replacement for AsyncStorage
+// Storage solution with profile image persistence in user context
 let memoryStorage: { [key: string]: string } = {};
 
 // Helper functions to replace AsyncStorage
@@ -23,14 +23,14 @@ const multiRemove = async (keys: string[]): Promise<void> => {
 
 // Profile image management
 const setProfileImage = async (imageUrl: string): Promise<void> => {
-  memoryStorage['user_profile_image'] = imageUrl;
+  await setItem('user_profile_image', imageUrl);
   // Also store in user session data
-  const userData = memoryStorage['user_data'];
+  const userData = await getItem('user_data');
   if (userData) {
     try {
       const user = JSON.parse(userData);
       user.profile_image = imageUrl;
-      memoryStorage['user_data'] = JSON.stringify(user);
+      await setItem('user_data', JSON.stringify(user));
     } catch (e) {
       console.error('Error updating user data with profile image:', e);
     }
@@ -38,16 +38,27 @@ const setProfileImage = async (imageUrl: string): Promise<void> => {
 };
 
 const getProfileImage = async (): Promise<string | null> => {
-  return memoryStorage['user_profile_image'] || null;
+  let profileImage = await getItem('user_profile_image');
+  
+  // If no profile image exists, initialize with a default one
+  if (!profileImage) {
+    const defaultImages = ['user-circle', 'smile-o', 'star', 'heart', 'trophy', 'shield', 'diamond', 'graduation-cap'];
+    const randomImage = defaultImages[Math.floor(Math.random() * defaultImages.length)];
+    await setItem('user_profile_image', randomImage);
+    profileImage = randomImage;
+  }
+  
+  return profileImage;
 };
 
 // Initialize with default profile images for demo users
-const initializeDefaultProfileImages = () => {
+const initializeDefaultProfileImages = async () => {
   // Set some default profile images if none exist
-  if (!memoryStorage['user_profile_image']) {
+  const existingImage = await getItem('user_profile_image');
+  if (!existingImage) {
     const defaultImages = ['user-circle', 'smile-o', 'star', 'heart', 'trophy', 'shield', 'diamond', 'graduation-cap'];
     const randomImage = defaultImages[Math.floor(Math.random() * defaultImages.length)];
-    memoryStorage['user_profile_image'] = randomImage;
+    await setItem('user_profile_image', randomImage);
   }
 };
 
@@ -153,6 +164,9 @@ class AuthService {
   async login(email: string, password: string): Promise<AuthResponse> {
     // Demo mode - bypass server and return mock user
     if (DEMO_MODE) {
+      // Check if we have an existing profile image
+      const existingProfileImage = await getItem('user_profile_image');
+      
       const demoUser: User = {
         id: 1,
         email: email,
@@ -172,7 +186,7 @@ class AuthService {
           phone_number: '+65 9123 4567',
           date_of_birth: '1990-01-01',
           location: 'Singapore',
-          avatar: '',
+          avatar: existingProfileImage || '',
           notification_preferences: {}
         }
       };
@@ -180,6 +194,11 @@ class AuthService {
       // Store demo tokens and user data
       await this.storeTokens('demo_access_token', 'demo_refresh_token');
       await setItem('user_data', JSON.stringify(demoUser));
+      
+      // Initialize default profile image if none exists
+      if (!existingProfileImage) {
+        await initializeDefaultProfileImages();
+      }
 
       return {
         success: true,
@@ -400,9 +419,9 @@ class AuthService {
 
   async healthCheck(): Promise<boolean> {
     try {
-      // Demo mode - always healthy
+      // Demo mode - return false so UI shows "Demo Mode"
       if (DEMO_MODE) {
-        return true;
+        return false;
       }
 
       const response = await fetch(`${API_BASE_URL}/auth/health/`);
@@ -420,9 +439,9 @@ export default {
   register: authService.register.bind(authService),
   logout: authService.logout.bind(authService),
   getUserInfo: authService.getUserInfo.bind(authService),
+  updateProfile: authService.updateProfile.bind(authService),
   refreshToken: authService.refreshToken.bind(authService),
   isLoggedIn: authService.isLoggedIn.bind(authService),
-  isTokenValid: authService.isLoggedIn.bind(authService),
   getStoredUserData: authService.getStoredUserData.bind(authService),
   updateStats: authService.updateStats.bind(authService),
   healthCheck: authService.healthCheck.bind(authService),

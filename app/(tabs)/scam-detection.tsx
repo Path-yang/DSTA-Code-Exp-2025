@@ -105,9 +105,33 @@ export default function ScamDetectionScreen() {
     );
   };
 
+  const showLoginPrompt = (feature: string) => {
+    Alert.alert(
+      "Login Required",
+      `To access ${feature}, you need to login to your account. Would you like to login now?`,
+      [
+        {
+          text: "No",
+          style: "cancel",
+          onPress: () => {
+            // Keep user on home page
+            router.push('/scam-detection');
+          }
+        },
+        {
+          text: "Yes",
+          onPress: () => {
+            // Direct to login page
+            router.push('/');
+          }
+        }
+      ]
+    );
+  };
+
   const handleChatForum = () => {
     if (isGuestMode) {
-      Alert.alert('Login Required', 'Please log in to access these features.');
+      showLoginPrompt('Forum');
       return;
     }
     console.log('Chat forum pressed');
@@ -116,7 +140,7 @@ export default function ScamDetectionScreen() {
 
   const handleStats = () => {
     if (isGuestMode) {
-      Alert.alert('Login Required', 'Please log in to access these features.');
+      showLoginPrompt('Analytics');
       return;
     }
     console.log('Analytics pressed');
@@ -125,13 +149,17 @@ export default function ScamDetectionScreen() {
 
   const handleLearn = () => {
     if (isGuestMode) {
-      Alert.alert('Login Required', 'Please log in to access these features.');
+      showLoginPrompt('Learning');
       return;
     }
     router.push('/learn');
   };
 
   const handleMyInfo = () => {
+    if (isGuestMode) {
+      showLoginPrompt('My Info');
+      return;
+    }
     router.push('/(tabs)/my-info');
   };
 

@@ -7,10 +7,12 @@ import {
     Animated,
     Dimensions,
     Platform,
+    Alert,
 } from 'react-native';
 import { FontAwesome } from '@expo/vector-icons';
 import { router, useSegments } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { useUser } from '../app/context/UserContext';
 
 interface NavItem {
     id: string;
@@ -47,6 +49,8 @@ const useCurrentTab = () => {
 };
 
 export default function EnhancedBottomNav({ activeTab: propActiveTab, onTabPress }: EnhancedBottomNavProps) {
+    const { isGuestMode } = useUser();
+    
     const navItems: NavItem[] = [
         { id: 'home', label: 'Home', icon: 'home', route: '/scam-detection' },
         { id: 'learn', label: 'Learn', icon: 'book', route: '/learn' },
@@ -58,6 +62,31 @@ export default function EnhancedBottomNav({ activeTab: propActiveTab, onTabPress
     const insets = useSafeAreaInsets();
     const currentTabFromRoute = useCurrentTab();
     const activeTab = propActiveTab || currentTabFromRoute;
+
+    // Show login prompt for guest users trying to access restricted pages
+    const showLoginPrompt = (tabLabel: string) => {
+        Alert.alert(
+            "Login Required",
+            `To access ${tabLabel}, you need to login to your account. Would you like to login now?`,
+            [
+                {
+                    text: "No",
+                    style: "cancel",
+                    onPress: () => {
+                        // Keep user on home page
+                        router.push('/scam-detection');
+                    }
+                },
+                {
+                    text: "Yes",
+                    onPress: () => {
+                        // Direct to login page
+                        router.push('/');
+                    }
+                }
+            ]
+        );
+    };
 
     const activeIndexRef = useRef(0);
     const slideAnimation = useRef(new Animated.Value(0)).current;
@@ -105,6 +134,12 @@ export default function EnhancedBottomNav({ activeTab: propActiveTab, onTabPress
                 friction: 10,
             }),
         ]).start();
+
+        // Check if guest user is trying to access restricted pages
+        if (isGuestMode && item.id !== 'home') {
+            showLoginPrompt(item.label);
+            return;
+        }
 
         // Custom onPress or default navigation
         if (onTabPress) {

@@ -2,8 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { SafeAreaView, View, Text, TextInput, TouchableOpacity, FlatList, StyleSheet, StatusBar, Image, ActivityIndicator, Alert } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
 
-  // TODO: Replace with your Claude API key securely loaded from environment or config
-  const CLAUDE_API_KEY = process.env.EXPO_PUBLIC_CLAUDE_API_KEY || 'your-api-key-here';
+// TODO: Replace with your Claude API key securely loaded from environment or config
+const CLAUDE_API_KEY = process.env.EXPO_PUBLIC_CLAUDE_API_KEY || 'your-api-key-here';
 
 type Expert = {
   name: string;
@@ -44,7 +44,7 @@ export default function ChatWithExpertsScreen() {
       // Randomly select an expert (50/50 chance)
       const selectedExpert = EXPERTS[Math.floor(Math.random() * EXPERTS.length)];
       setCurrentExpert(selectedExpert);
-      
+
       const timer = setTimeout(() => {
         setIsConnecting(false);
         setMessages([
@@ -118,18 +118,18 @@ export default function ChatWithExpertsScreen() {
       try {
         // Prepare messages for Claude Messages API
         // Skip the initial welcome message and only include actual conversation
-        const conversationMessages = updatedMessages.filter(m => 
-          m.text.trim() && 
+        const conversationMessages = updatedMessages.filter(m =>
+          m.text.trim() &&
           m.text !== 'Welcome to Cybersecurity Experts Chat! How can we help you today?'
         );
-        
+
         const claudeMessages = conversationMessages.map(m => ({
           role: m.sender === 'user' ? 'user' : 'assistant',
           content: m.text
         }));
-        
+
         console.log('Calling Claude API with messages:', claudeMessages);
-        
+
         // Call Claude Messages API
         const response = await fetch('https://api.anthropic.com/v1/messages', {
           method: 'POST',
@@ -145,15 +145,15 @@ export default function ChatWithExpertsScreen() {
             messages: claudeMessages
           })
         });
-        
+
         console.log('Claude API response status:', response.status);
-        
+
         if (!response.ok) {
           const errorText = await response.text();
           console.log('Claude API error response:', errorText);
           throw new Error(`Claude API ${response.status}: ${errorText}`);
         }
-        
+
         const data = await response.json();
         console.log('Claude API response data:', data);
         const aiText = data.content?.[0]?.text?.trim() || 'Sorry, I could not understand.';
@@ -163,16 +163,16 @@ export default function ChatWithExpertsScreen() {
         console.log('Using fallback responses');
         // Fallback to contextual responses
         await new Promise(resolve => setTimeout(resolve, 1500));
-        
+
         const getContextualResponse = (userMessage: string, expert: any) => {
           const message = userMessage.toLowerCase();
           const expertName = expert?.name || 'I';
           const org = expert?.organization || 'cybersecurity';
-          
+
           // Handle inappropriate language
           const inappropriateWords = ['fuck', 'shit', 'nigga', 'bitch', 'asshole', 'damn', 'crap'];
           const containsInappropriateLanguage = inappropriateWords.some(word => message.includes(word));
-          
+
           if (containsInappropriateLanguage) {
             const responses = [
               `I understand you might be frustrated, but let's keep our conversation professional. How can I help you with cybersecurity matters?`,
@@ -181,41 +181,41 @@ export default function ChatWithExpertsScreen() {
             ];
             return responses[Math.floor(Math.random() * responses.length)];
           }
-          
+
           if (message.includes('hello') || message.includes('hi') || message.includes('hey')) {
             return `Hello! I am ${expertName}, a cybersecurity expert${org !== 'cybersecurity' ? ` from ${org}` : ''}. How can I help you stay safe online today?`;
           }
-          
+
           if (message.includes('how are you') || message.includes('how are u')) {
             return `I am doing well, thank you! Just finished reviewing some threat intelligence reports${org !== 'cybersecurity' ? ` here at ${org}` : ''}. What cybersecurity concerns can I help you with?`;
           }
-          
+
           if (message.includes('scam') || message.includes('fraud')) {
             return `Great question about scams! ${org !== 'cybersecurity' ? `At ${org}, we` : 'We'} see new scam tactics emerging constantly. Always verify suspicious messages through official channels before taking action. If someone is pressuring you to act quickly, that is usually a red flag.`;
           }
-          
+
           if (message.includes('password') || message.includes('login')) {
             return `Password security is crucial! I always recommend: unique passwords for each account, at least 12 characters mixing letters/numbers/symbols, and using a password manager. ${org !== 'cybersecurity' ? `We have seen too many breaches at ${org}` : 'We have seen many breaches'} where people reuse passwords.`;
           }
-          
+
           if (message.includes('phishing') || message.includes('email')) {
             return `Phishing is one of the most common attack vectors${org !== 'cybersecurity' ? ` we handle at ${org}` : ' we see'}. The key is to slow down and think critically. Attackers use urgency and fear to bypass your judgment. Always verify sender authenticity and hover over links before clicking.`;
           }
-          
+
           if (message.includes('thank') || message.includes('thanks')) {
             return `You are very welcome! That is what we are here for${org !== 'cybersecurity' ? ` at ${org}` : ''} - keeping everyone safe in cyberspace. Feel free to ask if you have any other security questions!`;
           }
-          
+
           // Default responses
           const defaults = [
             `That is an excellent question! From my experience${org !== 'cybersecurity' ? ` at ${org}` : ''}, I would recommend taking a cautious approach and verifying information through trusted sources.`,
             `Good point! ${org !== 'cybersecurity' ? `At ${org}, we` : 'We'} encounter these types of security challenges regularly. The key is staying vigilant and following established security best practices.`,
             `Interesting question! In my role${org !== 'cybersecurity' ? ` at ${org}` : ''}, I have learned that awareness is your first line of defense. Always trust your instincts if something feels suspicious.`
           ];
-          
+
           return defaults[Math.floor(Math.random() * defaults.length)];
         };
-        
+
         const response = getContextualResponse(userText, currentExpert);
         setMessages(prev => [...prev, { sender: 'expert' as const, text: response }]);
       }
@@ -235,6 +235,8 @@ export default function ChatWithExpertsScreen() {
           <TouchableOpacity onPress={handleBackPress}>
             <Text style={styles.backText}>{'< Back'}</Text>
           </TouchableOpacity>
+        </View>
+        <View style={styles.titleContainer}>
           <Text style={styles.headerTitle}>Chat with Experts</Text>
         </View>
         <View style={styles.connectingContainer}>
@@ -250,7 +252,7 @@ export default function ChatWithExpertsScreen() {
       </SafeAreaView>
     );
   }
-  
+
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
@@ -258,6 +260,8 @@ export default function ChatWithExpertsScreen() {
         <TouchableOpacity onPress={handleBackPress}>
           <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
+      </View>
+      <View style={styles.titleContainer}>
         <Text style={styles.headerTitle}>Chat with Experts</Text>
       </View>
       <FlatList
@@ -271,7 +275,7 @@ export default function ChatWithExpertsScreen() {
                   source={currentExpert?.image || require('../../assets/images/cybersecurity expert.jpg')}
                   style={styles.avatar}
                 />
-                <View style={[styles.messageContainer, styles.expertMessage]}> 
+                <View style={[styles.messageContainer, styles.expertMessage]}>
                   <Text style={styles.messageText}>{item.text}</Text>
                   <Text style={styles.expertLabel}>{currentExpert?.label || 'Expert'}</Text>
                 </View>
@@ -308,9 +312,10 @@ export default function ChatWithExpertsScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#000' },
-  header: { flexDirection: 'row', alignItems: 'center', padding: 15, backgroundColor: '#000' },
-  backText: { color: '#007AFF', fontSize: 16, marginRight: 10 },
-  headerTitle: { color: '#fff', fontSize: 20, fontWeight: 'bold' },
+  header: { padding: 15, backgroundColor: '#000' },
+  backText: { color: '#007AFF', fontSize: 16 },
+  titleContainer: { paddingHorizontal: 20, paddingBottom: 10, backgroundColor: '#000' },
+  headerTitle: { color: '#fff', fontSize: 20, fontWeight: 'bold', textAlign: 'center' },
   connectingContainer: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
   botAvatar: { width: 160, height: 160, borderRadius: 80, marginBottom: 20 },
   connectingText: { color: '#fff', fontSize: 18, textAlign: 'center', marginBottom: 20, lineHeight: 24 },

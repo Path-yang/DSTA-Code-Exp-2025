@@ -35,7 +35,7 @@ export default function MyInfoScreen() {
   };
 
   const handleRegister = () => {
-    router.push('/(tabs)/register');
+    router.push('/register');
   };
 
   const handleLogout = async () => {
@@ -44,9 +44,9 @@ export default function MyInfoScreen() {
       "Are you sure you want to logout?",
       [
         { text: "Cancel", style: "cancel" },
-        { 
-          text: "Logout", 
-          style: "destructive", 
+        {
+          text: "Logout",
+          style: "destructive",
           onPress: async () => {
             await logout();
             router.push('/'); // Redirect to login page
@@ -60,7 +60,7 @@ export default function MyInfoScreen() {
   const handleLearn = () => router.push('/(tabs)/learn');
   const handleAnalytics = () => router.push('/(tabs)/analytics');
   const handleForum = () => router.push('/(tabs)/forum');
-  const handleMyInfo = () => {}; // Already here
+  const handleMyInfo = () => { }; // Already here
 
   const renderStatCard = (title: string, value: string | number, icon: string) => (
     <View style={styles.statCard}>
@@ -84,7 +84,7 @@ export default function MyInfoScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <View style={styles.headerTop}>
@@ -96,7 +96,7 @@ export default function MyInfoScreen() {
       </View>
 
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={false}>
-        
+
         {/* Profile Section */}
         <View style={styles.profileSection}>
           <View style={styles.avatarContainer}>
@@ -145,11 +145,11 @@ export default function MyInfoScreen() {
             {/* Account Actions */}
             <View style={styles.actionsSection}>
               <Text style={styles.sectionTitle}>⚙️ Account Settings</Text>
-              {renderActionItem('🔔', 'Notifications', 'Manage your notification preferences', () => {})}
-              {renderActionItem('🔒', 'Privacy & Security', 'Update password and privacy settings', () => {})}
-              {renderActionItem('📊', 'Data & Analytics', 'View your personal analytics and data', () => {})}
-              {renderActionItem('❓', 'Help & Support', 'Get help and contact support', () => {})}
-              
+              {renderActionItem('🔔', 'Notifications', 'Manage your notification preferences', () => { })}
+              {renderActionItem('🔒', 'Privacy & Security', 'Update password and privacy settings', () => { })}
+              {renderActionItem('📊', 'Data & Analytics', 'View your personal analytics and data', () => { })}
+              {renderActionItem('❓', 'Help & Support', 'Get help and contact support', () => { })}
+
               <TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
                 <Text style={styles.logoutText}>🚪 Logout</Text>
               </TouchableOpacity>

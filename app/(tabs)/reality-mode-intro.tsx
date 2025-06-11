@@ -82,19 +82,19 @@ const styles = StyleSheet.create({
     background: { flex: 1, resizeMode: 'cover' },
     container: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        backgroundColor: 'rgba(0, 0, 0, 0.85)',
     },
     backButton: {
         position: 'absolute',
         top: 60,
         left: 20,
         zIndex: 10,
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
         paddingVertical: 8,
         paddingHorizontal: 15,
         borderRadius: 25,
     },
-    backText: { color: '#007AFF', fontSize: 16, fontWeight: '600' },
+    backText: { color: '#fff', fontSize: 16, fontWeight: '600' },
     scrollContent: {
         flexGrow: 1,
         paddingTop: 120,
@@ -126,7 +126,7 @@ const styles = StyleSheet.create({
         textShadowRadius: 3,
     },
     descriptionCard: {
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
         borderRadius: 15,
         padding: 20,
         marginBottom: 25,
@@ -134,7 +134,7 @@ const styles = StyleSheet.create({
     },
     description: {
         fontSize: 16,
-        color: '#333',
+        color: '#fff',
         textAlign: 'center',
         lineHeight: 24,
     },
@@ -177,7 +177,7 @@ const styles = StyleSheet.create({
         color: '#666',
     },
     objectiveSection: {
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
         borderRadius: 15,
         padding: 20,
         marginBottom: 20,
@@ -193,12 +193,12 @@ const styles = StyleSheet.create({
     objectiveTitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#fff',
         marginBottom: 0,
         textAlign: 'center',
     },
     objectiveCard: {
-        backgroundColor: '#e8f5e8',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         borderRadius: 10,
         padding: 15,
         borderLeftWidth: 4,
@@ -206,12 +206,12 @@ const styles = StyleSheet.create({
     },
     objectiveText: {
         fontSize: 16,
-        color: '#333',
+        color: '#fff',
         marginBottom: 10,
         lineHeight: 30,
     },
     tipsSection: {
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
         borderRadius: 15,
         padding: 20,
         marginBottom: 30,
@@ -220,12 +220,12 @@ const styles = StyleSheet.create({
     tipsTitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#fff',
         marginBottom: 0,
         textAlign: 'center',
     },
     tipsCard: {
-        backgroundColor: '#fff3cd',
+        backgroundColor: 'rgba(0, 0, 0, 0.6)',
         borderRadius: 10,
         padding: 15,
         borderLeftWidth: 4,
@@ -233,7 +233,7 @@ const styles = StyleSheet.create({
     },
     tip: {
         fontSize: 14,
-        color: '#856404',
+        color: '#fff',
         marginBottom: 8,
         lineHeight: 20,
     },

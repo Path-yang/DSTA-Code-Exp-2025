@@ -20,13 +20,13 @@ interface ActionCardProps {
   children?: React.ReactNode;
 }
 
-const ActionCard: React.FC<ActionCardProps> = ({ 
-  icon, 
-  title, 
-  description, 
-  isExpanded, 
-  onToggle, 
-  children 
+const ActionCard: React.FC<ActionCardProps> = ({
+  icon,
+  title,
+  description,
+  isExpanded,
+  onToggle,
+  children
 }) => (
   <TouchableOpacity style={styles.card} onPress={onToggle}>
     <View style={styles.cardHeader}>
@@ -37,10 +37,10 @@ const ActionCard: React.FC<ActionCardProps> = ({
         <Text style={styles.cardTitle}>{title}</Text>
         <Text style={styles.cardDescription}>{description}</Text>
       </View>
-      <IconSymbol 
-        name={isExpanded ? 'chevron.up' : 'chevron.down'} 
-        size={20} 
-        color="#8E8E93" 
+      <IconSymbol
+        name={isExpanded ? 'chevron.up' : 'chevron.down'}
+        size={20}
+        color="#8E8E93"
       />
     </View>
     {isExpanded && (
@@ -51,9 +51,9 @@ const ActionCard: React.FC<ActionCardProps> = ({
   </TouchableOpacity>
 );
 
-const ChecklistItem: React.FC<{ children: React.ReactNode; urgent?: boolean }> = ({ 
-  children, 
-  urgent = false 
+const ChecklistItem: React.FC<{ children: React.ReactNode; urgent?: boolean }> = ({
+  children,
+  urgent = false
 }) => (
   <View style={styles.checklistItem}>
     <View style={[styles.checkbox, urgent && styles.urgentCheckbox]}>
@@ -63,9 +63,9 @@ const ChecklistItem: React.FC<{ children: React.ReactNode; urgent?: boolean }> =
   </View>
 );
 
-const ResourceLink: React.FC<{ title: string; description: string }> = ({ 
-  title, 
-  description 
+const ResourceLink: React.FC<{ title: string; description: string }> = ({
+  title,
+  description
 }) => (
   <View style={styles.resourceLink}>
     <Text style={styles.resourceTitle}>{title}</Text>
@@ -88,13 +88,14 @@ export default function VictimRecoveryToolkit() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-      
+
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
-          <IconSymbol name="chevron.left" size={24} color="#007AFF" />
-          <Text style={styles.backText}>Back</Text>
+        <TouchableOpacity onPress={handleGoBack}>
+          <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
+      </View>
+      <View style={styles.titleContainer}>
         <Text style={styles.headerTitle}>Recovery Toolkit</Text>
       </View>
 
@@ -131,7 +132,7 @@ export default function VictimRecoveryToolkit() {
             <ChecklistItem>File fraud reports with your bank</ChecklistItem>
             <ChecklistItem>Submit chargeback requests for card transactions</ChecklistItem>
             <ChecklistItem>Complete fraud affidavits if required</ChecklistItem>
-            
+
             <Text style={styles.sectionSubtitle}>Credit Protection:</Text>
             <ChecklistItem>Place fraud alerts on credit reports</ChecklistItem>
             <ChecklistItem>Consider freezing your credit</ChecklistItem>
@@ -161,12 +162,12 @@ export default function VictimRecoveryToolkit() {
             isExpanded={expandedCards.emotional}
             onToggle={() => toggleCard('emotional')}
           >
-            <ResourceLink 
-              title="Crisis Support" 
+            <ResourceLink
+              title="Crisis Support"
               description="National Suicide Prevention Lifeline: 988"
             />
-            <ResourceLink 
-              title="Scam Support Groups" 
+            <ResourceLink
+              title="Scam Support Groups"
               description="Connect with other survivors online"
             />
             <ChecklistItem>Remember: This isn't your fault</ChecklistItem>
@@ -182,8 +183,8 @@ export default function VictimRecoveryToolkit() {
             isExpanded={expandedCards.legal}
             onToggle={() => toggleCard('legal')}
           >
-            <ResourceLink 
-              title="FTC Fraud Reporting" 
+            <ResourceLink
+              title="FTC Fraud Reporting"
               description="File official complaints at IdentityTheft.gov"
             />
             <ChecklistItem>Report to local law enforcement</ChecklistItem>
@@ -205,7 +206,7 @@ export default function VictimRecoveryToolkit() {
             <ChecklistItem>Requests for gift cards or wire transfers</ChecklistItem>
             <ChecklistItem>Too-good-to-be-true offers</ChecklistItem>
             <ChecklistItem>Pressure to keep secrets or not verify</ChecklistItem>
-            
+
             <Text style={styles.sectionSubtitle}>Safe Practices:</Text>
             <ChecklistItem>Always verify contacts independently</ChecklistItem>
             <ChecklistItem>Never give personal info to unsolicited contacts</ChecklistItem>
@@ -237,27 +238,24 @@ const styles = StyleSheet.create({
     backgroundColor: '#000',
   },
   header: {
-    flexDirection: 'row',
-    alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 15,
     backgroundColor: '#000',
   },
-  backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 8,
-    marginRight: 12,
-  },
   backText: {
     color: '#007AFF',
     fontSize: 16,
-    marginLeft: 8,
+  },
+  titleContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+    backgroundColor: '#000',
   },
   headerTitle: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
     color: '#FFFFFF',
+    textAlign: 'center',
   },
   scrollView: {
     flex: 1,

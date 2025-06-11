@@ -1,6 +1,7 @@
 import React from 'react';
 import { SafeAreaView, View, Text, TouchableOpacity, StyleSheet, ImageBackground, ScrollView } from 'react-native';
 import { router } from 'expo-router';
+import { FontAwesome } from '@expo/vector-icons';
 
 export default function RealityModeLanding() {
     const handleStartMission = () => {
@@ -23,7 +24,10 @@ export default function RealityModeLanding() {
 
                 <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
                     <View style={styles.content}>
-                        <Text style={styles.title}>🛡️ Welcome to Level 1</Text>
+                        <View style={styles.titleContainer}>
+                            <FontAwesome name="shield" size={28} color="#4CAF50" />
+                            <Text style={styles.title}>Welcome to Level 1</Text>
+                        </View>
 
                         <View style={styles.storyCard}>
                             <Text style={styles.story}>
@@ -35,10 +39,15 @@ export default function RealityModeLanding() {
                         </View>
 
                         <View style={styles.featuresSection}>
-                            <Text style={styles.featuresTitle}>🎯 What You'll Practice in this Level</Text>
+                            <View style={styles.featuresTitleContainer}>
+                                <FontAwesome name="bullseye" size={20} color="#FFD700" />
+                                <Text style={styles.featuresTitle}>What You'll Practice in this Level</Text>
+                            </View>
 
                             <View style={styles.feature}>
-                                <Text style={styles.featureIcon}>📧</Text>
+                                <View style={styles.featureIconContainer}>
+                                    <FontAwesome name="envelope" size={24} color="#4CAF50" />
+                                </View>
                                 <View style={styles.featureContent}>
                                     <Text style={styles.featureTitle}>Email Security</Text>
                                     <Text style={styles.featureDesc}>Identify phishing emails and suspicious links</Text>
@@ -46,7 +55,9 @@ export default function RealityModeLanding() {
                             </View>
 
                             <View style={styles.feature}>
-                                <Text style={styles.featureIcon}>💬</Text>
+                                <View style={styles.featureIconContainer}>
+                                    <FontAwesome name="comments" size={24} color="#2196F3" />
+                                </View>
                                 <View style={styles.featureContent}>
                                     <Text style={styles.featureTitle}>SMS Protection</Text>
                                     <Text style={styles.featureDesc}>Spot smishing attempts and malicious messages</Text>
@@ -54,7 +65,9 @@ export default function RealityModeLanding() {
                             </View>
 
                             <View style={styles.feature}>
-                                <Text style={styles.featureIcon}>🛒</Text>
+                                <View style={styles.featureIconContainer}>
+                                    <FontAwesome name="shopping-cart" size={24} color="#FF9800" />
+                                </View>
                                 <View style={styles.featureContent}>
                                     <Text style={styles.featureTitle}>E-commerce Safety</Text>
                                     <Text style={styles.featureDesc}>Recognize scam listings and fraudulent sellers</Text>
@@ -62,7 +75,9 @@ export default function RealityModeLanding() {
                             </View>
 
                             <View style={styles.feature}>
-                                <Text style={styles.featureIcon}>🌐</Text>
+                                <View style={styles.featureIconContainer}>
+                                    <FontAwesome name="globe" size={24} color="#9C27B0" />
+                                </View>
                                 <View style={styles.featureContent}>
                                     <Text style={styles.featureTitle}>Web Browsing</Text>
                                     <Text style={styles.featureDesc}>Navigate suspicious websites safely</Text>
@@ -77,7 +92,10 @@ export default function RealityModeLanding() {
                         </View>
 
                         <View style={styles.hintSection}>
-                            <Text style={styles.hint}>💡 Hint: Not every app hides a threat. Choose wisely.</Text>
+                            <View style={styles.hintTextContainer}>
+                                <FontAwesome name="lightbulb-o" size={16} color="#FFC107" />
+                                <Text style={styles.hint}>Hint: Not every app hides a threat. Choose wisely.</Text>
+                            </View>
                         </View>
 
                         <TouchableOpacity style={styles.startButton} onPress={handleStartMission}>
@@ -94,19 +112,19 @@ const styles = StyleSheet.create({
     background: { flex: 1, resizeMode: 'cover' },
     container: {
         flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        backgroundColor: 'rgba(0, 0, 0, 0.85)',
     },
     backButton: {
         position: 'absolute',
         top: 60,
         left: 20,
         zIndex: 10,
-        backgroundColor: 'rgba(255, 255, 255, 0.9)',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
         paddingVertical: 8,
         paddingHorizontal: 15,
         borderRadius: 25,
     },
-    backText: { color: '#007AFF', fontSize: 16, fontWeight: '600' },
+    backText: { color: '#fff', fontSize: 16, fontWeight: '600' },
     scrollContent: {
         flexGrow: 1,
         paddingTop: 120,
@@ -118,18 +136,24 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
         justifyContent: 'center',
     },
+    titleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 25,
+        gap: 10,
+    },
     title: {
         fontSize: 28,
         fontWeight: 'bold',
         color: '#fff',
         textAlign: 'center',
-        marginBottom: 25,
         textShadowColor: 'rgba(0, 0, 0, 0.7)',
         textShadowOffset: { width: 1, height: 1 },
         textShadowRadius: 3,
     },
     storyCard: {
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
         borderRadius: 15,
         padding: 24,
         marginBottom: 25,
@@ -137,26 +161,32 @@ const styles = StyleSheet.create({
     },
     story: {
         fontSize: 16,
-        color: '#333',
+        color: '#fff',
         textAlign: 'center',
         lineHeight: 24,
     },
     boldText: {
         fontWeight: 'bold',
-        color: '#007bff',
+        color: '#4CAF50',
     },
     featuresSection: {
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
         borderRadius: 15,
         padding: 20,
         marginBottom: 20,
         width: '100%',
     },
+    featuresTitleContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginBottom: 15,
+        gap: 10,
+    },
     featuresTitle: {
         fontSize: 20,
         fontWeight: 'bold',
-        color: '#333',
-        marginBottom: 15,
+        color: '#fff',
         textAlign: 'center',
     },
     feature: {
@@ -164,11 +194,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginBottom: 15,
     },
-    featureIcon: {
-        fontSize: 24,
+    featureIconContainer: {
         marginRight: 15,
         width: 35,
-        textAlign: 'center',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     featureContent: {
         flex: 1,
@@ -176,15 +206,15 @@ const styles = StyleSheet.create({
     featureTitle: {
         fontSize: 16,
         fontWeight: '600',
-        color: '#333',
+        color: '#fff',
         marginBottom: 2,
     },
     featureDesc: {
         fontSize: 14,
-        color: '#666',
+        color: '#ccc',
     },
     goalSection: {
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
         borderRadius: 15,
         padding: 20,
         marginBottom: 20,
@@ -193,7 +223,7 @@ const styles = StyleSheet.create({
     goal: {
         fontSize: 16,
         fontWeight: 'bold',
-        color: '#333',
+        color: '#fff',
         textAlign: 'center',
     },
     targetScore: {
@@ -202,16 +232,22 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     hintSection: {
-        backgroundColor: 'rgba(255, 255, 255, 0.95)',
+        backgroundColor: 'rgba(0, 0, 0, 0.9)',
         borderRadius: 15,
         padding: 20,
         marginBottom: 30,
         width: '100%',
     },
+    hintTextContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+    },
     hint: {
         fontSize: 14,
         fontStyle: 'italic',
-        color: '#666',
+        color: '#ccc',
         textAlign: 'center',
     },
     startButton: {

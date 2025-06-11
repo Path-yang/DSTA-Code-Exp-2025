@@ -170,21 +170,24 @@ export default function ARScamScanner() {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={() => router.push('/learn')} style={styles.backButton}>
-          <IconSymbol name="chevron.left" size={24} color="#FFFFFF" />
-          <Text style={styles.backText}>Back</Text>
+        <TouchableOpacity onPress={() => router.push('/learn')}>
+          <Text style={styles.backText}>{'< Back'}</Text>
         </TouchableOpacity>
-        <Text style={styles.headerTitle}>AR Scam Scanner</Text>
-        <TouchableOpacity 
+        <TouchableOpacity
           onPress={() => setFlashMode(flashMode === 'off' ? 'on' : 'off')}
           style={styles.flashButton}
         >
-          <IconSymbol 
-            name={flashMode === 'on' ? 'bolt.fill' : 'bolt'} 
-            size={24} 
-            color="#FFFFFF" 
+          <IconSymbol
+            name={flashMode === 'on' ? 'bolt.fill' : 'bolt'}
+            size={24}
+            color="#FFFFFF"
           />
         </TouchableOpacity>
+      </View>
+
+      {/* Title */}
+      <View style={styles.titleContainer}>
+        <Text style={styles.headerTitle}>AR Scam Scanner</Text>
       </View>
 
       {/* Camera View */}
@@ -195,12 +198,12 @@ export default function ARScamScanner() {
           facing="back"
           flash={flashMode}
         />
-        
+
         {/* Scanning Overlay - Now positioned absolutely on top of camera */}
         <View style={styles.overlay}>
           {/* Scanning Frame */}
           <View style={styles.scanFrame} />
-          
+
           {/* Scam Alerts Overlay */}
           {scamAlerts.map((alert, index) => (
             <View
@@ -242,8 +245,8 @@ export default function ARScamScanner() {
           <Text style={styles.controlButtonText}>Save Evidence</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={[styles.controlButton, styles.scanButton]} 
+        <TouchableOpacity
+          style={[styles.controlButton, styles.scanButton]}
           onPress={startScanning}
           disabled={isScanning}
         >
@@ -324,26 +327,26 @@ const styles = StyleSheet.create({
   },
   header: {
     flexDirection: 'row',
-    alignItems: 'center',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
-    paddingVertical: 16,
+    paddingVertical: 15,
     backgroundColor: 'rgba(0, 0, 0, 0.8)',
   },
-  backButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    padding: 8,
-  },
   backText: {
-    color: '#FFFFFF',
+    color: '#007AFF',
     fontSize: 16,
-    marginLeft: 8,
+  },
+  titleContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 10,
+    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    alignItems: 'center',
   },
   headerTitle: {
     color: '#FFFFFF',
     fontSize: 20,
-    fontWeight: '600',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   flashButton: {
     padding: 8,

@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, ActivityIndicator, Alert } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, StatusBar, ActivityIndicator, Alert, Animated } from 'react-native';
 import { router } from 'expo-router';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import ScamDetector from '../../utils/scamDetection';
+import { FontAwesome } from '@expo/vector-icons';
 import EnhancedBottomNav from '../../components/EnhancedBottomNav';
 
 interface RealTimeData {
@@ -75,6 +76,7 @@ export default function AnalyticsScreen() {
   const [realDataLoading, setRealDataLoading] = useState(true);
   const [timeRange, setTimeRange] = useState<'week' | 'month'>('week');
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  const blinkAnimation = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
     fetchRealTimeData();
@@ -82,6 +84,27 @@ export default function AnalyticsScreen() {
 
     // Update real-time data every 30 seconds
     const interval = setInterval(fetchRealTimeData, 30000);
+
+    // Start blinking animation
+    const startBlinking = () => {
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(blinkAnimation, {
+            toValue: 0.3,
+            duration: 700,
+            useNativeDriver: true,
+          }),
+          Animated.timing(blinkAnimation, {
+            toValue: 1,
+            duration: 700,
+            useNativeDriver: true,
+          }),
+        ])
+      ).start();
+    };
+
+    startBlinking();
+
     return () => clearInterval(interval);
   }, []);
 
@@ -202,7 +225,7 @@ export default function AnalyticsScreen() {
     // Common threats from CSA advisories
     const threats = [
       'Phishing Campaign',
-      'Ransomware Attack', 
+      'Ransomware Attack',
       'Business Email Compromise',
       'Investment Scam',
       'SMS Phishing',
@@ -463,7 +486,7 @@ export default function AnalyticsScreen() {
           source: 'Crypto Scam Intelligence'
         };
       }
-} catch (error) {
+    } catch (error) {
       // Enhanced fallback with realistic time-based data
       const currentHour = new Date().getHours();
       const currentMinute = new Date().getMinutes();
@@ -654,7 +677,7 @@ export default function AnalyticsScreen() {
     try {
       // Get real analytics from ScamDetector
       const analytics = ScamDetector.generateAnalytics(timeRange);
-      
+
       // Ensure the data matches our interface
       const processedStats: ScamStats = {
         totalScamsDetected: analytics.totalScamsDetected,
@@ -672,7 +695,7 @@ export default function AnalyticsScreen() {
         topTargets: analytics.topTargets,
         preventionStats: analytics.preventionStats
       };
-      
+
       setStats(processedStats);
     } catch (error) {
       console.error('Error fetching analytics:', error);
@@ -738,9 +761,12 @@ export default function AnalyticsScreen() {
   const handleForum = () => router.push('/forum');
   const handleMyInfo = () => router.push('/(tabs)/my-info');
 
-  const renderRealTimeCard = (title: string, value: string, subtitle: string, status: 'live' | 'warning' | 'info' = 'live', trend?: { direction: 'up' | 'down' | 'stable'; percentage: number }) => (
+  const renderRealTimeCard = (title: string, value: string, subtitle: string, status: 'live' | 'warning' | 'info' = 'live', trend?: { direction: 'up' | 'down' | 'stable'; percentage: number }, icon?: React.ReactNode) => (
     <View style={[styles.realTimeCard, status === 'warning' ? styles.warningCard : status === 'info' ? styles.infoCard : styles.liveCard]}>
-      <Text style={styles.realTimeTitle}>{title}</Text>
+      <View style={styles.cardTitleContainer}>
+        {icon}
+        <Text style={styles.realTimeTitle}>{title}</Text>
+      </View>
       <View style={[styles.statusIndicator, status === 'live' ? styles.liveIndicator : status === 'warning' ? styles.warningIndicator : styles.infoIndicator]}>
         <Text style={styles.statusText}>{status === 'live' ? '● LIVE' : status === 'warning' ? '⚠ ALERT' : 'ℹ INFO'}</Text>
       </View>
@@ -748,7 +774,7 @@ export default function AnalyticsScreen() {
       <Text style={styles.realTimeSubtitle}>{subtitle}</Text>
       {trend && (
         <Text style={[styles.trendIndicator, { color: trend.direction === 'up' ? '#e74c3c' : trend.direction === 'down' ? '#27ae60' : '#95a5a6' }]}>
-          {trend.direction === 'up' ? '↗' : trend.direction === 'down' ? '↘' : '→'} {trend.percentage}%
+          <FontAwesome name={trend.direction === 'up' ? 'arrow-up' : trend.direction === 'down' ? 'arrow-down' : 'minus'} size={12} color={trend.direction === 'up' ? '#e74c3c' : trend.direction === 'down' ? '#27ae60' : '#95a5a6'} /> {trend.percentage}%
         </Text>
       )}
     </View>
@@ -797,49 +823,70 @@ export default function AnalyticsScreen() {
       <ScrollView contentContainerStyle={styles.content} showsVerticalScrollIndicator={true} indicatorStyle="white">
 
         {/* Real-Time Data Section */}
-        <Text style={styles.sectionTitle}>🔴 Live Threat Intelligence</Text>
+        <View style={styles.sectionTitleContainer}>
+          <Animated.View style={{ opacity: blinkAnimation }}>
+            <FontAwesome name="circle" size={16} color="#e74c3c" />
+          </Animated.View>
+          <Text style={styles.sectionTitle}>Live Threat Intelligence</Text>
+        </View>
 
         {realTimeData && (
           <>
             <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "🌍 Global Cyber Threats", 
-                realTimeData.cybersecurityThreats.totalThreats.toLocaleString(), 
+                "Global Cyber Threats",
+                realTimeData.cybersecurityThreats.totalThreats.toLocaleString(),
                 `Worldwide • Updated: ${realTimeData.cybersecurityThreats.lastUpdated}`,
-                'warning'
+                'warning',
+                undefined,
+                <FontAwesome name="globe" size={16} color="#e74c3c" />
               )}
               {renderRealTimeCard(
-                "🌍 Global Scam Reports", 
-                realTimeData.globalScamStats.reportsToday.toString(), 
+                "Global Scam Reports",
+                realTimeData.globalScamStats.reportsToday.toString(),
                 "Worldwide reports today",
                 'live',
-                { direction: realTimeData.globalScamStats.trend, percentage: realTimeData.globalScamStats.percentage }
+                { direction: realTimeData.globalScamStats.trend, percentage: realTimeData.globalScamStats.percentage },
+                <FontAwesome name="exclamation-triangle" size={16} color="#27ae60" />
               )}
             </View>
 
             <View style={styles.realTimeGrid}>
               {renderRealTimeCard(
-                "🇸🇬 Singapore Police Reports", 
-                realTimeData.singaporeData.policeReports.toString(), 
+                "Singapore Police Reports",
+                realTimeData.singaporeData.policeReports.toString(),
                 "Local reports today",
-                'info'
+                'info',
+                undefined,
+                <FontAwesome name="shield" size={16} color="#3498db" />
               )}
               {renderRealTimeCard(
-                "🌍 Global Crypto Scams", 
-                realTimeData.cryptoScams?.totalLoss || "N/A", 
+                "Global Crypto Scams",
+                realTimeData.cryptoScams?.totalLoss || "N/A",
                 `${realTimeData.cryptoScams?.reported || 0} reports worldwide today`,
-                'warning'
+                'warning',
+                undefined,
+                <FontAwesome name="bitcoin" size={16} color="#e74c3c" />
               )}
             </View>
 
             <View style={styles.alertsContainer}>
-              <Text style={styles.alertTitle}>🚨 Live Security Alerts</Text>
+              <View style={styles.alertTitleContainer}>
+                <FontAwesome name="warning" size={16} color="#e74c3c" />
+                <Text style={styles.alertTitle}>Live Security Alerts</Text>
+              </View>
               <View style={styles.alertItem}>
-                <Text style={styles.alertText}>🇸🇬 Singapore: {realTimeData.singaporeData.scamAlerts} active scam alerts</Text>
+                <View style={styles.alertTextContainer}>
+                  <FontAwesome name="map-marker" size={14} color="#3498db" />
+                  <Text style={styles.alertText}>Singapore: {realTimeData.singaporeData.scamAlerts} active scam alerts</Text>
+                </View>
                 <Text style={styles.alertTime}>Last local alert: {realTimeData.singaporeData.lastAlert}</Text>
               </View>
               <View style={styles.alertItem}>
-                <Text style={styles.alertText}>🌍 Global: {realTimeData.cybersecurityThreats.topThreat}</Text>
+                <View style={styles.alertTextContainer}>
+                  <FontAwesome name="globe" size={14} color="#e74c3c" />
+                  <Text style={styles.alertText}>Global: {realTimeData.cybersecurityThreats.topThreat}</Text>
+                </View>
                 <Text style={styles.alertSeverity}>Threat level: {realTimeData.cybersecurityThreats.severity}</Text>
               </View>
             </View>
@@ -847,17 +894,20 @@ export default function AnalyticsScreen() {
         )}
 
         {/* Real-Time Analytics Section */}
-        <Text style={styles.sectionTitle}>📊 Real-Time Analytics</Text>
+        <View style={styles.sectionTitleContainer}>
+          <FontAwesome name="bar-chart" size={16} color="#3498db" />
+          <Text style={styles.sectionTitle}>Real-Time Analytics</Text>
+        </View>
 
         {/* Time Range Selector */}
         <View style={styles.toggleContainer}>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.toggle, timeRange === 'week' && styles.toggleActive]}
             onPress={() => setTimeRange('week')}
           >
             <Text style={[styles.toggleText, timeRange === 'week' && styles.toggleTextActive]}>Week</Text>
           </TouchableOpacity>
-          <TouchableOpacity 
+          <TouchableOpacity
             style={[styles.toggle, timeRange === 'month' && styles.toggleActive]}
             onPress={() => setTimeRange('month')}
           >
@@ -866,35 +916,41 @@ export default function AnalyticsScreen() {
         </View>
 
         {/* Overview Stats */}
-        <Text style={styles.sectionTitle}>📊 Overview</Text>
+        <View style={styles.sectionTitleContainer}>
+          <FontAwesome name="line-chart" size={16} color="#27ae60" />
+          <Text style={styles.sectionTitle}>Overview</Text>
+        </View>
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🔴 Scams Detected", 
-            stats?.totalScamsDetected.toLocaleString() || "0", 
+            "Scams Detected",
+            stats?.totalScamsDetected.toLocaleString() || "0",
             `Local detections this ${timeRange}`
           )}
           {renderStatCard(
-            "🛡️ Threats Blocked", 
-            stats?.totalBlocked.toString() || "0", 
+            "Threats Blocked",
+            stats?.totalBlocked.toString() || "0",
             "Automatically blocked"
           )}
         </View>
 
         <View style={styles.statsGrid}>
           {renderStatCard(
-            "🎯 Accuracy", 
-            (stats?.accuracy.toString() || "0") + "%", 
+            "Accuracy",
+            (stats?.accuracy.toString() || "0") + "%",
             "Model performance"
           )}
           {renderStatCard(
-            "📝 User Reports", 
-            stats?.totalScamsReported.toString() || "0", 
+            "User Reports",
+            stats?.totalScamsReported.toString() || "0",
             "Community reports"
           )}
         </View>
 
         {/* Regional Breakdown */}
-        <Text style={styles.sectionTitle}>🗺️ Regional Distribution</Text>
+        <View style={styles.sectionTitleContainer}>
+          <FontAwesome name="map" size={16} color="#9C27B0" />
+          <Text style={styles.sectionTitle}>Regional Distribution</Text>
+        </View>
         <View style={styles.chartContainer}>
           {stats?.regionStats.map((region, index) => (
             <View key={region.region} style={styles.barContainer}>
@@ -908,7 +964,10 @@ export default function AnalyticsScreen() {
         </View>
 
         {/* Scam Types */}
-        <Text style={styles.sectionTitle}>⚠️ Scam Types</Text>
+        <View style={styles.sectionTitleContainer}>
+          <FontAwesome name="warning" size={16} color="#FF9800" />
+          <Text style={styles.sectionTitle}>Scam Types</Text>
+        </View>
         <View style={styles.typesContainer}>
           {stats?.scamTypes.map((type, index) => (
             <View key={type.type} style={styles.typeItem}>
@@ -922,19 +981,32 @@ export default function AnalyticsScreen() {
         </View>
 
         {/* Detection Trend */}
-        <Text style={styles.sectionTitle}>📈 Recent Trend</Text>
+        <View style={styles.sectionTitleContainer}>
+          <FontAwesome name="line-chart" size={16} color="#2196F3" />
+          <Text style={styles.sectionTitle}>Recent Trend</Text>
+        </View>
         <View style={styles.trendCard}>
-          <Text style={styles.trendText}>
-            {stats?.recentTrends.direction === 'up' ? '↗️ Increasing' : 
-             stats?.recentTrends.direction === 'down' ? '↘️ Decreasing' : '→ Stable'}
-          </Text>
+          <View style={styles.trendTextContainer}>
+            <FontAwesome
+              name={stats?.recentTrends.direction === 'up' ? 'arrow-up' : stats?.recentTrends.direction === 'down' ? 'arrow-down' : 'minus'}
+              size={18}
+              color={stats?.recentTrends.direction === 'up' ? '#e74c3c' : stats?.recentTrends.direction === 'down' ? '#27ae60' : '#95a5a6'}
+            />
+            <Text style={styles.trendText}>
+              {stats?.recentTrends.direction === 'up' ? 'Increasing' :
+                stats?.recentTrends.direction === 'down' ? 'Decreasing' : 'Stable'}
+            </Text>
+          </View>
           <Text style={styles.trendPercentage}>
             {stats?.recentTrends.percentage}% change
           </Text>
         </View>
 
         {/* Prevention Statistics */}
-        <Text style={styles.sectionTitle}>Prevention Impact</Text>
+        <View style={styles.sectionTitleContainer}>
+          <FontAwesome name="shield" size={16} color="#4CAF50" />
+          <Text style={styles.sectionTitle}>Prevention Impact</Text>
+        </View>
         <View style={styles.preventionGrid}>
           <View style={styles.preventionCard}>
             <Text style={styles.preventionNumber}>{stats?.preventionStats.warningsSent}</Text>
@@ -1306,5 +1378,35 @@ const styles = StyleSheet.create({
     color: '#aaa',
     fontSize: 12,
     textAlign: 'center',
+  },
+  sectionTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 15,
+    marginTop: 10,
+  },
+  cardTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 8,
+  },
+  alertTitleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 12,
+  },
+  alertTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
+    marginBottom: 4,
+  },
+  trendTextContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 10,
   },
 });

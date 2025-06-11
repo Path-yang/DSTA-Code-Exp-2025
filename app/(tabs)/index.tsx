@@ -38,7 +38,7 @@ export default function HomeScreen() {
         ]);
       } else {
         let errorMessage = 'Login failed';
-        
+
         if (result.error) {
           if (typeof result.error === 'string') {
             errorMessage = result.error;
@@ -62,9 +62,9 @@ export default function HomeScreen() {
 
   const handleSignUp = () => {
     console.log('Sign Up pressed');
-    router.push('/(tabs)/register');
+    router.push('/register');
   };
-  
+
   const handleGuestMode = () => {
     console.log('Continue as Guest pressed');
     loginAsGuest();
@@ -133,8 +133,8 @@ export default function HomeScreen() {
           <Text style={styles.forgotPasswordText}>Forget Password?</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity 
-          style={[styles.loginButton, isLoading && styles.disabledButton]} 
+        <TouchableOpacity
+          style={[styles.loginButton, isLoading && styles.disabledButton]}
           onPress={handleLogin}
           disabled={isLoading}
         >

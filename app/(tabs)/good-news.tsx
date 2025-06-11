@@ -37,8 +37,8 @@ const styles = StyleSheet.create({
   title: { color: '#fff', fontSize: 28, fontWeight: 'bold' },
   backButton: { padding: 5 },
   backText: { color: '#007AFF', fontSize: 16 },
-  content: { flexGrow: 1, paddingHorizontal: 20 },
-  card: { flex: 1, width: '100%', borderRadius: 12, padding: 20, alignItems: 'center', justifyContent: 'center', marginVertical: 10 },
+  content: { flexGrow: 1, paddingHorizontal: 20, justifyContent: 'center' },
+  card: { flex: 1, width: '100%', borderRadius: 12, padding: 20, alignItems: 'center', justifyContent: 'center' },
   cardTitle: { color: '#fff', fontSize: 24, fontWeight: 'bold', marginBottom: 10 },
   cardSubtitle: { color: '#fff', fontSize: 16, textAlign: 'center' },
 

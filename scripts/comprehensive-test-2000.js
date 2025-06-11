@@ -414,9 +414,9 @@ async function comprehensiveTest() {
   console.log('');
   
   const results = {
-    safe: [],        // 0-30%
-    suspicious: [],  // 31-50%
-    dangerous: [],   // 51-100%
+    safe: [],        // 0-24%
+    suspicious: [],  // 25-49%
+    dangerous: [],   // 50-100%
     notFound: []     // Website not found
   };
   
@@ -437,13 +437,13 @@ async function comprehensiveTest() {
           score: analysis.riskScore,
           category: analysis.result
         });
-      } else if (analysis.riskScore <= 30) {
+      } else if (analysis.riskScore <= 24) {
         results.safe.push({
           url: site,
           score: analysis.riskScore,
           category: analysis.result
         });
-      } else if (analysis.riskScore <= 50) {
+      } else if (analysis.riskScore <= 49) {
         results.suspicious.push({
           url: site,
           score: analysis.riskScore,
@@ -481,9 +481,9 @@ async function comprehensiveTest() {
   console.log('===================');
   console.log(`⏱️  Total time: ${totalTime} seconds`);
   console.log(`📊 Results breakdown:`);
-  console.log(`   🟢 Safe (0-30%): ${results.safe.length} sites`);
-  console.log(`   🟡 Suspicious (31-50%): ${results.suspicious.length} sites`);
-  console.log(`   🔴 Dangerous (51-100%): ${results.dangerous.length} sites`);
+  console.log(`   🟢 Safe (0-24%): ${results.safe.length} sites`);
+  console.log(`   🟡 Suspicious (25-49%): ${results.suspicious.length} sites`);
+  console.log(`   🔴 Dangerous (50-100%): ${results.dangerous.length} sites`);
   console.log(`   ⚪ Not Found: ${results.notFound.length} sites`);
   console.log('');
   

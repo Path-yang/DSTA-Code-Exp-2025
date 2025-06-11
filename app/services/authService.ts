@@ -1,7 +1,15 @@
 // import AsyncStorage from '@react-native-async-storage/async-storage'; // disabled due to module issue
 
-const API_BASE_URL = 'http://192.168.1.112:8001/api';
-const DEMO_MODE = false; // Using real backend
+// Configuration - easily switch between servers and modes
+const CONFIG = {
+  USE_LOCAL_SERVER: true, // Set to false to use friend's server
+  LOCAL_SERVER: 'http://192.168.1.112:8001/api', // Your backend server
+  FRIEND_SERVER: 'http://10.51.5.189:8000/api', // Friend's server
+  DEMO_MODE: false, // Set to true for presentations without backend
+};
+
+const API_BASE_URL = CONFIG.USE_LOCAL_SERVER ? CONFIG.LOCAL_SERVER : CONFIG.FRIEND_SERVER;
+const DEMO_MODE = CONFIG.DEMO_MODE;
 
 // Storage solution with profile image persistence in user context
 let memoryStorage: { [key: string]: string } = {};

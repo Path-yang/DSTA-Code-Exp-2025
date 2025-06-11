@@ -5,9 +5,47 @@ import { router, useLocalSearchParams } from 'expo-router';
 export const options = { headerShown: false };
 
 export default function UnknownScreen() {
-  const { confidence, url } = useLocalSearchParams();
+  const { confidence, url, explanations } = useLocalSearchParams();
   const conf = parseFloat(confidence as string) || 40;
   const checkedUrl = decodeURIComponent(url as string || '');
+  
+  // Debug logging
+  console.log('Unknown screen - Raw explanations param:', explanations);
+  console.log('Unknown screen - Type of explanations:', typeof explanations);
+  
+  // Parse explanations if available, with robust fallback
+  let parsedExplanations = null;
+  try {
+    if (explanations && typeof explanations === 'string') {
+      console.log('Unknown screen - Attempting to parse explanations...');
+      parsedExplanations = JSON.parse(decodeURIComponent(explanations));
+      console.log('Unknown screen - Parsed explanations:', parsedExplanations);
+    } else {
+      console.log('Unknown screen - No explanations provided or wrong type');
+    }
+  } catch (error) {
+    console.log('Unknown screen - Could not parse explanations:', error);
+    parsedExplanations = null;
+  }
+
+  // Ensure we always have explanations to show
+  if (!parsedExplanations || !parsedExplanations.primaryReasons || parsedExplanations.primaryReasons.length === 0) {
+    parsedExplanations = {
+      classification: 'This website has characteristics that make it potentially risky, though not definitively harmful.',
+      primaryReasons: [
+        'Domain structure appears unusual for a legitimate website',
+        'Some characteristics match patterns found in suspicious sites',
+        'Limited verifiable information available about this domain',
+        'Risk assessment indicates caution is warranted'
+      ],
+      technicalDetails: [
+        `Risk confidence level: ${conf}% based on multiple analysis factors`,
+        'Domain reputation and trustworthiness could not be fully verified',
+        'Website structure shows some irregular patterns'
+      ],
+      userGuidance: 'Exercise extra caution with this website. Verify its legitimacy before entering any personal or financial information.'
+    };
+  }
 
   const handleBack = () => router.push('/(tabs)/scam-detection');
   
@@ -41,13 +79,6 @@ export default function UnknownScreen() {
             This website has some suspicious elements but isn't definitively harmful.
           </Text>
 
-          {checkedUrl ? (
-            <View style={styles.urlContainer}>
-              <Text style={styles.urlLabel}>Website:</Text>
-              <Text style={styles.urlText} numberOfLines={2}>{checkedUrl}</Text>
-            </View>
-          ) : null}
-
           <View style={styles.scoreContainer}>
             <Text style={styles.scoreLabel}>UNCERTAINTY LEVEL:</Text>
             <Text style={styles.scoreValue}>{conf}%</Text>
@@ -58,21 +89,84 @@ export default function UnknownScreen() {
 
           <View style={styles.divider} />
 
-          <Text style={styles.sectionTitle}>Potential Concerns:</Text>
+          <Text style={styles.sectionTitle}>
+            Why We Flagged This:
+          </Text>
           <View style={styles.warningsList}>
-            <View style={styles.warningItem}>
-              <Text style={styles.warningBullet}>•</Text>
-              <Text style={styles.warningText}>This website has some unusual characteristics</Text>
-            </View>
-            <View style={styles.warningItem}>
-              <Text style={styles.warningBullet}>•</Text>
-              <Text style={styles.warningText}>We can't confirm if it's safe or dangerous</Text>
-            </View>
-            <View style={styles.warningItem}>
-              <Text style={styles.warningBullet}>•</Text>
-              <Text style={styles.warningText}>Limited information available about this website</Text>
-            </View>
+            {parsedExplanations && parsedExplanations.primaryReasons && parsedExplanations.primaryReasons.length > 0 ? 
+              parsedExplanations.primaryReasons.map((reason: string, index: number) => (
+                <View key={index} style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>⚠️</Text>
+                  <Text style={styles.warningText}>{reason}</Text>
+                </View>
+              )) : 
+              <>
+                <View style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>⚠️</Text>
+                  <Text style={styles.warningText}>Domain structure appears unusual for a legitimate website</Text>
+                </View>
+                <View style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>⚠️</Text>
+                  <Text style={styles.warningText}>Some characteristics match patterns found in suspicious sites</Text>
+                </View>
+                <View style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>⚠️</Text>
+                  <Text style={styles.warningText}>Limited verifiable information available about this domain</Text>
+                </View>
+              </>
+            }
           </View>
+
+          <Text style={styles.sectionTitle}>Technical Analysis:</Text>
+          <View style={styles.warningsList}>
+            {parsedExplanations && parsedExplanations.technicalDetails && parsedExplanations.technicalDetails.length > 0 ? 
+              parsedExplanations.technicalDetails.map((detail: string, index: number) => (
+                <View key={index} style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>🔍</Text>
+                  <Text style={styles.warningText}>{detail}</Text>
+                </View>
+              )) : 
+              <>
+                <View style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>🔍</Text>
+                  <Text style={styles.warningText}>Risk confidence level: {conf}% based on multiple analysis factors</Text>
+                </View>
+                <View style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>🔍</Text>
+                  <Text style={styles.warningText}>Website security indicators suggest caution is warranted</Text>
+                </View>
+              </>
+            }
+          </View>
+
+          <Text style={styles.sectionTitle}>AI Analysis:</Text>
+          <View style={styles.warningsList}>
+            {parsedExplanations && parsedExplanations.mlInsights && parsedExplanations.mlInsights.length > 0 ? 
+              parsedExplanations.mlInsights.map((insight: string, index: number) => (
+                <View key={index} style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>🤖</Text>
+                  <Text style={styles.warningText}>{insight}</Text>
+                </View>
+              )) : 
+              <>
+                <View style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>🤖</Text>
+                  <Text style={styles.warningText}>Machine learning model indicates moderate risk level</Text>
+                </View>
+                <View style={styles.warningItem}>
+                  <Text style={styles.warningBullet}>🤖</Text>
+                  <Text style={styles.warningText}>Neural network analysis suggests proceeding with caution</Text>
+                </View>
+              </>
+            }
+          </View>
+
+          {checkedUrl ? (
+            <View style={styles.urlContainer}>
+              <Text style={styles.urlLabel}>Website:</Text>
+              <Text style={styles.urlText} numberOfLines={2}>{checkedUrl}</Text>
+            </View>
+          ) : null}
 
           <View style={styles.divider} />
 

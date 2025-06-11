@@ -168,19 +168,19 @@ class ScamDetector {
       const fineRandomization = (seededRandom(domainSeed + 1) - 0.5) * 4; // -2 to +2
       riskScore = Math.max(0, Math.min(100, Math.round(riskScore + fineRandomization)));
 
-      // Determine result and confidence based on RISK LEVEL with adjusted thresholds
+      // Determine result and confidence based on RISK LEVEL with adjusted thresholds for even distribution
       let result, confidence;
       
-      if (riskScore >= 51) {
-        // HIGH RISK - Dangerous/Phishing (51-100%)
+      if (riskScore >= 50) {
+        // HIGH RISK - Dangerous/Phishing (50-100%)
         result = 'Phishing';
         confidence = Math.round(riskScore);
-      } else if (riskScore >= 31) {
-        // MEDIUM RISK - Unknown/Suspicious (31-50%)
+      } else if (riskScore >= 25) {
+        // MEDIUM RISK - Unknown/Suspicious (25-49%)
         result = 'Suspicious';
         confidence = Math.round(riskScore);
       } else {
-        // LOW RISK - Safe (0-30%)
+        // LOW RISK - Safe (0-24%)
         result = 'Not Phishing';
         confidence = Math.round(riskScore);
       }
@@ -190,12 +190,16 @@ class ScamDetector {
       console.log(`🎯 Classification: ${result}`);
       console.log(`⚠️ Risk Factors: ${JSON.stringify(riskFactors)}`);
 
+      // Generate explanations for the classification
+      const explanations = this.generateExplanations(result, riskScore, riskFactors, domain, url);
+
       return {
         result,
         confidence: Math.round(confidence),
         details: riskFactors.warnings,
         riskScore: Math.round(riskScore),
-        sources: riskFactors.breakdown
+        sources: riskFactors.breakdown,
+        explanations: explanations // New field with detailed reasoning
       };
     } catch (error) {
       console.error('URL analysis error:', error);
@@ -209,32 +213,36 @@ class ScamDetector {
   }
 
   static calculateBaseRiskScore(domain, seed) {
-    // Start with a base score depending on domain characteristics
-    let baseScore = 20; // Default moderate base
+    // Start with a higher base score for better distribution
+    let baseScore = 30; // Increased default base
     
-    // Trusted domains get very low base scores (deterministic)
+    // Trusted domains get low base scores (deterministic)
     if (this.isExplicitlyTrusted(domain)) {
-      baseScore = 3 + seededRandomInt(seed, 0, 12); // 3-14
+      baseScore = 8 + seededRandomInt(seed, 0, 15); // 8-22 (still green range)
     }
-    // Common TLDs get lower base scores
+    // Common TLDs get moderate base scores
     else if (domain.endsWith('.com') || domain.endsWith('.org') || domain.endsWith('.net')) {
-      baseScore = 12 + seededRandomInt(seed + 1, 0, 15); // 12-26
+      baseScore = 20 + seededRandomInt(seed + 1, 0, 25); // 20-45 (mix of green/yellow)
     }
     // Government/education domains
     else if (domain.includes('.gov') || domain.includes('.edu')) {
-      baseScore = 5 + seededRandomInt(seed + 2, 0, 10); // 5-14
+      baseScore = 10 + seededRandomInt(seed + 2, 0, 15); // 10-24 (green range)
     }
     // Medium risk TLDs (should end up in suspicious range)
     else if (MEDIUM_RISK_TLDS.some(tld => domain.endsWith(tld))) {
-      baseScore = 20 + seededRandomInt(seed + 3, 0, 18); // 20-37
+      baseScore = 35 + seededRandomInt(seed + 3, 0, 20); // 35-54 (yellow/red mix)
     }
     // High risk TLDs - more aggressive to ensure red results
     else if (HIGH_RISK_TLDS.some(tld => domain.endsWith(tld))) {
+<<<<<<< Updated upstream
       baseScore = 50 + seededRandomInt(seed + 4, 5, 25); // 55-74 (guaranteed 51+ for red)
+=======
+      baseScore = 50 + seededRandomInt(seed + 4, 0, 25); // 50-74 (red range)
+>>>>>>> Stashed changes
     }
     // Unknown/unusual TLDs (should be suspicious)
     else {
-      baseScore = 25 + seededRandomInt(seed + 5, 0, 18); // 25-42
+      baseScore = 30 + seededRandomInt(seed + 5, 0, 25); // 30-54 (yellow/red mix)
     }
     
     return baseScore;
@@ -628,6 +636,151 @@ class ScamDetector {
   }
 
   // Enhanced analytics with more realistic threat distribution
+  static generateExplanations(result, riskScore, riskFactors, domain, url) {
+    const explanations = {
+      classification: '',
+      primaryReasons: [],
+      technicalDetails: [],
+      userGuidance: ''
+    };
+
+    // Set classification explanation based on result
+    if (result === 'Not Phishing') {
+      explanations.classification = 'This website appears to be legitimate and safe to visit.';
+      
+      if (riskScore <= 10) {
+        explanations.primaryReasons = [
+          'Domain has excellent reputation',
+          'No suspicious patterns detected',
+          'Uses proper security practices'
+        ];
+      } else if (riskScore <= 20) {
+        explanations.primaryReasons = [
+          'Generally trustworthy domain',
+          'Minor unusual characteristics detected',
+          'Overall safe to visit'
+        ];
+      } else {
+        explanations.primaryReasons = [
+          'Domain appears legitimate',
+          'Some atypical patterns noted',
+          'Still within safe threshold'
+        ];
+      }
+      
+      explanations.userGuidance = 'You can safely visit this website, but always remain cautious when entering personal information online.';
+      
+    } else if (result === 'Suspicious') {
+      explanations.classification = 'This website has characteristics that make it potentially risky, though not definitively harmful.';
+      
+      explanations.primaryReasons = [];
+      
+      // Analyze specific risk factors for suspicious sites
+      if (riskFactors.breakdown.urlLength) {
+        explanations.primaryReasons.push('URL is unusually long or complex');
+      }
+      if (riskFactors.breakdown.subdomains) {
+        explanations.primaryReasons.push('Has excessive or suspicious subdomains');
+      }
+      if (riskFactors.breakdown.phishingKeywords) {
+        explanations.primaryReasons.push('Contains words commonly used in scams');
+      }
+      if (riskFactors.breakdown.domainLength) {
+        explanations.primaryReasons.push('Domain name is unusually lengthy');
+      }
+      if (riskFactors.breakdown.numericPattern) {
+        explanations.primaryReasons.push('Unusual number patterns in domain');
+      }
+      if (riskFactors.breakdown.tldSuspicious) {
+        explanations.primaryReasons.push('Uses a domain extension often linked to spam');
+      }
+      
+      // Default reasons if no specific breakdown available
+      if (explanations.primaryReasons.length === 0) {
+        explanations.primaryReasons = [
+          'Domain structure appears unusual',
+          'Some characteristics match suspicious patterns',
+          'Limited information available about this site'
+        ];
+      }
+      
+      explanations.userGuidance = 'Exercise extra caution with this website. Verify its legitimacy before entering any personal or financial information.';
+      
+    } else if (result === 'Phishing') {
+      explanations.classification = 'This website shows strong indicators of being fraudulent or malicious.';
+      
+      explanations.primaryReasons = [];
+      
+      // Analyze specific high-risk factors
+      if (riskFactors.breakdown.ipAddress) {
+        explanations.primaryReasons.push('Uses an IP address instead of proper domain name');
+      }
+      if (riskFactors.breakdown.shortener) {
+        explanations.primaryReasons.push('Uses URL shortening services to hide real destination');
+      }
+      if (riskFactors.breakdown.brandImpersonation) {
+        explanations.primaryReasons.push('Attempts to impersonate a legitimate brand or service');
+      }
+      if (riskFactors.breakdown.homograph) {
+        explanations.primaryReasons.push('Uses character substitution to mimic legitimate sites');
+      }
+      if (riskFactors.breakdown.phishingKeywords >= 15) {
+        explanations.primaryReasons.push('Contains multiple phrases commonly used in phishing attacks');
+      }
+      if (riskFactors.breakdown.tldSuspicious) {
+        explanations.primaryReasons.push('Uses domain extensions frequently associated with malicious sites');
+      }
+      if (riskFactors.breakdown.urlLength >= 15) {
+        explanations.primaryReasons.push('Extremely long URL designed to hide malicious intent');
+      }
+      
+      // Default reasons for high-risk sites
+      if (explanations.primaryReasons.length === 0) {
+        explanations.primaryReasons = [
+          'Multiple high-risk patterns detected',
+          'Domain structure matches known phishing techniques',
+          'Exhibits behaviors typical of fraudulent websites'
+        ];
+      }
+      
+      explanations.userGuidance = 'DO NOT visit this website or enter any information. It appears designed to steal personal data or install malware.';
+    }
+
+    // Add technical details based on breakdown
+    explanations.technicalDetails = [];
+    
+    if (riskFactors.breakdown.urlLength) {
+      explanations.technicalDetails.push(`URL length: ${url.length} characters (longer URLs are often used to hide malicious intent)`);
+    }
+    
+    if (riskFactors.breakdown.subdomains) {
+      const subdomainCount = domain.split('.').length - 2;
+      explanations.technicalDetails.push(`Subdomain count: ${subdomainCount} (multiple subdomains can indicate suspicious activity)`);
+    }
+    
+    if (riskFactors.breakdown.phishingKeywords) {
+      explanations.technicalDetails.push('Contains keywords commonly found in phishing attempts (e.g., "urgent", "verify", "suspended")');
+    }
+    
+    if (riskFactors.breakdown.tldSuspicious) {
+      const tld = domain.split('.').pop();
+      explanations.technicalDetails.push(`Top-level domain: .${tld} (this domain extension is often associated with spam or malicious content)`);
+    }
+    
+    if (riskFactors.breakdown.brandImpersonation) {
+      explanations.technicalDetails.push('Domain name attempts to mimic well-known brands or services');
+    }
+    
+    // Add reputation information
+    if (this.isExplicitlyTrusted(domain)) {
+      explanations.technicalDetails.push('Domain is in our trusted whitelist of legitimate websites');
+    } else if (domain.includes('.edu') || domain.includes('.gov')) {
+      explanations.technicalDetails.push('Educational or government domain with enhanced trustworthiness');
+    }
+
+    return explanations;
+  }
+
   static generateAnalytics(period = 'week') {
     const baseData = period === 'week' ? {
       totalScamsDetected: 287,

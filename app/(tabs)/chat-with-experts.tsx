@@ -273,7 +273,7 @@ export default function ChatWithExpertsScreen() {
       <KeyboardAvoidingView 
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.keyboardAvoidingView}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 100 : 0}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 20 : 0}
       >
         <FlatList
         data={messages}
@@ -380,7 +380,7 @@ const styles = StyleSheet.create({
   avatar: { width: 32, height: 32, borderRadius: 16, marginRight: 8 },
   expertLabel: { color: '#aaa', fontSize: 12, marginTop: 4 },
   messageText: { color: '#fff', fontSize: 16 },
-  inputContainer: { flexDirection: 'row', alignItems: 'center', padding: 10, borderTopWidth: 1, borderTopColor: '#333', backgroundColor: '#000' },
+  inputContainer: { flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10, paddingVertical: 8, borderTopWidth: 1, borderTopColor: '#333', backgroundColor: '#000' },
   inputWrapper: { flex: 1, marginRight: 10 },
   input: { flex: 1, color: '#fff', fontSize: 16, padding: 10, backgroundColor: '#1a1a1a', borderRadius: 20 },
   sendButton: { backgroundColor: '#007AFF', paddingVertical: 10, paddingHorizontal: 20, borderRadius: 20 },

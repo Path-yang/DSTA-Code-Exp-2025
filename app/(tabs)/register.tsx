@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, Alert, ActivityIndicator } from 'react-native';
+import { SafeAreaView, View, Text, TextInput, TouchableOpacity, StyleSheet, StatusBar, Alert, ActivityIndicator, ScrollView } from 'react-native';
 import { router } from 'expo-router';
 import { useUser } from '../context/UserContext';
 
@@ -37,7 +37,7 @@ export default function RegisterScreen() {
         ]);
       } else {
         let errorMessage = 'Registration failed';
-        
+
         if (result.error) {
           if (typeof result.error === 'string') {
             errorMessage = result.error;
@@ -86,7 +86,7 @@ export default function RegisterScreen() {
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar barStyle="light-content" backgroundColor="#000" />
-      
+
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleGoBack} style={styles.backButton}>
@@ -95,7 +95,11 @@ export default function RegisterScreen() {
         <Text style={styles.headerTitle}>Register</Text>
       </View>
 
-      <View style={styles.content}>
+      <ScrollView
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={false}
+        keyboardShouldPersistTaps="handled"
+      >
         {/* Welcome Section */}
         <View style={styles.welcomeSection}>
           <Text style={styles.welcomeTitle}>🛡️ Join Our Community</Text>
@@ -159,8 +163,8 @@ export default function RegisterScreen() {
             />
           </View>
 
-          <TouchableOpacity 
-            style={[styles.registerButton, isLoading && styles.disabledButton]} 
+          <TouchableOpacity
+            style={[styles.registerButton, isLoading && styles.disabledButton]}
             onPress={handleRegister}
             disabled={isLoading}
           >
@@ -188,7 +192,7 @@ export default function RegisterScreen() {
             By creating an account, you agree to our Terms of Service and Privacy Policy
           </Text>
         </View>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }
@@ -209,13 +213,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   header: {
-    paddingHorizontal: 20,
-    paddingVertical: 15,
-    flexDirection: 'row',
+    padding: 15,
+    backgroundColor: '#000',
+    position: 'relative',
     alignItems: 'center',
+    justifyContent: 'center',
+    height: 56,
   },
   backButton: {
-    marginRight: 15,
+    position: 'absolute',
+    left: 15,
+    top: 15,
+    zIndex: 10,
   },
   backButtonText: {
     color: '#007AFF',
@@ -223,36 +232,34 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     color: '#fff',
-    fontSize: 24,
+    fontSize: 20,
     fontWeight: 'bold',
   },
-  content: {
-    flex: 1,
+  scrollContent: {
+    flexGrow: 1,
+    justifyContent: 'center',
     paddingHorizontal: 20,
-    justifyContent: 'space-between',
+    paddingBottom: 20,
   },
   welcomeSection: {
-    paddingVertical: 20,
     alignItems: 'center',
+    marginBottom: 30,
   },
   welcomeTitle: {
-    color: '#fff',
-    fontSize: 28,
+    fontSize: 24,
     fontWeight: 'bold',
-    marginBottom: 15,
+    color: '#fff',
+    marginBottom: 10,
     textAlign: 'center',
   },
   welcomeSubtitle: {
-    color: '#aaa',
     fontSize: 16,
-    lineHeight: 22,
+    color: '#aaa',
     textAlign: 'center',
-    paddingHorizontal: 20,
+    lineHeight: 24,
   },
   formSection: {
-    flex: 1,
-    justifyContent: 'center',
-    paddingVertical: 20,
+    marginBottom: 30,
   },
   inputContainer: {
     marginBottom: 20,
@@ -315,7 +322,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   footer: {
-    paddingVertical: 20,
+    paddingVertical: 30,
     alignItems: 'center',
   },
   footerText: {

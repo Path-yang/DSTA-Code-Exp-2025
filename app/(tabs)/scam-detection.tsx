@@ -137,7 +137,19 @@ export default function ScamDetectionScreen() {
           <View style={styles.aiModelContent}>
             <Text style={styles.aiModelTitle}>AI-Powered Scam Detection</Text>
             <Text style={styles.aiModelDescription}>
-              Our advanced machine learning model analyzes URLs using pattern recognition, keyword detection, and behavioral analysis to identify potential scams with high accuracy.
+              Our sophisticated AI system employs multiple detection layers to protect you from scams:
+              
+              • **Domain Analysis**: Examines URL structures, suspicious redirects, and domain age to identify fraudulent websites
+              
+              • **Content Scanning**: Uses natural language processing to detect phishing keywords, urgent language patterns, and deceptive claims commonly used in scams
+              
+              • **Visual Recognition**: Analyzes website layouts and design elements that mimic legitimate brands or services
+              
+              • **Behavioral Patterns**: Identifies suspicious user flows like immediate payment requests, personal data harvesting, and fake verification processes
+              
+              • **Real-time Database**: Cross-references against continuously updated databases of known scam sites, reported URLs, and threat intelligence feeds
+              
+              • **Risk Scoring**: Combines all factors into a comprehensive risk assessment, providing you with clear safety ratings and detailed explanations for each detection.
             </Text>
           </View>
         </View>
@@ -238,13 +250,14 @@ const styles = StyleSheet.create({
   content: {
     flex: 1,
     paddingHorizontal: 20,
-    justifyContent: 'space-around',
+    justifyContent: 'space-between',
+    paddingBottom: 10,
   },
   aiModelCard: {
     backgroundColor: '#333',
     borderRadius: 12,
-    padding: 15,
-    marginBottom: 20,
+    padding: 18,
+    marginBottom: 15,
     flexDirection: 'row',
     alignItems: 'flex-start',
   },
@@ -278,8 +291,8 @@ const styles = StyleSheet.create({
   detectorSection: {
     backgroundColor: '#333',
     borderRadius: 12,
-    padding: 15,
-    marginBottom: 20,
+    padding: 18,
+    marginBottom: 15,
   },
   detectorHeader: {
     flexDirection: 'row',
@@ -321,7 +334,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   detectButtonIcon: {
     fontSize: 20,
@@ -336,7 +349,7 @@ const styles = StyleSheet.create({
     color: '#e74c3c',
     fontSize: 12,
     textAlign: 'center',
-    marginBottom: 15,
+    marginBottom: 10,
   },
   reportButton: {
     backgroundColor: '#f39c12',
@@ -345,7 +358,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 20,
+    marginBottom: 5,
   },
   reportButtonIcon: {
     fontSize: 20,

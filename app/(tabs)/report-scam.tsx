@@ -111,6 +111,11 @@ export default function ReportScamScreen() {
             placeholderTextColor="#666"
             multiline={true}
             textAlignVertical="top"
+            autoComplete="off"
+            autoCorrect={true}
+            autoCapitalize="sentences"
+            textContentType="none"
+            secureTextEntry={false}
           />
         </View>
 

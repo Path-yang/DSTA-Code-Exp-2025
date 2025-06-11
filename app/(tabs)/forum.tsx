@@ -212,6 +212,11 @@ export default function ForumScreen() {
               onChangeText={setSearchText}
               placeholder="Search..."
               placeholderTextColor="#666"
+              autoComplete="off"
+              autoCorrect={false}
+              autoCapitalize="none"
+              textContentType="none"
+              secureTextEntry={false}
             />
           </View>
           <TouchableOpacity style={styles.chatIcon}>
@@ -237,6 +242,12 @@ export default function ForumScreen() {
             onChangeText={setPostText}
             placeholder="Let's share what going..."
             placeholderTextColor="#666"
+            autoComplete="off"
+            autoCorrect={true}
+            autoCapitalize="sentences"
+            textContentType="none"
+            secureTextEntry={false}
+            multiline={true}
           />
           <TouchableOpacity style={styles.createPostButton} onPress={handleCreatePost}>
             <Text style={styles.createPostButtonText}>Create Post</Text>

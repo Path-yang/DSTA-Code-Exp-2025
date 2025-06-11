@@ -193,6 +193,12 @@ export default function ScamDetectionScreen() {
             onChangeText={setUrlInput}
             placeholder="Type Here . . ."
             placeholderTextColor="#666"
+            autoComplete="off"
+            autoCorrect={false}
+            autoCapitalize="none"
+            textContentType="URL"
+            secureTextEntry={false}
+            keyboardType="url"
           />
         </View>
 

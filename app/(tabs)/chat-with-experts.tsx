@@ -293,6 +293,12 @@ export default function ChatWithExpertsScreen() {
           placeholderTextColor="#aaa"
           value={inputText}
           onChangeText={setInputText}
+          autoComplete="off"
+          autoCorrect={false}
+          autoCapitalize="none"
+          textContentType="none"
+          secureTextEntry={false}
+          keyboardType="default"
         />
         <TouchableOpacity style={styles.sendButton} onPress={sendMessage} disabled={isGenerating}>
           {isGenerating ? (

@@ -234,11 +234,7 @@ class ScamDetector {
     }
     // High risk TLDs - more aggressive to ensure red results
     else if (HIGH_RISK_TLDS.some(tld => domain.endsWith(tld))) {
-<<<<<<< Updated upstream
       baseScore = 50 + seededRandomInt(seed + 4, 5, 25); // 55-74 (guaranteed 51+ for red)
-=======
-      baseScore = 50 + seededRandomInt(seed + 4, 0, 25); // 50-74 (red range)
->>>>>>> Stashed changes
     }
     // Unknown/unusual TLDs (should be suspicious)
     else {

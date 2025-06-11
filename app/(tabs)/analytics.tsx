@@ -3,6 +3,7 @@ import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, Sta
 import { router } from 'expo-router';
 import { IconSymbol } from '@/components/ui/IconSymbol';
 import ScamDetector from '../../utils/scamDetection';
+import EnhancedBottomNav from '../../components/EnhancedBottomNav';
 
 interface RealTimeData {
   cybersecurityThreats: {
@@ -955,29 +956,28 @@ export default function AnalyticsScreen() {
 
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={handleGoHome}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
-          <Text style={styles.navIcon}>📚</Text>
-          <Text style={styles.navText}>Learn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleAnalytics}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>Analytics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navText}>Forum</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleMyInfo}>
-          <Text style={styles.navIcon}>👤</Text>
-          <Text style={styles.navText}>My Info</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Enhanced Bottom Navigation */}
+      <EnhancedBottomNav
+        onTabPress={(tabId) => {
+          switch (tabId) {
+            case 'home':
+              handleGoHome();
+              break;
+            case 'learn':
+              handleLearn();
+              break;
+            case 'analytics':
+              handleAnalytics();
+              break;
+            case 'forum':
+              handleForum();
+              break;
+            case 'myInfo':
+              handleMyInfo();
+              break;
+          }
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -1281,32 +1281,7 @@ const styles = StyleSheet.create({
     color: '#007AFF',
     fontSize: 16,
   },
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#2a2a2a',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'space-around',
-  },
-  navItem: {
-    alignItems: 'center',
-  },
-  activeNavItem: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#007AFF',
-  },
-  navIcon: {
-    fontSize: 20,
-    marginBottom: 5,
-    color: '#fff',
-  },
-  navText: {
-    color: '#fff',
-    fontSize: 12,
-  },
-  activeNavText: {
-    color: '#007AFF',
-  },
+
   preventionGrid: {
     flexDirection: 'row',
     flexWrap: 'wrap',

@@ -236,6 +236,9 @@ export default function ScamDetectionScreen() {
             case 'forum':
               handleChatForum();
               break;
+            case 'myInfo':
+              handleMyInfo();
+              break;
           }
         }}
       />

@@ -40,6 +40,8 @@ const useCurrentTab = () => {
         return 'analytics';
     } else if (currentPath.includes('/forum')) {
         return 'forum';
+    } else if (currentPath.includes('/my-info')) {
+        return 'myInfo';
     }
     return 'home'; // default
 };
@@ -50,6 +52,7 @@ export default function EnhancedBottomNav({ activeTab: propActiveTab, onTabPress
         { id: 'learn', label: 'Learn', icon: 'book', route: '/learn' },
         { id: 'analytics', label: 'Analytics', icon: 'bar-chart', route: '/analytics' },
         { id: 'forum', label: 'Forum', icon: 'comments', route: '/forum' },
+        { id: 'myInfo', label: 'My Info', icon: 'user', route: '/(tabs)/my-info' },
     ];
 
     const insets = useSafeAreaInsets();

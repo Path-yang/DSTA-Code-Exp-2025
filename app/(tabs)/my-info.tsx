@@ -3,6 +3,7 @@ import { SafeAreaView, View, Text, TouchableOpacity, ScrollView, StyleSheet, Sta
 import { router } from 'expo-router';
 import { useUser } from '../context/UserContext';
 import BackendStatus from '../components/BackendStatus';
+import EnhancedBottomNav from '../../components/EnhancedBottomNav';
 
 export default function MyInfoScreen() {
   const { user, isLoggedIn, isGuestMode, logout, loading } = useUser();
@@ -157,29 +158,28 @@ export default function MyInfoScreen() {
         )}
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View style={styles.bottomNav}>
-        <TouchableOpacity style={styles.navItem} onPress={handleGoHome}>
-          <Text style={styles.navIcon}>🏠</Text>
-          <Text style={styles.navText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleLearn}>
-          <Text style={styles.navIcon}>📚</Text>
-          <Text style={styles.navText}>Learn</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleAnalytics}>
-          <Text style={styles.navIcon}>📊</Text>
-          <Text style={styles.navText}>Analytics</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.navItem} onPress={handleForum}>
-          <Text style={styles.navIcon}>💬</Text>
-          <Text style={styles.navText}>Forum</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={[styles.navItem, styles.activeNavItem]} onPress={handleMyInfo}>
-          <Text style={styles.navIcon}>👤</Text>
-          <Text style={[styles.navText, styles.activeNavText]}>My Info</Text>
-        </TouchableOpacity>
-      </View>
+      {/* Enhanced Bottom Navigation */}
+      <EnhancedBottomNav
+        onTabPress={(tabId) => {
+          switch (tabId) {
+            case 'home':
+              handleGoHome();
+              break;
+            case 'learn':
+              handleLearn();
+              break;
+            case 'analytics':
+              handleAnalytics();
+              break;
+            case 'forum':
+              handleForum();
+              break;
+            case 'myInfo':
+              handleMyInfo();
+              break;
+          }
+        }}
+      />
     </SafeAreaView>
   );
 }
@@ -372,31 +372,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: 'bold',
   },
-  bottomNav: {
-    flexDirection: 'row',
-    backgroundColor: '#2a2a2a',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    justifyContent: 'space-around',
-  },
-  navItem: {
-    alignItems: 'center',
-  },
-  activeNavItem: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#007AFF',
-  },
-  navIcon: {
-    fontSize: 20,
-    marginBottom: 5,
-  },
-  navText: {
-    color: '#fff',
-    fontSize: 12,
-  },
-  activeNavText: {
-    color: '#007AFF',
-  },
+
   backendStatus: {
     marginRight: 10,
   },

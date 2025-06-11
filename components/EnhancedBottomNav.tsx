@@ -135,8 +135,8 @@ export default function EnhancedBottomNav({ activeTab: propActiveTab, onTabPress
             }),
         ]).start();
 
-        // Check if guest user is trying to access restricted pages
-        if (isGuestMode && item.id !== 'home') {
+        // Check if guest user is trying to access restricted pages (except My Info)
+        if (isGuestMode && item.id !== 'home' && item.id !== 'myInfo') {
             showLoginPrompt(item.label);
             return;
         }
